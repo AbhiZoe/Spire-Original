@@ -1,0 +1,64 @@
+package com.spire.backend.dto;
+
+import com.spire.backend.entity.Course;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class CourseDTO {
+
+    private UUID id;
+    private String title;
+    private String slug;
+    private String description;
+    private String shortDescription;
+    private String level;
+    private BigDecimal price;
+    private Boolean isFree;
+    private Double durationHours;
+    private String thumbnailUrl;
+    private UserDTO instructor;
+    private Integer lessonsCount;
+    private Integer enrolledCount;
+    private Double rating;
+    private Integer ratingsCount;
+    private String category;
+    private String tags;
+    private Boolean isPublished;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    public static CourseDTO from(Course course) {
+        return CourseDTO.builder()
+                .id(course.getId())
+                .title(course.getTitle())
+                .slug(course.getSlug())
+                .description(course.getDescription())
+                .shortDescription(course.getShortDescription())
+                .level(course.getLevel().name())
+                .price(course.getPrice())
+                .isFree(course.getIsFree())
+                .durationHours(course.getDurationHours())
+                .thumbnailUrl(course.getThumbnailUrl())
+                .instructor(UserDTO.from(course.getInstructor()))
+                .lessonsCount(course.getLessonsCount())
+                .enrolledCount(course.getEnrolledCount())
+                .rating(course.getRating())
+                .ratingsCount(course.getRatingsCount())
+                .category(course.getCategory())
+                .tags(course.getTags())
+                .isPublished(course.getIsPublished())
+                .createdAt(course.getCreatedAt())
+                .updatedAt(course.getUpdatedAt())
+                .build();
+    }
+}

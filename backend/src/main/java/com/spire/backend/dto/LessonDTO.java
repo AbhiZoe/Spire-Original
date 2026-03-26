@@ -1,0 +1,43 @@
+package com.spire.backend.dto;
+
+import com.spire.backend.entity.Lesson;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class LessonDTO {
+
+    private UUID id;
+    private UUID courseId;
+    private String title;
+    private String description;
+    private String videoUrl;
+    private Integer orderIndex;
+    private Integer durationMinutes;
+    private Boolean isFree;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    public static LessonDTO from(Lesson lesson, boolean includeVideoUrl) {
+        return LessonDTO.builder()
+                .id(lesson.getId())
+                .courseId(lesson.getCourse().getId())
+                .title(lesson.getTitle())
+                .description(lesson.getDescription())
+                .videoUrl(includeVideoUrl ? lesson.getVideoUrl() : null)
+                .orderIndex(lesson.getOrderIndex())
+                .durationMinutes(lesson.getDurationMinutes())
+                .isFree(lesson.getIsFree())
+                .createdAt(lesson.getCreatedAt())
+                .updatedAt(lesson.getUpdatedAt())
+                .build();
+    }
+}
