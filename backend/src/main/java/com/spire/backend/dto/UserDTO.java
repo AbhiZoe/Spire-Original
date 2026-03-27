@@ -26,7 +26,7 @@ public class UserDTO {
                 .id(user.getId())
                 .email(user.getEmail())
                 .fullName(user.getFullName())
-                .role(user.getRole().name())
+                .role(user.getRole().getName())
                 .avatarUrl(user.getAvatarUrl())
                 .bio(user.getBio())
                 .build();

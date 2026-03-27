@@ -22,6 +22,9 @@ public class DataSeeder implements CommandLineRunner {
     private UserRepository userRepository;
 
     @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
     private CourseRepository courseRepository;
 
     @Autowired
@@ -35,8 +38,17 @@ public class DataSeeder implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) {
+        // Seed roles first (idempotent)
+        Role studentRole = roleRepository.findByName("STUDENT")
+                .orElseGet(() -> roleRepository.save(Role.builder().name("STUDENT").build()));
+        Role instructorRole = roleRepository.findByName("INSTRUCTOR")
+                .orElseGet(() -> roleRepository.save(Role.builder().name("INSTRUCTOR").build()));
+        Role adminRole = roleRepository.findByName("ADMIN")
+                .orElseGet(() -> roleRepository.save(Role.builder().name("ADMIN").build()));
+        log.info("Roles ready: STUDENT({}), INSTRUCTOR({}), ADMIN({})", studentRole.getId(), instructorRole.getId(), adminRole.getId());
+
         if (userRepository.count() > 0) {
-            log.info("Database already seeded. Skipping.");
+            log.info("Database already seeded. Skipping users/courses.");
             return;
         }
 
@@ -49,14 +61,22 @@ public class DataSeeder implements CommandLineRunner {
                 .email("admin@spire.dev")
                 .passwordHash(passwordEncoder.encode("admin123"))
                 .fullName("Spire Admin")
-                .role(User.Role.ADMIN)
+                .role(adminRole)
+                .build());
+
+        User student = userRepository.save(User.builder()
+                .email("student@spire.dev")
+                .passwordHash(passwordEncoder.encode("student123"))
+                .fullName("Abhishek Student")
+                .role(studentRole)
+                .bio("A passionate learner exploring new skills on Spire.")
                 .build());
 
         User arjun = userRepository.save(User.builder()
                 .email("arjun@spire.dev")
                 .passwordHash(passwordEncoder.encode("password123"))
                 .fullName("Arjun Mehta")
-                .role(User.Role.INSTRUCTOR)
+                .role(instructorRole)
                 .bio("Senior full-stack engineer with 10+ years building scalable web applications. Ex-Flipkart, ex-Razorpay.")
                 .build());
 
@@ -64,7 +84,7 @@ public class DataSeeder implements CommandLineRunner {
                 .email("priya@spire.dev")
                 .passwordHash(passwordEncoder.encode("password123"))
                 .fullName("Priya Sharma")
-                .role(User.Role.INSTRUCTOR)
+                .role(instructorRole)
                 .bio("Data scientist and ML engineer. Passionate about making complex topics accessible.")
                 .build());
 
@@ -72,11 +92,11 @@ public class DataSeeder implements CommandLineRunner {
                 .email("rahul@spire.dev")
                 .passwordHash(passwordEncoder.encode("password123"))
                 .fullName("Rahul Kapoor")
-                .role(User.Role.INSTRUCTOR)
+                .role(instructorRole)
                 .bio("Mobile and cloud architect. Google Developer Expert.")
                 .build());
 
-        log.info("Seeded 4 users.");
+        log.info("Seeded 5 users.");
 
         // --- Courses ---
         log.info("Seeding courses...");

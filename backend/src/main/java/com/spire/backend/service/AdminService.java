@@ -1,6 +1,7 @@
 package com.spire.backend.service;
 
 import com.spire.backend.dto.UserDTO;
+import com.spire.backend.entity.Role;
 import com.spire.backend.entity.User;
 import com.spire.backend.exception.ResourceNotFoundException;
 import com.spire.backend.repository.*;
@@ -10,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
-
 import java.util.stream.Collectors;
 
 @Service
@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 public class AdminService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final CourseRepository courseRepository;
     private final EnrollmentRepository enrollmentRepository;
     private final SubscriptionRepository subscriptionRepository;
@@ -38,11 +39,14 @@ public class AdminService {
     }
 
     @Transactional
-    public UserDTO updateUserRole(Long userId, String role) {
+    public UserDTO updateUserRole(Long userId, String roleName) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
-        user.setRole(User.Role.valueOf(role.toUpperCase()));
+        Role role = roleRepository.findByName(roleName.toUpperCase())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid role: " + roleName));
+
+        user.setRole(role);
         return UserDTO.from(userRepository.save(user));
     }
 }
