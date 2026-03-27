@@ -8,3 +8,8 @@ target/
 .vscode/
 *.class
 *.jar
+__pycache__/
+*.pyc
+*.db
+.venv/
+frontend/
