@@ -1,15 +1,3 @@
 {
-  "framework": "nextjs",
-  "buildCommand": "npm run build",
-  "outputDirectory": ".next",
-  "env": {
-    "NEXT_PUBLIC_API_URL": "@api_url",
-    "NEXT_PUBLIC_RAZORPAY_KEY_ID": "@razorpay_key_id"
-  },
-  "rewrites": [
-    {
-      "source": "/api/proxy/:path*",
-      "destination": "https://api.spire.app/api/:path*"
-    }
-  ]
+  "framework": "nextjs"
 }
