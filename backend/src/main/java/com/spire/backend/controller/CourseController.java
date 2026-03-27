@@ -2,6 +2,7 @@ package com.spire.backend.controller;
 
 import com.spire.backend.dto.ApiResponse;
 import com.spire.backend.dto.CourseDTO;
+import com.spire.backend.dto.CourseRequest;
 import com.spire.backend.dto.LessonDTO;
 import com.spire.backend.entity.Lesson;
 import com.spire.backend.entity.User;
@@ -10,15 +11,16 @@ import com.spire.backend.repository.LessonRepository;
 import com.spire.backend.repository.UserRepository;
 import com.spire.backend.service.CourseService;
 import com.spire.backend.service.EnrollmentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 import java.util.stream.Collectors;
 
 @RestController
@@ -30,6 +32,8 @@ public class CourseController {
     private final LessonRepository lessonRepository;
     private final EnrollmentService enrollmentService;
     private final UserRepository userRepository;
+
+    // ─── Public endpoints ───────────────────────────────────────────
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<CourseDTO>>> getAllCourses(
@@ -70,36 +74,53 @@ public class CourseController {
         return ResponseEntity.ok(ApiResponse.success(dtos));
     }
 
+    // ─── Create course (ADMIN or approved INSTRUCTOR) ───────────────
+
     @PostMapping
     @PreAuthorize("hasRole('ADMIN') or hasRole('INSTRUCTOR')")
     public ResponseEntity<ApiResponse<CourseDTO>> createCourse(
-            @RequestBody CourseDTO dto, Authentication authentication) {
+            @Valid @RequestBody CourseRequest dto, Authentication authentication) {
         Long userId = Long.parseLong(authentication.getPrincipal().toString());
 
-        // Instructors must be approved before creating courses
+        // Instructors must be approved
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
         if ("INSTRUCTOR".equals(user.getRole().getName()) && !Boolean.TRUE.equals(user.getInstructorApproved())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(ApiResponse.error("Your instructor account is pending approval. Please wait for admin approval."));
+                    .body(ApiResponse.error("Your instructor account is pending approval."));
         }
 
         CourseDTO created = courseService.createCourse(dto, userId);
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success("Course created", created));
     }
 
-    @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    // ─── Update course (ADMIN or course owner INSTRUCTOR) ───────────
+
+    @PutMapping("/{courseId}")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('INSTRUCTOR') and @courseSecurity.isOwner(#courseId, authentication))")
     public ResponseEntity<ApiResponse<CourseDTO>> updateCourse(
-            @PathVariable Long id, @RequestBody CourseDTO dto) {
-        return ResponseEntity.ok(ApiResponse.success(courseService.updateCourse(id, dto)));
+            @PathVariable Long courseId,
+            @Valid @RequestBody CourseRequest dto,
+            Authentication authentication) {
+        Long userId = Long.parseLong(authentication.getPrincipal().toString());
+        boolean isAdmin = authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
+
+        CourseDTO updated = courseService.updateCourse(courseId, dto, userId, isAdmin);
+        return ResponseEntity.ok(ApiResponse.success("Course updated", updated));
     }
 
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Void>> deleteCourse(@PathVariable Long id) {
-        courseService.deleteCourse(id);
+    // ─── Delete course (ADMIN or course owner INSTRUCTOR) ───────────
+
+    @DeleteMapping("/{courseId}")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('INSTRUCTOR') and @courseSecurity.isOwner(#courseId, authentication))")
+    public ResponseEntity<ApiResponse<Void>> deleteCourse(
+            @PathVariable Long courseId,
+            Authentication authentication) {
+        Long userId = Long.parseLong(authentication.getPrincipal().toString());
+        boolean isAdmin = authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
+
+        courseService.deleteCourse(courseId, userId, isAdmin);
         return ResponseEntity.ok(ApiResponse.success("Course deleted", null));
     }
 }
