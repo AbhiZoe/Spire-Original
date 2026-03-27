@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+
 import java.util.stream.Collectors;
 
 @Service
@@ -38,7 +38,7 @@ public class AdminService {
     }
 
     @Transactional
-    public UserDTO updateUserRole(UUID userId, String role) {
+    public UserDTO updateUserRole(Long userId, String role) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 

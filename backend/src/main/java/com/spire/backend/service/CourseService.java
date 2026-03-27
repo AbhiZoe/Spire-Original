@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
+
 import java.util.stream.Collectors;
 
 @Service
@@ -27,7 +27,7 @@ public class CourseService {
                 .collect(Collectors.toList());
     }
 
-    public CourseDTO getCourseById(UUID id) {
+    public CourseDTO getCourseById(Long id) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course", "id", id));
         return CourseDTO.from(course);
@@ -47,7 +47,7 @@ public class CourseService {
     }
 
     @Transactional
-    public CourseDTO createCourse(CourseDTO dto, UUID instructorId) {
+    public CourseDTO createCourse(CourseDTO dto, Long instructorId) {
         User instructor = userRepository.findById(instructorId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", instructorId));
 
@@ -71,7 +71,7 @@ public class CourseService {
     }
 
     @Transactional
-    public CourseDTO updateCourse(UUID id, CourseDTO dto) {
+    public CourseDTO updateCourse(Long id, CourseDTO dto) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course", "id", id));
 
@@ -91,7 +91,7 @@ public class CourseService {
     }
 
     @Transactional
-    public void deleteCourse(UUID id) {
+    public void deleteCourse(Long id) {
         if (!courseRepository.existsById(id)) {
             throw new ResourceNotFoundException("Course", "id", id);
         }

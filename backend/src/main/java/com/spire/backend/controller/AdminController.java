@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/api/admin")
@@ -30,7 +30,7 @@ public class AdminController {
 
     @PutMapping("/users/{id}/role")
     public ResponseEntity<ApiResponse<UserDTO>> updateUserRole(
-            @PathVariable UUID id, @RequestBody Map<String, String> body) {
+            @PathVariable Long id, @RequestBody Map<String, String> body) {
         UserDTO user = adminService.updateUserRole(id, body.get("role"));
         return ResponseEntity.ok(ApiResponse.success("Role updated", user));
     }

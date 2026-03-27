@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
+
 
 @Data
 @NoArgsConstructor
@@ -15,8 +15,8 @@ import java.util.UUID;
 @Builder
 public class LessonDTO {
 
-    private UUID id;
-    private UUID courseId;
+    private Long id;
+    private Long courseId;
     private String title;
     private String description;
     private String videoUrl;

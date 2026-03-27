@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.Map;
-import java.util.UUID;
+
 import java.util.function.Function;
 
 @Service
@@ -25,16 +25,16 @@ public class JwtService {
     @Value("${jwt.refresh-token-expiration}")
     private long refreshTokenExpiration;
 
-    public String generateAccessToken(UUID userId, String role) {
-        return buildToken(Map.of("role", role), userId.toString(), accessTokenExpiration);
+    public String generateAccessToken(Long userId, String role) {
+        return buildToken(Map.of("role", role), String.valueOf(userId), accessTokenExpiration);
     }
 
-    public String generateRefreshToken(UUID userId) {
-        return buildToken(Map.of(), userId.toString(), refreshTokenExpiration);
+    public String generateRefreshToken(Long userId) {
+        return buildToken(Map.of(), String.valueOf(userId), refreshTokenExpiration);
     }
 
-    public UUID extractUserId(String token) {
-        return UUID.fromString(extractClaim(token, Claims::getSubject));
+    public Long extractUserId(String token) {
+        return Long.parseLong(extractClaim(token, Claims::getSubject));
     }
 
     public String extractRole(String token) {

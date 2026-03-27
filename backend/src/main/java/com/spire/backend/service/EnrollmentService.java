@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
+
 import java.util.stream.Collectors;
 
 @Service
@@ -25,7 +25,7 @@ public class EnrollmentService {
     private final CourseRepository courseRepository;
 
     @Transactional
-    public void enrollUser(UUID userId, UUID courseId) {
+    public void enrollUser(Long userId, Long courseId) {
         if (enrollmentRepository.existsByUserIdAndCourseId(userId, courseId)) {
             throw new IllegalArgumentException("Already enrolled in this course");
         }
@@ -46,13 +46,13 @@ public class EnrollmentService {
         courseRepository.save(course);
     }
 
-    public List<CourseDTO> getUserEnrollments(UUID userId) {
+    public List<CourseDTO> getUserEnrollments(Long userId) {
         return enrollmentRepository.findByUserId(userId).stream()
                 .map(e -> CourseDTO.from(e.getCourse()))
                 .collect(Collectors.toList());
     }
 
-    public boolean isEnrolled(UUID userId, UUID courseId) {
+    public boolean isEnrolled(Long userId, Long courseId) {
         return enrollmentRepository.existsByUserIdAndCourseId(userId, courseId);
     }
 }

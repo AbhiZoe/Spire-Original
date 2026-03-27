@@ -11,7 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/api/user")
@@ -23,7 +23,7 @@ public class UserController {
 
     @GetMapping("/profile")
     public ResponseEntity<ApiResponse<UserDTO>> getProfile(Authentication authentication) {
-        UUID userId = (UUID) authentication.getPrincipal();
+        Long userId = Long.parseLong(authentication.getPrincipal().toString());
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
         return ResponseEntity.ok(ApiResponse.success(UserDTO.from(user)));
@@ -32,7 +32,7 @@ public class UserController {
     @PutMapping("/profile")
     public ResponseEntity<ApiResponse<UserDTO>> updateProfile(
             Authentication authentication, @RequestBody UserDTO dto) {
-        UUID userId = (UUID) authentication.getPrincipal();
+        Long userId = Long.parseLong(authentication.getPrincipal().toString());
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
@@ -45,16 +45,16 @@ public class UserController {
 
     @GetMapping("/progress")
     public ResponseEntity<ApiResponse<List<ProgressDTO>>> getProgress(Authentication authentication) {
-        UUID userId = (UUID) authentication.getPrincipal();
+        Long userId = Long.parseLong(authentication.getPrincipal().toString());
         return ResponseEntity.ok(ApiResponse.success(progressService.getUserProgress(userId)));
     }
 
     @PutMapping("/progress/{courseId}")
     public ResponseEntity<ApiResponse<ProgressDTO>> updateProgress(
             Authentication authentication,
-            @PathVariable UUID courseId,
+            @PathVariable Long courseId,
             @RequestBody ProgressDTO dto) {
-        UUID userId = (UUID) authentication.getPrincipal();
+        Long userId = Long.parseLong(authentication.getPrincipal().toString());
         return ResponseEntity.ok(ApiResponse.success(progressService.updateProgress(userId, courseId, dto)));
     }
 }

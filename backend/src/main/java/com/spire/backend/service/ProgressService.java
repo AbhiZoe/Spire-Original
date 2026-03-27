@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
+
 import java.util.stream.Collectors;
 
 @Service
@@ -25,20 +25,20 @@ public class ProgressService {
     private final CourseRepository courseRepository;
     private final LessonRepository lessonRepository;
 
-    public List<ProgressDTO> getUserProgress(UUID userId) {
+    public List<ProgressDTO> getUserProgress(Long userId) {
         return progressRepository.findByUserId(userId).stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
-    public List<ProgressDTO> getCourseProgress(UUID userId, UUID courseId) {
+    public List<ProgressDTO> getCourseProgress(Long userId, Long courseId) {
         return progressRepository.findByUserIdAndCourseId(userId, courseId).stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public ProgressDTO updateProgress(UUID userId, UUID courseId, ProgressDTO dto) {
+    public ProgressDTO updateProgress(Long userId, Long courseId, ProgressDTO dto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
         Course course = courseRepository.findById(courseId)
@@ -69,7 +69,7 @@ public class ProgressService {
         return toDTO(progressRepository.save(progress));
     }
 
-    public int getStreakDays(UUID userId) {
+    public int getStreakDays(Long userId) {
         return progressRepository.findByUserId(userId).stream()
                 .mapToInt(Progress::getStreakDays)
                 .max()

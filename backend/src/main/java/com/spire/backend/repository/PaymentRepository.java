@@ -6,12 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+
 
 @Repository
-public interface PaymentRepository extends JpaRepository<Payment, UUID> {
+public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
-    List<Payment> findByUserId(UUID userId);
+    List<Payment> findByUserId(Long userId);
 
     Optional<Payment> findByRazorpayOrderId(String razorpayOrderId);
 }

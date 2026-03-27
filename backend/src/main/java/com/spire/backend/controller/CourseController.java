@@ -15,7 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+
 import java.util.stream.Collectors;
 
 @RestController
@@ -43,18 +43,18 @@ public class CourseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<CourseDTO>> getCourse(@PathVariable UUID id) {
+    public ResponseEntity<ApiResponse<CourseDTO>> getCourse(@PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.success(courseService.getCourseById(id)));
     }
 
     @GetMapping("/{id}/lessons")
     public ResponseEntity<ApiResponse<List<LessonDTO>>> getCourseLessons(
-            @PathVariable UUID id, Authentication authentication) {
+            @PathVariable Long id, Authentication authentication) {
         List<Lesson> lessons = lessonRepository.findByCourseIdOrderByOrderIndex(id);
 
         boolean hasAccess = false;
         if (authentication != null) {
-            UUID userId = (UUID) authentication.getPrincipal();
+            Long userId = Long.parseLong(authentication.getPrincipal().toString());
             hasAccess = enrollmentService.isEnrolled(userId, id);
         }
 
@@ -70,7 +70,7 @@ public class CourseController {
     @PreAuthorize("hasRole('ADMIN') or hasRole('INSTRUCTOR')")
     public ResponseEntity<ApiResponse<CourseDTO>> createCourse(
             @RequestBody CourseDTO dto, Authentication authentication) {
-        UUID userId = (UUID) authentication.getPrincipal();
+        Long userId = Long.parseLong(authentication.getPrincipal().toString());
         CourseDTO created = courseService.createCourse(dto, userId);
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success("Course created", created));
     }
@@ -78,13 +78,13 @@ public class CourseController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<CourseDTO>> updateCourse(
-            @PathVariable UUID id, @RequestBody CourseDTO dto) {
+            @PathVariable Long id, @RequestBody CourseDTO dto) {
         return ResponseEntity.ok(ApiResponse.success(courseService.updateCourse(id, dto)));
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Void>> deleteCourse(@PathVariable UUID id) {
+    public ResponseEntity<ApiResponse<Void>> deleteCourse(@PathVariable Long id) {
         courseService.deleteCourse(id);
         return ResponseEntity.ok(ApiResponse.success("Course deleted", null));
     }

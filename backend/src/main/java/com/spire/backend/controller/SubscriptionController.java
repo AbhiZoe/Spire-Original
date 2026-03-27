@@ -9,7 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/api/subscriptions")
@@ -21,7 +21,7 @@ public class SubscriptionController {
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<Map<String, Object>>> createOrder(
             Authentication authentication, @Valid @RequestBody CreateOrderRequest request) {
-        UUID userId = (UUID) authentication.getPrincipal();
+        Long userId = Long.parseLong(authentication.getPrincipal().toString());
         Map<String, Object> order = subscriptionService.createOrder(userId, request.getPlan());
         return ResponseEntity.ok(ApiResponse.success("Order created", order));
     }
@@ -29,7 +29,7 @@ public class SubscriptionController {
     @PostMapping("/verify")
     public ResponseEntity<ApiResponse<SubscriptionDTO>> verifyPayment(
             Authentication authentication, @Valid @RequestBody VerifyPaymentRequest request) {
-        UUID userId = (UUID) authentication.getPrincipal();
+        Long userId = Long.parseLong(authentication.getPrincipal().toString());
         SubscriptionDTO subscription = subscriptionService.verifyPayment(
                 userId, request.getRazorpayOrderId(),
                 request.getRazorpayPaymentId(), request.getRazorpaySignature());
@@ -38,7 +38,7 @@ public class SubscriptionController {
 
     @GetMapping("/status")
     public ResponseEntity<ApiResponse<SubscriptionDTO>> getStatus(Authentication authentication) {
-        UUID userId = (UUID) authentication.getPrincipal();
+        Long userId = Long.parseLong(authentication.getPrincipal().toString());
         return ResponseEntity.ok(ApiResponse.success(subscriptionService.getStatus(userId)));
     }
 }

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
+
 
 @Data
 @NoArgsConstructor
@@ -16,7 +16,7 @@ import java.util.UUID;
 @Builder
 public class CourseDTO {
 
-    private UUID id;
+    private Long id;
     private String title;
     private String slug;
     private String description;

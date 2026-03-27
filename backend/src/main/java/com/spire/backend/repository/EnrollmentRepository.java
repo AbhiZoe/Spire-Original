@@ -6,14 +6,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+
 
 @Repository
-public interface EnrollmentRepository extends JpaRepository<Enrollment, UUID> {
+public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
 
-    List<Enrollment> findByUserId(UUID userId);
+    List<Enrollment> findByUserId(Long userId);
 
-    Optional<Enrollment> findByUserIdAndCourseId(UUID userId, UUID courseId);
+    Optional<Enrollment> findByUserIdAndCourseId(Long userId, Long courseId);
 
-    boolean existsByUserIdAndCourseId(UUID userId, UUID courseId);
+    boolean existsByUserIdAndCourseId(Long userId, Long courseId);
 }

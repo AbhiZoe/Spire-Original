@@ -10,7 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/api/enrollments")
@@ -21,8 +21,8 @@ public class EnrollmentController {
 
     @PostMapping("/{courseId}")
     public ResponseEntity<ApiResponse<Void>> enroll(
-            Authentication authentication, @PathVariable UUID courseId) {
-        UUID userId = (UUID) authentication.getPrincipal();
+            Authentication authentication, @PathVariable Long courseId) {
+        Long userId = Long.parseLong(authentication.getPrincipal().toString());
         enrollmentService.enrollUser(userId, courseId);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("Enrolled successfully", null));
@@ -30,7 +30,7 @@ public class EnrollmentController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<CourseDTO>>> getEnrollments(Authentication authentication) {
-        UUID userId = (UUID) authentication.getPrincipal();
+        Long userId = Long.parseLong(authentication.getPrincipal().toString());
         return ResponseEntity.ok(ApiResponse.success(enrollmentService.getUserEnrollments(userId)));
     }
 }

@@ -14,7 +14,13 @@
       "Bash(taskkill //F //IM python.exe)",
       "Bash(rm -rf backend-fastapi)",
       "Bash(cp backend/src/main/resources/schema.sql database/schema.sql)",
-      "Bash(cp backend/src/main/resources/seed.sql database/seed.sql)"
+      "Bash(cp backend/src/main/resources/seed.sql database/seed.sql)",
+      "Bash(for f:*)",
+      "Bash(do echo:*)",
+      "Read(//a/Websites/Spire-Compet/**)",
+      "Bash(done)",
+      "Bash(./mvnw clean:*)",
+      "Bash(grep -v \"//.*UUID\")"
     ]
   }
 }

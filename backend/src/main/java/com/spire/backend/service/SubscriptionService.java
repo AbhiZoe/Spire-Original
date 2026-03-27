@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HexFormat;
 import java.util.Map;
-import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
@@ -58,7 +58,7 @@ public class SubscriptionService {
     }
 
     @Transactional
-    public Map<String, Object> createOrder(UUID userId, String plan) {
+    public Map<String, Object> createOrder(Long userId, String plan) {
         if (razorpayClient == null) {
             throw new IllegalStateException("Payment gateway not configured");
         }
@@ -76,7 +76,7 @@ public class SubscriptionService {
             JSONObject orderRequest = new JSONObject();
             orderRequest.put("amount", amount.multiply(new BigDecimal("100")).intValue());
             orderRequest.put("currency", "INR");
-            orderRequest.put("receipt", "spire_" + UUID.randomUUID().toString().substring(0, 8));
+            orderRequest.put("receipt", "spire_" + String.valueOf(System.currentTimeMillis()));
 
             Order order = razorpayClient.orders.create(orderRequest);
 
@@ -100,7 +100,7 @@ public class SubscriptionService {
     }
 
     @Transactional
-    public SubscriptionDTO verifyPayment(UUID userId, String razorpayOrderId,
+    public SubscriptionDTO verifyPayment(Long userId, String razorpayOrderId,
                                           String razorpayPaymentId, String razorpaySignature) {
         String payload = razorpayOrderId + "|" + razorpayPaymentId;
         if (!verifySignature(payload, razorpaySignature)) {
@@ -139,7 +139,7 @@ public class SubscriptionService {
                 .build();
     }
 
-    public SubscriptionDTO getStatus(UUID userId) {
+    public SubscriptionDTO getStatus(Long userId) {
         return subscriptionRepository.findByUserIdAndStatus(userId, Subscription.Status.ACTIVE)
                 .map(s -> SubscriptionDTO.builder()
                         .plan(s.getPlan().name())
@@ -153,7 +153,7 @@ public class SubscriptionService {
     }
 
     @Transactional
-    public void cancelSubscription(UUID userId) {
+    public void cancelSubscription(Long userId) {
         Subscription subscription = subscriptionRepository
                 .findByUserIdAndStatus(userId, Subscription.Status.ACTIVE)
                 .orElseThrow(() -> new ResourceNotFoundException("Active subscription not found"));
