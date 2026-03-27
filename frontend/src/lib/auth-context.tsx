@@ -8,22 +8,17 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
-import { useRouter, usePathname } from "next/navigation";
 import {
   login as apiLogin,
   register as apiRegister,
   logout as apiLogout,
   getProfile,
   type AuthResponse,
+  type UserDTO,
 } from "./api";
 
-interface AuthUser {
-  id: string;
-  full_name: string;
-  email: string;
-  role: string;
-  avatar_url: string | null;
-}
+// Frontend uses same shape as Spring Boot UserDTO (camelCase)
+type AuthUser = UserDTO;
 
 interface AuthContextValue {
   user: AuthUser | null;
@@ -45,19 +40,14 @@ function deleteCookie(name: string) {
   document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;`;
 }
 
-const PROTECTED_ROUTES = ["/dashboard", "/admin", "/pricing"];
-
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
-  const pathname = usePathname();
 
   const storeTokens = (data: AuthResponse) => {
-    localStorage.setItem("access_token", data.access_token);
-    localStorage.setItem("refresh_token", data.refresh_token);
-    // Set cookie so Next.js middleware can read it
-    setCookie("access_token", data.access_token, 7);
+    localStorage.setItem("access_token", data.accessToken);
+    localStorage.setItem("refresh_token", data.refreshToken);
+    setCookie("access_token", data.accessToken, 7);
     setUser(data.user);
   };
 
@@ -94,7 +84,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const register = useCallback(
     async (name: string, email: string, password: string) => {
-      const data = await apiRegister({ full_name: name, email, password });
+      const data = await apiRegister({ fullName: name, email, password });
       storeTokens(data);
     },
     []
@@ -103,7 +93,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = useCallback(() => {
     apiLogout();
     clearAuth();
-    // Hard redirect to home
     window.location.href = "/";
   }, [clearAuth]);
 

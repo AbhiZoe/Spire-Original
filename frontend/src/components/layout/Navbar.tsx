@@ -60,9 +60,9 @@ export function Navbar() {
                   className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-[#1B4332] transition-colors"
                 >
                   <div className="w-8 h-8 rounded-full bg-[#1B4332] text-white flex items-center justify-center text-xs font-bold">
-                    {user.full_name?.charAt(0)?.toUpperCase() || "U"}
+                    {user.fullName?.charAt(0)?.toUpperCase() || "U"}
                   </div>
-                  <span>{user.full_name}</span>
+                  <span>{user.fullName}</span>
                 </button>
 
                 {dropdownOpen && (
@@ -70,7 +70,7 @@ export function Navbar() {
                     <div className="fixed inset-0 z-40" onClick={() => setDropdownOpen(false)} />
                     <div className="absolute right-0 top-full mt-2 w-52 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-50">
                       <div className="px-4 py-2 border-b border-gray-100">
-                        <p className="text-sm font-semibold text-gray-900">{user.full_name}</p>
+                        <p className="text-sm font-semibold text-gray-900">{user.fullName}</p>
                         <p className="text-xs text-gray-500">{user.email}</p>
                         <span className="inline-block mt-1 text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">
                           {user.role}
@@ -140,10 +140,10 @@ export function Navbar() {
                   <>
                     <div className="flex items-center gap-2 py-2">
                       <div className="w-8 h-8 rounded-full bg-[#1B4332] text-white flex items-center justify-center text-xs font-bold">
-                        {user.full_name?.charAt(0)?.toUpperCase()}
+                        {user.fullName?.charAt(0)?.toUpperCase()}
                       </div>
                       <div>
-                        <p className="text-sm font-semibold">{user.full_name}</p>
+                        <p className="text-sm font-semibold">{user.fullName}</p>
                         <p className="text-xs text-gray-500">{user.role}</p>
                       </div>
                     </div>
