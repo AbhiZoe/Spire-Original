@@ -2,7 +2,9 @@ package com.spire.backend.controller;
 
 import com.spire.backend.dto.ApiResponse;
 import com.spire.backend.dto.UserDTO;
+import com.spire.backend.entity.InstructorRequest;
 import com.spire.backend.service.AdminService;
+import com.spire.backend.service.InstructorRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +20,7 @@ import java.util.Map;
 public class AdminController {
 
     private final AdminService adminService;
+    private final InstructorRequestService instructorRequestService;
 
     @GetMapping("/analytics")
     public ResponseEntity<ApiResponse<Map<String, Object>>> getAnalytics() {
@@ -38,5 +41,24 @@ public class AdminController {
         }
         UserDTO user = adminService.updateUserRole(id, role);
         return ResponseEntity.ok(ApiResponse.success("Role updated", user));
+    }
+
+    // ─── Instructor Approval System ─────────────────────────────────
+
+    @GetMapping("/instructor-requests")
+    public ResponseEntity<ApiResponse<List<InstructorRequest>>> getPendingRequests() {
+        return ResponseEntity.ok(ApiResponse.success(instructorRequestService.getPendingRequests()));
+    }
+
+    @PutMapping("/approve-instructor/{requestId}")
+    public ResponseEntity<ApiResponse<String>> approveInstructor(@PathVariable Long requestId) {
+        instructorRequestService.approveInstructor(requestId);
+        return ResponseEntity.ok(ApiResponse.success("Instructor approved successfully"));
+    }
+
+    @PutMapping("/reject-instructor/{requestId}")
+    public ResponseEntity<ApiResponse<String>> rejectInstructor(@PathVariable Long requestId) {
+        instructorRequestService.rejectInstructor(requestId);
+        return ResponseEntity.ok(ApiResponse.success("Instructor request rejected"));
     }
 }

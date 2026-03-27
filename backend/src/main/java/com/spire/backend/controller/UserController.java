@@ -4,10 +4,12 @@ import com.spire.backend.dto.*;
 import com.spire.backend.entity.User;
 import com.spire.backend.exception.ResourceNotFoundException;
 import com.spire.backend.repository.UserRepository;
+import com.spire.backend.service.InstructorRequestService;
 import com.spire.backend.service.ProgressService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,7 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final ProgressService progressService;
+    private final InstructorRequestService instructorRequestService;
 
     @GetMapping("/profile")
     public ResponseEntity<ApiResponse<UserDTO>> getProfile(Authentication authentication) {
@@ -42,6 +45,14 @@ public class UserController {
         if (dto.getBio() != null) user.setBio(dto.getBio());
 
         return ResponseEntity.ok(ApiResponse.success(UserDTO.from(userRepository.save(user))));
+    }
+
+    @PostMapping("/request-instructor")
+    @PreAuthorize("hasRole('STUDENT')")
+    public ResponseEntity<ApiResponse<String>> requestInstructor(Authentication authentication) {
+        Long userId = Long.parseLong(authentication.getPrincipal().toString());
+        instructorRequestService.requestInstructor(userId);
+        return ResponseEntity.ok(ApiResponse.success("Instructor request submitted successfully"));
     }
 
     @GetMapping("/progress")

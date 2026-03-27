@@ -4,7 +4,10 @@ import com.spire.backend.dto.ApiResponse;
 import com.spire.backend.dto.CourseDTO;
 import com.spire.backend.dto.LessonDTO;
 import com.spire.backend.entity.Lesson;
+import com.spire.backend.entity.User;
+import com.spire.backend.exception.ResourceNotFoundException;
 import com.spire.backend.repository.LessonRepository;
+import com.spire.backend.repository.UserRepository;
 import com.spire.backend.service.CourseService;
 import com.spire.backend.service.EnrollmentService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +29,7 @@ public class CourseController {
     private final CourseService courseService;
     private final LessonRepository lessonRepository;
     private final EnrollmentService enrollmentService;
+    private final UserRepository userRepository;
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<CourseDTO>>> getAllCourses(
@@ -71,6 +75,16 @@ public class CourseController {
     public ResponseEntity<ApiResponse<CourseDTO>> createCourse(
             @RequestBody CourseDTO dto, Authentication authentication) {
         Long userId = Long.parseLong(authentication.getPrincipal().toString());
+
+        // Instructors must be approved before creating courses
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        if ("INSTRUCTOR".equals(user.getRole().getName()) && !Boolean.TRUE.equals(user.getInstructorApproved())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(ApiResponse.error("Your instructor account is pending approval. Please wait for admin approval."));
+        }
+
         CourseDTO created = courseService.createCourse(dto, userId);
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success("Course created", created));
     }

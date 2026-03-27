@@ -42,6 +42,10 @@ public class User {
     @Column(columnDefinition = "TEXT")
     private String bio;
 
+    @Column(name = "instructor_approved", nullable = false)
+    @Builder.Default
+    private Boolean instructorApproved = false;
+
     @Column(name = "is_active", nullable = false)
     @Builder.Default
     private Boolean isActive = true;
