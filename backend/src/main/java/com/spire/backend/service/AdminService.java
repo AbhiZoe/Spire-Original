@@ -43,8 +43,22 @@ public class AdminService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
-        Role role = roleRepository.findByName(roleName.toUpperCase())
+        String normalizedRole = roleName.toUpperCase();
+
+        // SECURITY: Cannot directly assign INSTRUCTOR via this endpoint.
+        // Use the Instructor Approval System instead (approve-instructor).
+        if ("INSTRUCTOR".equals(normalizedRole)) {
+            throw new IllegalArgumentException(
+                    "Cannot assign INSTRUCTOR role directly. Use the instructor approval system.");
+        }
+
+        Role role = roleRepository.findByName(normalizedRole)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid role: " + roleName));
+
+        // If demoting from INSTRUCTOR, also revoke approval
+        if ("INSTRUCTOR".equals(user.getRole().getName()) && !"INSTRUCTOR".equals(normalizedRole)) {
+            user.setInstructorApproved(false);
+        }
 
         user.setRole(role);
         return UserDTO.from(userRepository.save(user));

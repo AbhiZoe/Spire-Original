@@ -1,8 +1,8 @@
 package com.spire.backend.controller;
 
 import com.spire.backend.dto.ApiResponse;
+import com.spire.backend.dto.InstructorRequestDTO;
 import com.spire.backend.dto.UserDTO;
-import com.spire.backend.entity.InstructorRequest;
 import com.spire.backend.service.AdminService;
 import com.spire.backend.service.InstructorRequestService;
 import lombok.RequiredArgsConstructor;
@@ -46,8 +46,10 @@ public class AdminController {
     // ─── Instructor Approval System ─────────────────────────────────
 
     @GetMapping("/instructor-requests")
-    public ResponseEntity<ApiResponse<List<InstructorRequest>>> getPendingRequests() {
-        return ResponseEntity.ok(ApiResponse.success(instructorRequestService.getPendingRequests()));
+    public ResponseEntity<ApiResponse<List<InstructorRequestDTO>>> getPendingRequests() {
+        List<InstructorRequestDTO> dtos = instructorRequestService.getPendingRequests()
+                .stream().map(InstructorRequestDTO::from).toList();
+        return ResponseEntity.ok(ApiResponse.success(dtos));
     }
 
     @PutMapping("/approve-instructor/{requestId}")

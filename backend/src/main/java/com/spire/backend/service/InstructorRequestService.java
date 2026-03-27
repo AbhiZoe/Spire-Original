@@ -38,6 +38,20 @@ public class InstructorRequestService {
             throw new IllegalArgumentException("You already have a pending instructor request");
         }
 
+        // Prevent re-request if already approved (shouldn't happen, but defense-in-depth)
+        if (Boolean.TRUE.equals(user.getInstructorApproved())) {
+            throw new IllegalArgumentException("You are already an approved instructor");
+        }
+
+        // Prevent spam: block if rejected in the last 7 days
+        requestRepository.findByUserIdAndStatus(userId, RequestStatus.REJECTED)
+                .ifPresent(rejected -> {
+                    if (rejected.getCreatedAt().plusDays(7).isAfter(java.time.LocalDateTime.now())) {
+                        throw new IllegalArgumentException(
+                                "Your previous request was rejected. Please wait 7 days before re-applying.");
+                    }
+                });
+
         InstructorRequest request = InstructorRequest.builder()
                 .user(user)
                 .status(RequestStatus.PENDING)
