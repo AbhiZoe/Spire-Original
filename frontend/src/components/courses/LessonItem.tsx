@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Play, Lock, Trash2 } from "lucide-react";
+import { Play, Lock, Trash2, CheckCircle, Loader2 } from "lucide-react";
+import { completeLesson } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
 interface LessonItemProps {
@@ -13,8 +15,10 @@ interface LessonItemProps {
   isFree: boolean;
   videoUrl?: string | null;
   canManage?: boolean;
+  canComplete?: boolean;  // student is enrolled
   index?: number;
   onDelete?: (id: number) => void;
+  onComplete?: () => void;  // callback after completion
   onClick?: () => void;
 }
 
@@ -26,11 +30,29 @@ export function LessonItem({
   isFree,
   videoUrl,
   canManage = false,
+  canComplete = false,
   index = 0,
   onDelete,
+  onComplete,
   onClick,
 }: LessonItemProps) {
   const hasAccess = isFree || !!videoUrl;
+  const [completing, setCompleting] = useState(false);
+  const [completed, setCompleted] = useState(false);
+
+  const handleComplete = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCompleting(true);
+    try {
+      await completeLesson(id);
+      setCompleted(true);
+      onComplete?.();
+    } catch {
+      // silently fail — user may not be enrolled
+    } finally {
+      setCompleting(false);
+    }
+  };
 
   return (
     <motion.div
@@ -41,19 +63,18 @@ export function LessonItem({
       onClick={hasAccess ? onClick : undefined}
       className={cn(
         "flex items-center gap-4 p-4 rounded-xl border transition-all",
-        hasAccess
-          ? "bg-white border-gray-200 hover:border-emerald-300 hover:shadow-md cursor-pointer"
-          : "bg-gray-50 border-gray-100 cursor-default"
+        completed ? "bg-emerald-50/50 border-emerald-200" :
+        hasAccess ? "bg-white border-gray-200 hover:border-emerald-300 hover:shadow-md cursor-pointer" :
+        "bg-gray-50 border-gray-100 cursor-default"
       )}
     >
       {/* Order number */}
-      <div
-        className={cn(
-          "w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0",
-          hasAccess ? "bg-emerald-100 text-emerald-700" : "bg-gray-200 text-gray-400"
-        )}
-      >
-        {orderIndex}
+      <div className={cn(
+        "w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0",
+        completed ? "bg-emerald-200 text-emerald-700" :
+        hasAccess ? "bg-emerald-100 text-emerald-700" : "bg-gray-200 text-gray-400"
+      )}>
+        {completed ? <CheckCircle size={18} /> : orderIndex}
       </div>
 
       {/* Lesson info */}
@@ -66,34 +87,36 @@ export function LessonItem({
         )}
       </div>
 
-      {/* Badges + actions */}
+      {/* Actions */}
       <div className="flex items-center gap-2 flex-shrink-0">
         {isFree && (
-          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">
-            FREE
-          </span>
+          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">FREE</span>
         )}
 
-        {!hasAccess && !isFree && (
-          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-400">
-            LOCKED
-          </span>
+        {completed && (
+          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-600">DONE</span>
         )}
 
-        {hasAccess ? (
-          <Play size={16} className="text-emerald-600" />
-        ) : (
+        {/* Mark Complete button (for enrolled students with access) */}
+        {hasAccess && canComplete && !completed && !canManage && (
+          <button onClick={handleComplete} disabled={completing}
+            className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-[#1B4332] text-white hover:bg-[#2D6A4F] transition disabled:opacity-50 flex items-center gap-1">
+            {completing ? <Loader2 size={10} className="animate-spin" /> : <CheckCircle size={10} />}
+            {completing ? "..." : "Complete"}
+          </button>
+        )}
+
+        {!hasAccess && !isFree && !completed && (
           <Lock size={16} className="text-gray-300" />
         )}
 
+        {hasAccess && !completed && !canComplete && (
+          <Play size={16} className="text-emerald-600" />
+        )}
+
         {canManage && onDelete && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete(id);
-            }}
-            className="text-gray-300 hover:text-red-500 transition ml-1"
-          >
+          <button onClick={(e) => { e.stopPropagation(); onDelete(id); }}
+            className="text-gray-300 hover:text-red-500 transition ml-1">
             <Trash2 size={14} />
           </button>
         )}

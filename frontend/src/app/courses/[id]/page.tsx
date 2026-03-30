@@ -6,8 +6,9 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Clock, BookOpen, Loader2, AlertCircle, Plus, ChevronLeft, Star } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
-import { getCourse, getCourseLessons, enroll, createLesson, deleteLesson } from "@/lib/api";
+import { getCourse, getCourseLessons, getCourseAssignments, enroll, createLesson, deleteLesson } from "@/lib/api";
 import { LessonItem } from "@/components/courses/LessonItem";
+import { AssignmentItem } from "@/components/courses/AssignmentItem";
 import { cn } from "@/lib/utils";
 
 interface CourseData {
@@ -36,10 +37,14 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
   const [enrolling, setEnrolling] = useState(false);
   const [enrollMsg, setEnrollMsg] = useState("");
 
+  // Assignments
+  const [assignments, setAssignments] = useState<Array<{ id: number; title: string; description: string; assignmentType: string; dueDate: string | null; unlocked: boolean }>>([]);
+
   // Add lesson form state
   const [showAddLesson, setShowAddLesson] = useState(false);
   const [newLesson, setNewLesson] = useState({ title: "", description: "", videoUrl: "", durationMinutes: "", isFree: false });
   const [addingLesson, setAddingLesson] = useState(false);
+  const [enrolled, setEnrolled] = useState(false);
 
   const isOwner = user && course?.instructor?.id === user.id;
   const isAdmin = user?.role?.toUpperCase() === "ADMIN";
@@ -53,6 +58,14 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
         setCourse(courseData as CourseData);
         const lessonData = await getCourseLessons(id);
         setLessons((lessonData || []) as LessonData[]);
+        // Try to fetch assignments (only works if authenticated)
+        try {
+          const assignmentData = await getCourseAssignments(id);
+          setAssignments((assignmentData || []) as typeof assignments);
+          setEnrolled(true);
+        } catch {
+          // Not enrolled or not authenticated — no assignments shown
+        }
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load course");
       } finally {
@@ -67,9 +80,11 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
     setEnrolling(true); setEnrollMsg("");
     try {
       await enroll(Number(id));
-      setEnrollMsg("Enrolled successfully! Refreshing lessons...");
+      setEnrollMsg("Enrolled successfully!");
+      setEnrolled(true);
       const lessonData = await getCourseLessons(id);
       setLessons((lessonData || []) as LessonData[]);
+      try { const a = await getCourseAssignments(id); setAssignments((a || []) as typeof assignments); } catch {}
     } catch (err) {
       setEnrollMsg(err instanceof Error ? err.message : "Failed to enroll");
     } finally { setEnrolling(false); }
@@ -250,13 +265,39 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
                   isFree={lesson.isFree}
                   videoUrl={lesson.videoUrl}
                   canManage={canManage}
+                  canComplete={enrolled && !canManage}
                   index={idx}
                   onDelete={handleDeleteLesson}
+                  onComplete={async () => {
+                    // Refresh assignments after completing a lesson
+                    try { const a = await getCourseAssignments(id); setAssignments((a || []) as typeof assignments); } catch {}
+                  }}
                 />
               ))}
             </div>
           )}
         </motion.div>
+
+        {/* ─── Assignments Section ─────────────────────────────── */}
+        {assignments.length > 0 && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="mt-12">
+            <h2 className="font-serif text-2xl font-bold text-gray-900 mb-6">Assignments</h2>
+            <div className="space-y-3">
+              {assignments.map((assignment, idx) => (
+                <AssignmentItem
+                  key={assignment.id}
+                  id={assignment.id}
+                  title={assignment.title}
+                  description={assignment.description}
+                  assignmentType={assignment.assignmentType}
+                  dueDate={assignment.dueDate}
+                  unlocked={assignment.unlocked}
+                  index={idx}
+                />
+              ))}
+            </div>
+          </motion.div>
+        )}
       </div>
     </section>
   );

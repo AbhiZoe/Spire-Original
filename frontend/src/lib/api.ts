@@ -248,3 +248,22 @@ export async function updateLesson(lessonId: number, data: Record<string, unknow
 export async function deleteLesson(lessonId: number) {
   return apiFetch<ApiResponse<unknown>>(`/api/lessons/${lessonId}`, { method: "DELETE" });
 }
+
+export async function completeLesson(lessonId: number) {
+  return apiFetch<ApiResponse<unknown>>(`/api/lessons/${lessonId}/complete`, { method: "POST" });
+}
+
+// ─── Assignments ────────────────────────────────────────────────
+
+export async function getCourseAssignments(courseId: number | string) {
+  const wrapper = await apiFetch<ApiResponse<unknown[]>>(`/api/courses/${courseId}/assignments`);
+  return wrapper.data;
+}
+
+export async function submitAssignment(assignmentId: number, content: string) {
+  const wrapper = await apiFetch<ApiResponse<unknown>>(`/api/assignments/${assignmentId}/submit`, {
+    method: "POST",
+    body: JSON.stringify({ content }),
+  });
+  return wrapper.data;
+}
