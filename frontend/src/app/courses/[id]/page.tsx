@@ -4,9 +4,10 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Clock, BookOpen, Play, Lock, Loader2, AlertCircle, Plus, Trash2, ChevronLeft, Star } from "lucide-react";
+import { Clock, BookOpen, Loader2, AlertCircle, Plus, ChevronLeft, Star } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import { getCourse, getCourseLessons, enroll, createLesson, deleteLesson } from "@/lib/api";
+import { LessonItem } from "@/components/courses/LessonItem";
 import { cn } from "@/lib/utils";
 
 interface CourseData {
@@ -238,54 +239,21 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
             </div>
           ) : (
             <div className="space-y-3">
-              {lessons.map((lesson, idx) => {
-                const hasAccess = lesson.isFree || !!lesson.videoUrl;
-                return (
-                  <motion.div key={lesson.id}
-                    initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.05 }}
-                    className={cn(
-                      "flex items-center gap-4 p-4 rounded-xl border transition",
-                      hasAccess ? "bg-white border-gray-200 hover:border-emerald-300" : "bg-gray-50 border-gray-100"
-                    )}>
-                    {/* Order number */}
-                    <div className={cn(
-                      "w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0",
-                      hasAccess ? "bg-emerald-100 text-emerald-700" : "bg-gray-200 text-gray-400"
-                    )}>
-                      {lesson.orderIndex}
-                    </div>
-
-                    {/* Info */}
-                    <div className="flex-1 min-w-0">
-                      <p className={cn("font-medium text-sm", hasAccess ? "text-gray-900" : "text-gray-500")}>
-                        {lesson.title}
-                      </p>
-                      {lesson.durationMinutes && (
-                        <p className="text-xs text-gray-400 mt-0.5">{lesson.durationMinutes} min</p>
-                      )}
-                    </div>
-
-                    {/* Badge + actions */}
-                    <div className="flex items-center gap-2 flex-shrink-0">
-                      {lesson.isFree && (
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">FREE</span>
-                      )}
-                      {hasAccess ? (
-                        <Play size={16} className="text-emerald-600" />
-                      ) : (
-                        <Lock size={16} className="text-gray-300" />
-                      )}
-                      {canManage && (
-                        <button onClick={() => handleDeleteLesson(lesson.id)}
-                          className="text-gray-300 hover:text-red-500 transition ml-1">
-                          <Trash2 size={14} />
-                        </button>
-                      )}
-                    </div>
-                  </motion.div>
-                );
-              })}
+              {lessons.map((lesson, idx) => (
+                <LessonItem
+                  key={lesson.id}
+                  id={lesson.id}
+                  title={lesson.title}
+                  description={lesson.description}
+                  orderIndex={lesson.orderIndex}
+                  durationMinutes={lesson.durationMinutes}
+                  isFree={lesson.isFree}
+                  videoUrl={lesson.videoUrl}
+                  canManage={canManage}
+                  index={idx}
+                  onDelete={handleDeleteLesson}
+                />
+              ))}
             </div>
           )}
         </motion.div>
