@@ -1,6 +1,5 @@
 "use client";
 
-import { use } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -50,9 +49,9 @@ const MOCK_MODULES = [
 export default function CourseDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
-  const { id } = use(params);
+  const { id } = params;
   const course = MOCK_COURSES.find((c) => c.id === id);
 
   // Mock enrolled state for course-1
