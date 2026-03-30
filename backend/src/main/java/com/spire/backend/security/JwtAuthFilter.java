@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,9 +17,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 
-
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
@@ -42,8 +43,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             Long userId = jwtService.extractUserId(token);
             String role = jwtService.extractRole(token);
 
+            // Guard: refresh tokens have no role claim → reject as auth token
+            if (role == null || role.isBlank()) {
+                log.warn("JWT has no role claim — possibly a refresh token used as access token. UserId: {}", userId);
+                filterChain.doFilter(request, response);
+                return;
+            }
+
             List<SimpleGrantedAuthority> authorities = List.of(
                     new SimpleGrantedAuthority("ROLE_" + role));
+
+            log.debug("JWT Auth — userId: {}, role: {}, authorities: {}", userId, role, authorities);
 
             UsernamePasswordAuthenticationToken authToken =
                     new UsernamePasswordAuthenticationToken(userId, null, authorities);
