@@ -20,7 +20,9 @@
       "Read(//a/Websites/Spire-Compet/**)",
       "Bash(done)",
       "Bash(./mvnw clean:*)",
-      "Bash(grep -v \"//.*UUID\")"
+      "Bash(grep -v \"//.*UUID\")",
+      "Read(//a/frontend/src/components/courses/**)",
+      "Read(//a/frontend/src/lib/**)"
     ]
   }
 }

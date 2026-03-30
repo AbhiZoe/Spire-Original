@@ -9,6 +9,7 @@ import { useAuth } from "@/lib/auth-context";
 import { getCourse, getCourseLessons, getCourseAssignments, enroll, createLesson, deleteLesson } from "@/lib/api";
 import { LessonItem } from "@/components/courses/LessonItem";
 import { AssignmentItem } from "@/components/courses/AssignmentItem";
+import { QuizSection } from "@/components/courses/QuizSection";
 import { cn } from "@/lib/utils";
 
 interface CourseData {
@@ -45,6 +46,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
   const [newLesson, setNewLesson] = useState({ title: "", description: "", videoUrl: "", durationMinutes: "", isFree: false });
   const [addingLesson, setAddingLesson] = useState(false);
   const [enrolled, setEnrolled] = useState(false);
+  const [selectedLessonId, setSelectedLessonId] = useState<number | null>(null);
 
   const isOwner = user && course?.instructor?.id === user.id;
   const isAdmin = user?.role?.toUpperCase() === "ADMIN";
@@ -255,24 +257,29 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
           ) : (
             <div className="space-y-3">
               {lessons.map((lesson, idx) => (
-                <LessonItem
-                  key={lesson.id}
-                  id={lesson.id}
-                  title={lesson.title}
-                  description={lesson.description}
-                  orderIndex={lesson.orderIndex}
-                  durationMinutes={lesson.durationMinutes}
-                  isFree={lesson.isFree}
-                  videoUrl={lesson.videoUrl}
-                  canManage={canManage}
-                  canComplete={enrolled && !canManage}
-                  index={idx}
-                  onDelete={handleDeleteLesson}
-                  onComplete={async () => {
-                    // Refresh assignments after completing a lesson
-                    try { const a = await getCourseAssignments(id); setAssignments((a || []) as typeof assignments); } catch {}
-                  }}
-                />
+                <div key={lesson.id}>
+                  <LessonItem
+                    id={lesson.id}
+                    title={lesson.title}
+                    description={lesson.description}
+                    orderIndex={lesson.orderIndex}
+                    durationMinutes={lesson.durationMinutes}
+                    isFree={lesson.isFree}
+                    videoUrl={lesson.videoUrl}
+                    canManage={canManage}
+                    canComplete={enrolled && !canManage}
+                    index={idx}
+                    onDelete={handleDeleteLesson}
+                    onClick={() => setSelectedLessonId(selectedLessonId === lesson.id ? null : lesson.id)}
+                    onComplete={async () => {
+                      try { const a = await getCourseAssignments(id); setAssignments((a || []) as typeof assignments); } catch {}
+                    }}
+                  />
+                  {/* Quiz section — shows when lesson is selected */}
+                  {selectedLessonId === lesson.id && (lesson.isFree || lesson.videoUrl) && (
+                    <QuizSection lessonId={lesson.id} isAuthenticated={isAuthenticated} />
+                  )}
+                </div>
               ))}
             </div>
           )}

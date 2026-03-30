@@ -267,3 +267,34 @@ export async function submitAssignment(assignmentId: number, content: string) {
   });
   return wrapper.data;
 }
+
+// ─── Quiz ───────────────────────────────────────────────────────
+
+export async function getLessonQuiz(lessonId: number) {
+  const wrapper = await apiFetch<ApiResponse<unknown>>(`/api/lessons/${lessonId}/quiz`);
+  return wrapper.data;
+}
+
+export async function submitQuiz(quizId: number, answers: Record<number, string>) {
+  const wrapper = await apiFetch<ApiResponse<unknown>>(`/api/quizzes/${quizId}/submit`, {
+    method: "POST",
+    body: JSON.stringify({ answers }),
+  });
+  return wrapper.data;
+}
+
+export async function createQuiz(lessonId: number, title: string) {
+  const wrapper = await apiFetch<ApiResponse<unknown>>(`/api/lessons/${lessonId}/quiz`, {
+    method: "POST",
+    body: JSON.stringify({ title }),
+  });
+  return wrapper.data;
+}
+
+export async function addQuizQuestion(quizId: number, data: { questionText: string; optionA: string; optionB: string; optionC?: string; optionD?: string; correctAnswer: string }) {
+  const wrapper = await apiFetch<ApiResponse<unknown>>(`/api/quizzes/${quizId}/questions`, {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+  return wrapper.data;
+}
