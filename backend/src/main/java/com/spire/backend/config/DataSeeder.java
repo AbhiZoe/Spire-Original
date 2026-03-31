@@ -33,6 +33,9 @@ public class DataSeeder implements CommandLineRunner {
     @Autowired
     private AchievementRepository achievementRepository;
 
+    @Autowired
+    private EnrollmentRepository enrollmentRepository;
+
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
@@ -290,7 +293,28 @@ public class DataSeeder implements CommandLineRunner {
                 .build());
 
         log.info("Seeded 2 achievements.");
+
+        // --- Enrollments ---
+        log.info("Seeding enrollments...");
+
+        seedEnrollment(student, fullStack);
+        seedEnrollment(student, react);
+        seedEnrollment(student, python);
+        seedEnrollment(admin, fullStack);
+
+        log.info("Seeded enrollments.");
         log.info("Database seeding complete!");
+    }
+
+    private void seedEnrollment(User user, Course course) {
+        if (!enrollmentRepository.existsByUserIdAndCourseId(user.getId(), course.getId())) {
+            enrollmentRepository.save(Enrollment.builder()
+                    .user(user)
+                    .course(course)
+                    .build());
+            course.setEnrolledCount(course.getEnrolledCount() + 1);
+            courseRepository.save(course);
+        }
     }
 
     private void seedLessons(Course course, List<String[]> lessonData) {
