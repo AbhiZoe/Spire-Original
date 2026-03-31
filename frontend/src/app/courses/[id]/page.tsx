@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Clock, BookOpen, Loader2, AlertCircle, Plus, ChevronLeft, Star } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
-import { getCourse, getCourseLessons, getCourseAssignments, enroll, createLesson, deleteLesson } from "@/lib/api";
+import { getCourse, getCourseLessons, getCourseAssignments, enroll, createLesson, deleteLesson, checkCertificate, generateCertificate } from "@/lib/api";
+import { Award, Download, Loader2 as CertLoader } from "lucide-react";
 import { LessonItem } from "@/components/courses/LessonItem";
 import { AssignmentItem } from "@/components/courses/AssignmentItem";
 import { QuizSection } from "@/components/courses/QuizSection";
@@ -47,6 +48,9 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
   const [addingLesson, setAddingLesson] = useState(false);
   const [enrolled, setEnrolled] = useState(false);
   const [selectedLessonId, setSelectedLessonId] = useState<number | null>(null);
+  const [certificate, setCertificate] = useState<{ exists: boolean; certificateUrl?: string } | null>(null);
+  const [generatingCert, setGeneratingCert] = useState(false);
+  const [certError, setCertError] = useState("");
 
   const isOwner = user && course?.instructor?.id === user.id;
   const isAdmin = user?.role?.toUpperCase() === "ADMIN";
@@ -65,8 +69,10 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
           const assignmentData = await getCourseAssignments(id);
           setAssignments((assignmentData || []) as typeof assignments);
           setEnrolled(true);
+          // Check certificate
+          try { const c = await checkCertificate(id); setCertificate(c); } catch {}
         } catch {
-          // Not enrolled or not authenticated — no assignments shown
+          // Not enrolled or not authenticated
         }
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load course");
@@ -302,6 +308,55 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
                   index={idx}
                 />
               ))}
+            </div>
+          </motion.div>
+        )}
+
+        {/* ─── Certificate Section ─────────────────────────────── */}
+        {enrolled && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="mt-12">
+            <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl border border-emerald-200 p-8 text-center">
+              <Award size={40} className="text-emerald-600 mx-auto mb-3" />
+              <h2 className="font-serif text-2xl font-bold text-gray-900 mb-2">Course Certificate</h2>
+
+              {certificate?.exists && certificate.certificateUrl ? (
+                <>
+                  <p className="text-emerald-600 font-medium mb-4">You&apos;ve earned your certificate!</p>
+                  <a
+                    href={`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}${certificate.certificateUrl}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#1B4332] text-white text-sm font-semibold hover:bg-[#2D6A4F] transition"
+                  >
+                    <Download size={16} /> Download Certificate (PDF)
+                  </a>
+                </>
+              ) : (
+                <>
+                  <p className="text-gray-600 mb-4 text-sm max-w-md mx-auto">
+                    Complete all lessons, pass all quizzes, and submit all assignments to earn your certificate.
+                  </p>
+                  {certError && <p className="text-red-500 text-sm mb-3">{certError}</p>}
+                  <button
+                    onClick={async () => {
+                      setGeneratingCert(true);
+                      setCertError("");
+                      try {
+                        const result = await generateCertificate(id);
+                        setCertificate({ exists: true, certificateUrl: result.certificateUrl });
+                      } catch (err) {
+                        setCertError(err instanceof Error ? err.message : "Not eligible yet");
+                      } finally {
+                        setGeneratingCert(false);
+                      }
+                    }}
+                    disabled={generatingCert}
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 transition disabled:opacity-50"
+                  >
+                    {generatingCert ? <><CertLoader size={16} className="animate-spin" /> Generating...</> : <><Award size={16} /> Generate Certificate</>}
+                  </button>
+                </>
+              )}
             </div>
           </motion.div>
         )}

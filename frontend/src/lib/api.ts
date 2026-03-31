@@ -298,3 +298,20 @@ export async function addQuizQuestion(quizId: number, data: { questionText: stri
   });
   return wrapper.data;
 }
+
+// ─── Certificates ───────────────────────────────────────────────
+
+export async function generateCertificate(courseId: number | string) {
+  const wrapper = await apiFetch<ApiResponse<{ id: number; certificateUrl: string; issuedAt: string }>>(`/api/certificates/generate/${courseId}`, { method: "POST" });
+  return wrapper.data;
+}
+
+export async function checkCertificate(courseId: number | string) {
+  const wrapper = await apiFetch<ApiResponse<{ exists: boolean; certificateUrl?: string; issuedAt?: string }>>(`/api/certificates/check/${courseId}`);
+  return wrapper.data;
+}
+
+export async function getMyCertificates() {
+  const wrapper = await apiFetch<ApiResponse<Array<{ id: number; courseTitle: string; certificateUrl: string; issuedAt: string }>>>("/api/certificates/my");
+  return wrapper.data;
+}
