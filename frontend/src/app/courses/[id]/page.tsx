@@ -11,6 +11,8 @@ import { Award, Download, Loader2 as CertLoader } from "lucide-react";
 import { LessonItem } from "@/components/courses/LessonItem";
 import { AssignmentItem } from "@/components/courses/AssignmentItem";
 import { QuizSection } from "@/components/courses/QuizSection";
+import { VideoPlayer } from "@/components/courses/VideoPlayer";
+import { VideoUpload } from "@/components/courses/VideoUpload";
 import { cn } from "@/lib/utils";
 
 interface CourseData {
@@ -281,9 +283,32 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
                       try { const a = await getCourseAssignments(id); setAssignments((a || []) as typeof assignments); } catch {}
                     }}
                   />
-                  {/* Quiz section — shows when lesson is selected */}
-                  {selectedLessonId === lesson.id && (lesson.isFree || lesson.videoUrl) && (
-                    <QuizSection lessonId={lesson.id} isAuthenticated={isAuthenticated} />
+                  {/* Expanded lesson content — video + quiz */}
+                  {selectedLessonId === lesson.id && (
+                    <div className="mt-2 ml-13 space-y-4">
+                      {/* Video player for students */}
+                      {(lesson.isFree || lesson.videoUrl) && (
+                        <VideoPlayer videoUrl={lesson.videoUrl} title={lesson.title} isFree={lesson.isFree} />
+                      )}
+
+                      {/* Video upload for instructors/admins */}
+                      {canManage && (
+                        <VideoUpload
+                          lessonId={lesson.id}
+                          currentVideoUrl={lesson.videoUrl}
+                          onUploadComplete={(url) => {
+                            setLessons((prev) => prev.map((l) =>
+                              l.id === lesson.id ? { ...l, videoUrl: url } : l
+                            ));
+                          }}
+                        />
+                      )}
+
+                      {/* Quiz */}
+                      {(lesson.isFree || lesson.videoUrl) && (
+                        <QuizSection lessonId={lesson.id} isAuthenticated={isAuthenticated} />
+                      )}
+                    </div>
                   )}
                 </div>
               ))}

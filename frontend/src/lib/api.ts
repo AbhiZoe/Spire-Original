@@ -315,3 +315,25 @@ export async function getMyCertificates() {
   const wrapper = await apiFetch<ApiResponse<Array<{ id: number; courseTitle: string; certificateUrl: string; issuedAt: string }>>>("/api/certificates/my");
   return wrapper.data;
 }
+
+// ─── Video Upload ───────────────────────────────────────────────
+
+export async function uploadLessonVideo(lessonId: number, file: File) {
+  const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const res = await fetch(`${BASE_URL}/api/lessons/${lessonId}/upload-video`, {
+    method: "POST",
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+    body: formData,  // No Content-Type header — browser sets multipart boundary
+  });
+
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.message || "Upload failed");
+  }
+
+  const wrapper = await res.json();
+  return wrapper.data as { lessonId: number; videoUrl: string };
+}
