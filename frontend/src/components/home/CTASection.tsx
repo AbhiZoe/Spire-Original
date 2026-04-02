@@ -34,7 +34,7 @@ export default function CTASection() {
         </svg>
       </div>
 
-      <div ref={ref} className="bg-emerald-800 py-20">
+      <div ref={ref} className="bg-teal-800 py-20">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <motion.h2
             custom={0}
@@ -51,7 +51,7 @@ export default function CTASection() {
             variants={fadeUp}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
-            className="mt-4 text-emerald-100 text-lg"
+            className="mt-4 text-teal-100 text-lg"
           >
             Join thousands of learners who are building real-world skills with
             expert-led courses, hands-on projects, and a supportive community.
@@ -65,7 +65,7 @@ export default function CTASection() {
           >
             <Link
               href="/register"
-              className="mt-8 inline-flex items-center justify-center rounded-full bg-white px-8 py-3.5 text-base font-semibold text-emerald-800 shadow-sm hover:bg-emerald-50 transition-colors"
+              className="mt-8 inline-flex items-center justify-center rounded-full bg-white px-8 py-3.5 text-base font-semibold text-teal-800 shadow-sm hover:bg-teal-50 transition-colors"
             >
               Get Started for Free
             </Link>

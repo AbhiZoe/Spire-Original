@@ -13,7 +13,7 @@ interface StreakCardProps {
 
 const levelColors: Record<AchievementLevel, string> = {
   Rookie: "bg-gray-100 text-gray-700",
-  Developer: "bg-emerald-100 text-emerald-800",
+  Developer: "bg-teal-100 text-teal-800",
   Expert: "bg-violet-100 text-violet-800",
   Master: "bg-amber-100 text-amber-800",
 };
@@ -22,7 +22,7 @@ export function StreakCard({ streak, xp, level, className }: StreakCardProps) {
   return (
     <div
       className={cn(
-        "rounded-2xl border border-emerald-100 bg-emerald-50/60 p-5 space-y-4",
+        "rounded-2xl border border-teal-100 bg-teal-50/60 p-5 space-y-4",
         className
       )}
     >
@@ -46,7 +46,7 @@ export function StreakCard({ streak, xp, level, className }: StreakCardProps) {
       {/* XP + Level */}
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-2xl font-bold text-emerald-700 tabular-nums">
+          <p className="text-2xl font-bold text-teal-700 tabular-nums">
             {xp.toLocaleString()} <span className="text-sm font-medium">XP</span>
           </p>
         </div>

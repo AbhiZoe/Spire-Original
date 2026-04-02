@@ -5,7 +5,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
       {/* Left - Branding panel */}
-      <div className="hidden lg:flex flex-col justify-between bg-[#1B4332] p-12 text-white">
+      <div className="hidden lg:flex flex-col justify-between bg-[#0F766E] p-12 text-white">
         <Link href="/" className="font-serif text-3xl font-bold">
           Spire
         </Link>
@@ -14,13 +14,13 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
           <h2 className="font-serif text-4xl font-bold leading-tight mb-4">
             Advance your career<br />with structured learning.
           </h2>
-          <p className="text-emerald-200 text-lg leading-relaxed max-w-md">
+          <p className="text-teal-200 text-lg leading-relaxed max-w-md">
             Join thousands of learners mastering in-demand skills with expert-led courses,
             progress tracking, and certificates.
           </p>
         </div>
 
-        <div className="flex items-center gap-8 text-sm text-emerald-300">
+        <div className="flex items-center gap-8 text-sm text-teal-300">
           <div>
             <span className="text-2xl font-bold text-white block">10K+</span>
             Students
@@ -42,7 +42,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
           {/* Mobile logo */}
           <Link
             href="/"
-            className="lg:hidden block text-center font-serif text-3xl font-bold text-[#1B4332] mb-10"
+            className="lg:hidden block text-center font-serif text-3xl font-bold text-[#0F766E] mb-10"
           >
             Spire
           </Link>

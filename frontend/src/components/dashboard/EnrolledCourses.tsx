@@ -18,7 +18,7 @@ interface EnrolledCoursesProps {
 }
 
 const gradients: Record<string, string> = {
-  "Web Development": "from-emerald-500 to-teal-600",
+  "Web Development": "from-teal-500 to-teal-600",
   Frontend: "from-sky-500 to-indigo-600",
   "Data Science": "from-violet-500 to-purple-600",
   "Cloud & DevOps": "from-orange-500 to-red-500",
@@ -31,7 +31,7 @@ export function EnrolledCourses({ courses, className }: EnrolledCoursesProps) {
     return (
       <div className={cn("rounded-2xl border border-gray-100 bg-white p-6 text-center text-gray-400", className)}>
         <p className="font-medium">No enrolled courses yet.</p>
-        <Link href="/courses" className="mt-2 inline-block text-sm text-emerald-700 hover:underline">
+        <Link href="/courses" className="mt-2 inline-block text-sm text-teal-700 hover:underline">
           Browse courses
         </Link>
       </div>
@@ -68,7 +68,7 @@ export function EnrolledCourses({ courses, className }: EnrolledCoursesProps) {
             <div className="mt-1.5 flex items-center gap-2">
               <div className="h-1.5 flex-1 rounded-full bg-gray-100 overflow-hidden">
                 <motion.div
-                  className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400"
+                  className="h-full rounded-full bg-gradient-to-r from-teal-500 to-teal-400"
                   initial={{ width: 0 }}
                   animate={{ width: `${progress}%` }}
                   transition={{ duration: 0.8, ease: "easeOut" as const }}
@@ -85,7 +85,7 @@ export function EnrolledCourses({ courses, className }: EnrolledCoursesProps) {
             {lastAccessed ? (
               <Link
                 href={`/courses/${course.slug}`}
-                className="inline-flex items-center gap-1 rounded-lg bg-emerald-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-800 transition-colors"
+                className="inline-flex items-center gap-1 rounded-lg bg-teal-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-teal-800 transition-colors"
               >
                 <Play className="h-3 w-3" />
                 Resume

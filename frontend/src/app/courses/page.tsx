@@ -58,7 +58,7 @@ export default function CoursesPage() {
 
   return (
     <section className="mx-auto max-w-7xl px-6 pt-32 pb-20">
-      <h1 className="font-serif text-4xl font-bold text-[#1B4332] mb-2">
+      <h1 className="font-serif text-4xl font-bold text-[#0F766E] mb-2">
         Explore Courses
       </h1>
       <p className="text-gray-600 mb-8">
@@ -75,7 +75,7 @@ export default function CoursesPage() {
               className={cn(
                 "px-4 py-1.5 text-sm font-medium rounded-full transition-colors cursor-pointer",
                 selectedLevel === level
-                  ? "bg-[#1B4332] text-white"
+                  ? "bg-[#0F766E] text-white"
                   : "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50"
               )}
             >
@@ -91,7 +91,7 @@ export default function CoursesPage() {
             placeholder="Search courses..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 rounded-full border border-gray-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#1B4332]/30"
+            className="w-full pl-9 pr-4 py-2 rounded-full border border-gray-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#0F766E]/30"
           />
         </div>
       </div>
@@ -99,7 +99,7 @@ export default function CoursesPage() {
       {/* Loading */}
       {loading && (
         <div className="flex items-center justify-center py-20">
-          <Loader2 className="animate-spin text-emerald-600" size={32} />
+          <Loader2 className="animate-spin text-teal-600" size={32} />
         </div>
       )}
 
@@ -135,11 +135,11 @@ export default function CoursesPage() {
               <Link href={`/courses/${course.id}`} className="block group">
                 <div className="rounded-2xl bg-white shadow-sm border border-gray-100 overflow-hidden transition-shadow hover:shadow-md">
                   {/* Thumbnail */}
-                  <div className="h-44 bg-gradient-to-br from-[#1B4332]/10 to-[#2D6A4F]/20 flex items-center justify-center overflow-hidden">
+                  <div className="h-44 bg-gradient-to-br from-[#0F766E]/10 to-[#14B8A6]/20 flex items-center justify-center overflow-hidden">
                     {course.thumbnailUrl ? (
                       <img src={course.thumbnailUrl} alt={course.title} className="w-full h-full object-cover" loading="lazy" />
                     ) : (
-                      <span className="text-[#1B4332]/40 text-sm font-medium">{course.category}</span>
+                      <span className="text-[#0F766E]/40 text-sm font-medium">{course.category}</span>
                     )}
                   </div>
 
@@ -147,18 +147,18 @@ export default function CoursesPage() {
                     <div className="flex items-center justify-between mb-2">
                       <span className={cn(
                         "text-xs font-semibold px-2.5 py-0.5 rounded-full",
-                        course.level === "BEGINNER" && "bg-emerald-100 text-emerald-700",
+                        course.level === "BEGINNER" && "bg-teal-100 text-teal-700",
                         course.level === "INTERMEDIATE" && "bg-amber-100 text-amber-700",
                         course.level === "ADVANCED" && "bg-red-100 text-red-700",
                       )}>
                         {course.level}
                       </span>
                       {course.isFree && (
-                        <span className="text-xs font-semibold text-emerald-600">FREE</span>
+                        <span className="text-xs font-semibold text-teal-600">FREE</span>
                       )}
                     </div>
 
-                    <h3 className="font-semibold text-gray-900 group-hover:text-[#1B4332] transition-colors line-clamp-1">
+                    <h3 className="font-semibold text-gray-900 group-hover:text-[#0F766E] transition-colors line-clamp-1">
                       {course.title}
                     </h3>
 

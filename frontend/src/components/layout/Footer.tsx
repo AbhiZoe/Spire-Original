@@ -41,7 +41,7 @@ const socials = [
 
 export function Footer() {
   return (
-    <footer className="bg-[#1B4332] text-white">
+    <footer className="bg-[#0F766E] text-white">
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Company info */}

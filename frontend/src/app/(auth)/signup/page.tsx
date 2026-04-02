@@ -71,7 +71,7 @@ export default function SignupPage() {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1.5">Full name</label>
           <input type="text" {...register("name")}
-            className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#52B788] focus:border-transparent transition"
+            className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#22D3EE] focus:border-transparent transition"
             placeholder="Arjun Mehta" />
           {errors.name && <p className="text-xs text-red-500 mt-1.5">{errors.name.message}</p>}
         </div>
@@ -79,7 +79,7 @@ export default function SignupPage() {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1.5">Email address</label>
           <input type="email" {...register("email")}
-            className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#52B788] focus:border-transparent transition"
+            className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#22D3EE] focus:border-transparent transition"
             placeholder="you@example.com" />
           {errors.email && <p className="text-xs text-red-500 mt-1.5">{errors.email.message}</p>}
         </div>
@@ -88,7 +88,7 @@ export default function SignupPage() {
           <label className="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
           <div className="relative">
             <input type={showPassword ? "text" : "password"} {...register("password")}
-              className="w-full px-4 py-3 pr-11 rounded-xl border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#52B788] focus:border-transparent transition"
+              className="w-full px-4 py-3 pr-11 rounded-xl border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#22D3EE] focus:border-transparent transition"
               placeholder="At least 6 characters" />
             <button type="button" onClick={() => setShowPassword((v) => !v)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
@@ -101,19 +101,19 @@ export default function SignupPage() {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1.5">Confirm password</label>
           <input type="password" {...register("confirmPassword")}
-            className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#52B788] focus:border-transparent transition"
+            className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#22D3EE] focus:border-transparent transition"
             placeholder="Repeat your password" />
           {errors.confirmPassword && <p className="text-xs text-red-500 mt-1.5">{errors.confirmPassword.message}</p>}
         </div>
 
         <p className="text-xs text-gray-400">
           By creating an account, you agree to our{" "}
-          <Link href="#" className="text-[#1B4332] hover:underline">Terms of Service</Link>{" "}and{" "}
-          <Link href="#" className="text-[#1B4332] hover:underline">Privacy Policy</Link>.
+          <Link href="#" className="text-[#0F766E] hover:underline">Terms of Service</Link>{" "}and{" "}
+          <Link href="#" className="text-[#0F766E] hover:underline">Privacy Policy</Link>.
         </p>
 
         <button type="submit" disabled={isSubmitting}
-          className="w-full py-3 rounded-xl bg-[#1B4332] text-white text-sm font-semibold hover:bg-[#2D6A4F] focus:outline-none focus:ring-2 focus:ring-[#52B788] focus:ring-offset-2 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+          className="w-full py-3 rounded-xl bg-[#0F766E] text-white text-sm font-semibold hover:bg-[#14B8A6] focus:outline-none focus:ring-2 focus:ring-[#22D3EE] focus:ring-offset-2 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2">
           {isSubmitting && <Loader2 size={16} className="animate-spin" />}
           {isSubmitting ? "Creating account..." : "Create Account"}
         </button>
@@ -121,7 +121,7 @@ export default function SignupPage() {
 
       <p className="text-sm text-center text-gray-500 mt-8">
         Already have an account?{" "}
-        <Link href="/login" className="text-[#1B4332] font-semibold hover:underline">Sign in</Link>
+        <Link href="/login" className="text-[#0F766E] font-semibold hover:underline">Sign in</Link>
       </p>
     </motion.div>
   );

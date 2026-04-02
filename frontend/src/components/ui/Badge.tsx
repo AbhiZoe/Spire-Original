@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import type { CourseLevel, SubscriptionPlan } from "@/lib/types";
 
 const levelColors: Record<CourseLevel, string> = {
-  Beginner: "bg-emerald-100 text-emerald-800",
+  Beginner: "bg-teal-100 text-teal-800",
   Intermediate: "bg-amber-100 text-amber-800",
   Advanced: "bg-red-100 text-red-800",
 };

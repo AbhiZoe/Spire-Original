@@ -131,15 +131,15 @@ export function QuizSection({ lessonId, isAuthenticated }: QuizSectionProps) {
             animate={{ opacity: 1, scale: 1 }}
             className={cn(
               "p-5 rounded-xl text-center",
-              result.percentage >= 70 ? "bg-emerald-50 border border-emerald-200" : "bg-amber-50 border border-amber-200"
+              result.percentage >= 70 ? "bg-teal-50 border border-teal-200" : "bg-amber-50 border border-amber-200"
             )}
           >
-            <Trophy size={32} className={result.percentage >= 70 ? "text-emerald-500 mx-auto mb-2" : "text-amber-500 mx-auto mb-2"} />
+            <Trophy size={32} className={result.percentage >= 70 ? "text-teal-500 mx-auto mb-2" : "text-amber-500 mx-auto mb-2"} />
             <p className="text-2xl font-bold text-gray-900">{result.percentage}%</p>
             <p className="text-sm text-gray-600">
               {result.score} / {result.totalQuestions} correct
             </p>
-            <p className={cn("text-sm font-medium mt-1", result.percentage >= 70 ? "text-emerald-600" : "text-amber-600")}>
+            <p className={cn("text-sm font-medium mt-1", result.percentage >= 70 ? "text-teal-600" : "text-amber-600")}>
               {result.percentage >= 70 ? "Great job!" : "Keep learning and try again!"}
             </p>
           </motion.div>

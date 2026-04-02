@@ -68,13 +68,13 @@ export default function Hero() {
           >
             <Link
               href="/signup"
-              className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-8 py-3.5 text-base font-semibold text-white shadow-sm hover:bg-emerald-700 transition-colors"
+              className="inline-flex items-center justify-center rounded-full bg-teal-600 px-8 py-3.5 text-base font-semibold text-white shadow-sm hover:bg-teal-700 transition-colors"
             >
               Start Learning Free
             </Link>
             <Link
               href="/courses"
-              className="inline-flex items-center justify-center rounded-full border-2 border-emerald-600 px-8 py-3.5 text-base font-semibold text-emerald-700 hover:bg-emerald-50 transition-colors"
+              className="inline-flex items-center justify-center rounded-full border-2 border-teal-600 px-8 py-3.5 text-base font-semibold text-teal-700 hover:bg-teal-50 transition-colors"
             >
               View Courses
             </Link>

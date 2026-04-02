@@ -48,7 +48,7 @@ export default function SupportPage() {
               transition={{ delay: 0.1 * i, ease: "easeOut" as const }}
               className="block rounded-2xl border border-gray-200 bg-white p-8 shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5"
             >
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 mb-4">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-teal-100 text-teal-700 mb-4">
                 <opt.icon size={24} />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">{opt.title}</h3>

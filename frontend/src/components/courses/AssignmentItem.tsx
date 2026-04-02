@@ -46,14 +46,14 @@ export function AssignmentItem({ id, title, description, assignmentType, dueDate
       className={cn(
         "rounded-xl border p-5 transition-all",
         unlocked ? "bg-white border-gray-200" : "bg-gray-50 border-gray-100",
-        submitted && "border-emerald-200 bg-emerald-50/50"
+        submitted && "border-teal-200 bg-teal-50/50"
       )}
     >
       <div className="flex items-start gap-3">
         {/* Icon */}
         <div className={cn(
           "w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5",
-          submitted ? "bg-emerald-100 text-emerald-600" :
+          submitted ? "bg-teal-100 text-teal-600" :
           unlocked ? "bg-blue-100 text-blue-600" : "bg-gray-200 text-gray-400"
         )}>
           {submitted ? <CheckCircle size={20} /> : unlocked ? <FileText size={20} /> : <Lock size={20} />}
@@ -69,7 +69,7 @@ export function AssignmentItem({ id, title, description, assignmentType, dueDate
             )}>
               {assignmentType}
             </span>
-            {submitted && <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-600">SUBMITTED</span>}
+            {submitted && <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-teal-100 text-teal-600">SUBMITTED</span>}
           </div>
 
           {description && <p className="text-xs text-gray-500 mb-2">{description}</p>}
@@ -83,7 +83,7 @@ export function AssignmentItem({ id, title, description, assignmentType, dueDate
 
           {unlocked && !submitted && !showSubmit && (
             <button onClick={() => setShowSubmit(true)}
-              className="mt-3 px-4 py-2 rounded-lg bg-[#1B4332] text-white text-xs font-semibold hover:bg-[#2D6A4F] transition">
+              className="mt-3 px-4 py-2 rounded-lg bg-[#0F766E] text-white text-xs font-semibold hover:bg-[#14B8A6] transition">
               Start Assignment
             </button>
           )}
@@ -96,12 +96,12 @@ export function AssignmentItem({ id, title, description, assignmentType, dueDate
                 onChange={(e) => setContent(e.target.value)}
                 rows={4}
                 placeholder="Write your answer here..."
-                className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none"
               />
               {error && <p className="text-xs text-red-500">{error}</p>}
               <div className="flex gap-2">
                 <button onClick={handleSubmit} disabled={submitting || !content.trim()}
-                  className="px-4 py-2 rounded-lg bg-[#1B4332] text-white text-xs font-semibold hover:bg-[#2D6A4F] transition disabled:opacity-50 flex items-center gap-1">
+                  className="px-4 py-2 rounded-lg bg-[#0F766E] text-white text-xs font-semibold hover:bg-[#14B8A6] transition disabled:opacity-50 flex items-center gap-1">
                   {submitting && <Loader2 size={12} className="animate-spin" />}
                   {submitting ? "Submitting..." : "Submit"}
                 </button>
@@ -113,7 +113,7 @@ export function AssignmentItem({ id, title, description, assignmentType, dueDate
             </div>
           )}
 
-          {submitted && <p className="text-xs text-emerald-600 mt-2 font-medium">Assignment submitted successfully!</p>}
+          {submitted && <p className="text-xs text-teal-600 mt-2 font-medium">Assignment submitted successfully!</p>}
         </div>
       </div>
     </motion.div>

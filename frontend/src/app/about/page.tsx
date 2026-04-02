@@ -41,7 +41,7 @@ export default function AboutPage() {
               transition={{ delay: 0.15 * i, ease: "easeOut" as const }}
               className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm"
             >
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 mb-4">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-teal-100 text-teal-700 mb-4">
                 <v.icon size={24} />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">{v.title}</h3>
@@ -54,10 +54,10 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="rounded-2xl bg-[#1B4332] text-white p-10 text-center"
+          className="rounded-2xl bg-[#0F766E] text-white p-10 text-center"
         >
           <h2 className="font-serif text-2xl font-bold mb-3">Our Mission</h2>
-          <p className="text-emerald-100 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-teal-100 max-w-2xl mx-auto leading-relaxed">
             To make high-quality, structured learning accessible to everyone.
             We believe that career growth should be intentional, measurable, and rewarding.
           </p>

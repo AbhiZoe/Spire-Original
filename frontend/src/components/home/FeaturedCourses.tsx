@@ -9,7 +9,7 @@ function CourseCard({ course }: { course: Course }) {
   return (
     <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow">
       {/* Thumbnail */}
-      <div className="aspect-video bg-gradient-to-br from-emerald-100 to-emerald-50 overflow-hidden">
+      <div className="aspect-video bg-gradient-to-br from-teal-100 to-teal-50 overflow-hidden">
         {course.thumbnail_url ? (
           <img
             src={course.thumbnail_url}
@@ -20,7 +20,7 @@ function CourseCard({ course }: { course: Course }) {
         ) : (
           <div className="flex items-center justify-center h-full">
             <svg
-              className="h-12 w-12 text-emerald-300"
+              className="h-12 w-12 text-teal-300"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -43,7 +43,7 @@ function CourseCard({ course }: { course: Course }) {
 
       <div className="p-5">
         {/* Level badge */}
-        <span className="inline-block text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 mb-3">
+        <span className="inline-block text-xs font-semibold px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-700 mb-3">
           {course.level}
         </span>
 
@@ -75,7 +75,7 @@ function CourseCard({ course }: { course: Course }) {
           <span className="text-sm font-semibold text-gray-900">
             {course.is_free ? "Free" : `₹${course.price}`}
           </span>
-          <button className="text-sm font-medium text-emerald-600 hover:text-emerald-700">
+          <button className="text-sm font-medium text-teal-600 hover:text-teal-700">
             View Course &rarr;
           </button>
         </div>

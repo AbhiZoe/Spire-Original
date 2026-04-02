@@ -63,16 +63,16 @@ export function LessonItem({
       onClick={hasAccess ? onClick : undefined}
       className={cn(
         "flex items-center gap-4 p-4 rounded-xl border transition-all",
-        completed ? "bg-emerald-50/50 border-emerald-200" :
-        hasAccess ? "bg-white border-gray-200 hover:border-emerald-300 hover:shadow-md cursor-pointer" :
+        completed ? "bg-teal-50/50 border-teal-200" :
+        hasAccess ? "bg-white border-gray-200 hover:border-teal-300 hover:shadow-md cursor-pointer" :
         "bg-gray-50 border-gray-100 cursor-default"
       )}
     >
       {/* Order number */}
       <div className={cn(
         "w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0",
-        completed ? "bg-emerald-200 text-emerald-700" :
-        hasAccess ? "bg-emerald-100 text-emerald-700" : "bg-gray-200 text-gray-400"
+        completed ? "bg-teal-200 text-teal-700" :
+        hasAccess ? "bg-teal-100 text-teal-700" : "bg-gray-200 text-gray-400"
       )}>
         {completed ? <CheckCircle size={18} /> : orderIndex}
       </div>
@@ -90,17 +90,17 @@ export function LessonItem({
       {/* Actions */}
       <div className="flex items-center gap-2 flex-shrink-0">
         {isFree && (
-          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">FREE</span>
+          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-teal-100 text-teal-700">FREE</span>
         )}
 
         {completed && (
-          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-600">DONE</span>
+          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-teal-100 text-teal-600">DONE</span>
         )}
 
         {/* Mark Complete button (for enrolled students with access) */}
         {hasAccess && canComplete && !completed && !canManage && (
           <button onClick={handleComplete} disabled={completing}
-            className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-[#1B4332] text-white hover:bg-[#2D6A4F] transition disabled:opacity-50 flex items-center gap-1">
+            className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-[#0F766E] text-white hover:bg-[#14B8A6] transition disabled:opacity-50 flex items-center gap-1">
             {completing ? <Loader2 size={10} className="animate-spin" /> : <CheckCircle size={10} />}
             {completing ? "..." : "Complete"}
           </button>
@@ -111,7 +111,7 @@ export function LessonItem({
         )}
 
         {hasAccess && !completed && !canComplete && (
-          <Play size={16} className="text-emerald-600" />
+          <Play size={16} className="text-teal-600" />
         )}
 
         {canManage && onDelete && (

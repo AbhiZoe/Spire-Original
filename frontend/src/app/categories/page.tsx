@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Code, Database, Palette, Cloud, Smartphone, BarChart3 } from "lucide-react";
 
 const categories = [
-  { name: "Web Development", icon: Code, count: 24, color: "from-emerald-500 to-teal-600", href: "/courses?category=web" },
+  { name: "Web Development", icon: Code, count: 24, color: "from-teal-500 to-teal-600", href: "/courses?category=web" },
   { name: "Data Science", icon: Database, count: 18, color: "from-blue-500 to-indigo-600", href: "/courses?category=data" },
   { name: "UI/UX Design", icon: Palette, count: 12, color: "from-pink-500 to-rose-600", href: "/courses?category=design" },
   { name: "Cloud & DevOps", icon: Cloud, count: 15, color: "from-amber-500 to-orange-600", href: "/courses?category=cloud" },
@@ -49,7 +49,7 @@ export default function CategoriesPage() {
                   <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br ${cat.color} text-white mb-5`}>
                     <cat.icon size={28} />
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-emerald-700 transition-colors">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-teal-700 transition-colors">
                     {cat.name}
                   </h3>
                   <p className="text-sm text-gray-500">{cat.count} courses available</p>

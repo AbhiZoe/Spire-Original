@@ -30,7 +30,7 @@ export function CourseFilter({
             className={cn(
               "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
               selectedLevel === level
-                ? "bg-emerald-700 text-white shadow-sm"
+                ? "bg-teal-700 text-white shadow-sm"
                 : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             )}
           >
@@ -47,7 +47,7 @@ export function CourseFilter({
           placeholder="Search courses..."
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="w-full rounded-lg border border-gray-200 bg-white py-2 pl-9 pr-3 text-sm text-gray-700 placeholder:text-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+          className="w-full rounded-lg border border-gray-200 bg-white py-2 pl-9 pr-3 text-sm text-gray-700 placeholder:text-gray-400 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
         />
       </div>
     </div>

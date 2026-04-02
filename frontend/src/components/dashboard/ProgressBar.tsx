@@ -10,7 +10,7 @@ interface ProgressBarProps {
 }
 
 function getGradient(percent: number) {
-  if (percent >= 80) return "from-emerald-500 to-green-400";
+  if (percent >= 80) return "from-teal-500 to-green-400";
   if (percent >= 50) return "from-teal-500 to-cyan-400";
   if (percent >= 25) return "from-amber-500 to-yellow-400";
   return "from-orange-500 to-red-400";

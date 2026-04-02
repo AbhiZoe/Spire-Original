@@ -12,7 +12,7 @@ interface ProgressBarProps {
 function getColor(value: number) {
   if (value < 33) return "bg-red-400";
   if (value < 66) return "bg-amber-400";
-  return "bg-emerald-500";
+  return "bg-teal-500";
 }
 
 export function ProgressBar({

@@ -54,7 +54,7 @@ export function VideoUpload({ lessonId, currentVideoUrl, onUploadComplete }: Vid
       {videoUrl ? (
         <div>
           <video src={videoUrl} controls className="w-full rounded-lg mb-3 max-h-64" />
-          <div className="flex items-center gap-2 text-xs text-emerald-600">
+          <div className="flex items-center gap-2 text-xs text-teal-600">
             <CheckCircle size={14} /> Video uploaded
           </div>
           <button

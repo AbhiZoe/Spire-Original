@@ -52,7 +52,7 @@ export default function StatsStrip() {
   const inView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
-    <section ref={ref} className="bg-emerald-50 py-12">
+    <section ref={ref} className="bg-teal-50 py-12">
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map((stat, i) => (
@@ -63,7 +63,7 @@ export default function StatsStrip() {
               transition={{ delay: i * 0.12, duration: 0.5 }}
               className="text-center"
             >
-              <div className="text-3xl sm:text-4xl font-bold text-emerald-700">
+              <div className="text-3xl sm:text-4xl font-bold text-teal-700">
                 <AnimatedCounter
                   target={stat.target}
                   suffix={stat.suffix}

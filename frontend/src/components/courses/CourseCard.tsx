@@ -17,7 +17,7 @@ const categoryIcons: Record<string, string> = {
 };
 
 const gradients: Record<string, string> = {
-  "Web Development": "from-emerald-500 to-teal-600",
+  "Web Development": "from-teal-500 to-teal-600",
   Frontend: "from-sky-500 to-indigo-600",
   "Data Science": "from-violet-500 to-purple-600",
   "Cloud & DevOps": "from-orange-500 to-red-500",
@@ -65,7 +65,7 @@ export function CourseCard({ course, progress }: CourseCardProps) {
           <Badge variant="level" level={course.level} />
         </div>
         {course.is_free && (
-          <span className="absolute top-3 right-3 inline-flex items-center rounded-full bg-white/90 px-2.5 py-0.5 text-xs font-semibold text-emerald-700">
+          <span className="absolute top-3 right-3 inline-flex items-center rounded-full bg-white/90 px-2.5 py-0.5 text-xs font-semibold text-teal-700">
             Free
           </span>
         )}
@@ -73,7 +73,7 @@ export function CourseCard({ course, progress }: CourseCardProps) {
 
       {/* Content */}
       <div className="p-4 space-y-3">
-        <h3 className="font-semibold text-gray-900 line-clamp-1 group-hover:text-emerald-700 transition-colors">
+        <h3 className="font-semibold text-gray-900 line-clamp-1 group-hover:text-teal-700 transition-colors">
           {course.title}
         </h3>
 
@@ -120,7 +120,7 @@ export function CourseCard({ course, progress }: CourseCardProps) {
             </div>
             <div className="h-1.5 w-full rounded-full bg-gray-100 overflow-hidden">
               <motion.div
-                className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400"
+                className="h-full rounded-full bg-gradient-to-r from-teal-500 to-teal-400"
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
                 transition={{ duration: 0.8, ease: "easeOut" as const }}
@@ -132,7 +132,7 @@ export function CourseCard({ course, progress }: CourseCardProps) {
         {/* CTA */}
         <Link
           href={`/courses/${course.slug}`}
-          className="mt-2 block w-full rounded-lg bg-emerald-700 py-2 text-center text-sm font-medium text-white hover:bg-emerald-800 transition-colors"
+          className="mt-2 block w-full rounded-lg bg-teal-700 py-2 text-center text-sm font-medium text-white hover:bg-teal-800 transition-colors"
         >
           View Course
         </Link>

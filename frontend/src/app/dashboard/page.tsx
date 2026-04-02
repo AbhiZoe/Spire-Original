@@ -20,7 +20,7 @@ const fadeUp = {
 };
 
 const ROLE_CONFIG: Record<string, { label: string; color: string }> = {
-  STUDENT: { label: "Student", color: "bg-emerald-100 text-emerald-700" },
+  STUDENT: { label: "Student", color: "bg-teal-100 text-teal-700" },
   INSTRUCTOR: { label: "Instructor", color: "bg-violet-100 text-violet-700" },
   ADMIN: { label: "Admin", color: "bg-amber-100 text-amber-700" },
 };
@@ -108,7 +108,7 @@ export default function DashboardPage() {
   if (authLoading) {
     return (
       <section className="mx-auto max-w-7xl px-6 pt-32 pb-20 flex items-center justify-center min-h-[60vh]">
-        <Loader2 size={32} className="animate-spin text-[#52B788]" />
+        <Loader2 size={32} className="animate-spin text-[#22D3EE]" />
       </section>
     );
   }
@@ -133,7 +133,7 @@ export default function DashboardPage() {
         {/* Greeting */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-8">
           <div>
-            <h1 className="font-serif text-3xl font-bold text-[#1B4332]">
+            <h1 className="font-serif text-3xl font-bold text-[#0F766E]">
               Welcome back, {user.fullName}!
             </h1>
             <p className="text-gray-500 mt-1">Here&apos;s your overview.</p>
@@ -148,8 +148,8 @@ export default function DashboardPage() {
           {role === "STUDENT" && (
             <GlassCard>
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
-                  <GraduationCap size={20} className="text-emerald-600" />
+                <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center">
+                  <GraduationCap size={20} className="text-teal-600" />
                 </div>
                 <div>
                   <p className="font-semibold text-sm">Become an Instructor</p>
@@ -157,7 +157,7 @@ export default function DashboardPage() {
                 </div>
               </div>
               {requestStatus === "success" ? (
-                <p className="text-xs text-emerald-600 font-medium">{requestMsg}</p>
+                <p className="text-xs text-teal-600 font-medium">{requestMsg}</p>
               ) : requestStatus === "error" ? (
                 <p className="text-xs text-red-500 font-medium">{requestMsg}</p>
               ) : (
@@ -208,15 +208,15 @@ export default function DashboardPage() {
         {(isInstructor || isAdmin) && (
           <div className="mb-10">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-[#1B4332]">My Courses</h2>
-              <Link href="/courses/create" className="text-sm text-emerald-600 hover:text-emerald-700 font-medium flex items-center gap-1">
+              <h2 className="text-xl font-bold text-[#0F766E]">My Courses</h2>
+              <Link href="/courses/create" className="text-sm text-teal-600 hover:text-teal-700 font-medium flex items-center gap-1">
                 <PlusCircle size={14} /> New Course
               </Link>
             </div>
 
             {myCoursesLoading ? (
               <div className="flex items-center justify-center py-12">
-                <Loader2 size={24} className="animate-spin text-[#52B788]" />
+                <Loader2 size={24} className="animate-spin text-[#22D3EE]" />
               </div>
             ) : myCourses.length === 0 ? (
               <GlassCard className="text-center py-12">
@@ -236,7 +236,7 @@ export default function DashboardPage() {
                         <BookOpen size={24} className="text-violet-300" />
                         <span className={cn(
                           "absolute top-3 right-3 text-[10px] font-semibold px-2 py-0.5 rounded-full",
-                          course.isPublished ? "bg-emerald-100 text-emerald-700" : "bg-gray-100 text-gray-500"
+                          course.isPublished ? "bg-teal-100 text-teal-700" : "bg-gray-100 text-gray-500"
                         )}>
                           {course.isPublished ? "Published" : "Draft"}
                         </span>
@@ -260,7 +260,7 @@ export default function DashboardPage() {
                         {/* Actions */}
                         <div className="flex items-center gap-2 mt-4 pt-3 border-t border-gray-100">
                           <Link href={`/courses/${course.id}`}
-                            className="flex items-center gap-1 text-xs text-emerald-600 hover:text-emerald-700 font-medium">
+                            className="flex items-center gap-1 text-xs text-teal-600 hover:text-teal-700 font-medium">
                             <Eye size={12} /> View
                           </Link>
                           <button onClick={() => handleTogglePublish(course.id, course.isPublished)}
@@ -286,7 +286,7 @@ export default function DashboardPage() {
         {/* ── My Students (Instructor) ──────────────────────────────── */}
         {isInstructor && (
           <div className="mb-10">
-            <h2 className="text-xl font-bold text-[#1B4332] mb-4 flex items-center gap-2">
+            <h2 className="text-xl font-bold text-[#0F766E] mb-4 flex items-center gap-2">
               <Users size={20} /> My Students
               {myStudents.length > 0 && (
                 <span className="text-xs font-normal text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
@@ -297,7 +297,7 @@ export default function DashboardPage() {
 
             {studentsLoading ? (
               <div className="flex items-center justify-center py-12">
-                <Loader2 size={24} className="animate-spin text-[#52B788]" />
+                <Loader2 size={24} className="animate-spin text-[#22D3EE]" />
               </div>
             ) : myStudents.length === 0 ? (
               <GlassCard className="text-center py-12">
@@ -324,7 +324,7 @@ export default function DashboardPage() {
                           className="hover:bg-gray-50/50 transition">
                           <td className="px-6 py-3">
                             <div className="flex items-center gap-2">
-                              <div className="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-bold">
+                              <div className="w-7 h-7 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-xs font-bold">
                                 {s.studentName?.charAt(0)?.toUpperCase()}
                               </div>
                               <span className="font-medium text-gray-900">{s.studentName}</span>
@@ -358,17 +358,17 @@ export default function DashboardPage() {
           </GlassCard>
         )}
 
-        <h2 className="text-xl font-bold text-[#1B4332] mb-4">
+        <h2 className="text-xl font-bold text-[#0F766E] mb-4">
           {isInstructor || isAdmin ? "Enrolled Courses" : "Your Courses"}
         </h2>
 
         {enrollLoading ? (
           <div className="flex items-center justify-center py-12">
-            <Loader2 size={24} className="animate-spin text-[#52B788]" />
+            <Loader2 size={24} className="animate-spin text-[#22D3EE]" />
           </div>
         ) : enrollments.length === 0 ? (
           <GlassCard className="text-center py-12">
-            <BookOpen size={40} className="mx-auto text-[#52B788]/40 mb-3" />
+            <BookOpen size={40} className="mx-auto text-[#22D3EE]/40 mb-3" />
             <p className="text-gray-500 text-sm mb-4">No enrolled courses yet.</p>
             <Button size="sm" asChild>
               <Link href="/courses">Browse Courses <ArrowRight size={14} className="ml-1" /></Link>
@@ -384,8 +384,8 @@ export default function DashboardPage() {
               return (
                 <Link key={String(id)} href={`/courses/${id}`}>
                   <GlassCard hover className="h-full">
-                    <div className="h-28 -mx-6 -mt-6 mb-4 rounded-t-2xl bg-gradient-to-br from-[#1B4332]/10 to-[#2D6A4F]/20 flex items-center justify-center">
-                      <BookOpen size={24} className="text-[#1B4332]/30" />
+                    <div className="h-28 -mx-6 -mt-6 mb-4 rounded-t-2xl bg-gradient-to-br from-[#0F766E]/10 to-[#14B8A6]/20 flex items-center justify-center">
+                      <BookOpen size={24} className="text-[#0F766E]/30" />
                     </div>
                     <h3 className="font-semibold text-sm text-[#1a1a1a] line-clamp-2">{title}</h3>
                     {typeof course.shortDescription === "string" && (

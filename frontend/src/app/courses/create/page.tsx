@@ -63,7 +63,7 @@ export default function CreateCoursePage() {
   if (authLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen pt-24">
-        <Loader2 className="animate-spin text-emerald-600" size={32} />
+        <Loader2 className="animate-spin text-teal-600" size={32} />
       </div>
     );
   }
@@ -94,7 +94,7 @@ export default function CreateCoursePage() {
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200 }}
         >
-          <CheckCircle size={64} className="text-emerald-500 mb-4" />
+          <CheckCircle size={64} className="text-teal-500 mb-4" />
         </motion.div>
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Course Created!</h2>
         <p className="text-gray-500">Redirecting to courses...</p>
@@ -112,7 +112,7 @@ export default function CreateCoursePage() {
         >
           {/* Header */}
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 rounded-xl bg-[#1B4332] text-white flex items-center justify-center">
+            <div className="w-12 h-12 rounded-xl bg-[#0F766E] text-white flex items-center justify-center">
               <BookPlus size={24} />
             </div>
             <div>
@@ -144,7 +144,7 @@ export default function CreateCoursePage() {
                 onChange={handleChange}
                 required
                 placeholder="e.g., Full-Stack Web Development"
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#52B788] focus:border-transparent transition"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#22D3EE] focus:border-transparent transition"
               />
             </div>
 
@@ -160,7 +160,7 @@ export default function CreateCoursePage() {
                 onChange={handleChange}
                 placeholder="One-line summary of the course"
                 maxLength={200}
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#52B788] focus:border-transparent transition"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#22D3EE] focus:border-transparent transition"
               />
             </div>
 
@@ -175,7 +175,7 @@ export default function CreateCoursePage() {
                 onChange={handleChange}
                 rows={4}
                 placeholder="Detailed course description..."
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#52B788] focus:border-transparent transition resize-none"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#22D3EE] focus:border-transparent transition resize-none"
               />
             </div>
 
@@ -193,7 +193,7 @@ export default function CreateCoursePage() {
                   min="0"
                   step="1"
                   placeholder="0 = Free"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#52B788] focus:border-transparent transition"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#22D3EE] focus:border-transparent transition"
                 />
                 <p className="text-xs text-gray-400 mt-1">Leave empty or 0 for free courses</p>
               </div>
@@ -206,7 +206,7 @@ export default function CreateCoursePage() {
                   name="level"
                   value={form.level}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#52B788] focus:border-transparent transition"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#22D3EE] focus:border-transparent transition"
                 >
                   {LEVELS.map((level) => (
                     <option key={level} value={level}>
@@ -229,7 +229,7 @@ export default function CreateCoursePage() {
                   value={form.category}
                   onChange={handleChange}
                   placeholder="e.g., Web Development"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#52B788] focus:border-transparent transition"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#22D3EE] focus:border-transparent transition"
                 />
               </div>
 
@@ -243,7 +243,7 @@ export default function CreateCoursePage() {
                   value={form.tags}
                   onChange={handleChange}
                   placeholder="react, javascript, web"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#52B788] focus:border-transparent transition"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#22D3EE] focus:border-transparent transition"
                 />
               </div>
             </div>
@@ -259,7 +259,7 @@ export default function CreateCoursePage() {
                 value={form.thumbnailUrl}
                 onChange={handleChange}
                 placeholder="https://example.com/image.jpg"
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#52B788] focus:border-transparent transition"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#22D3EE] focus:border-transparent transition"
               />
             </div>
 
@@ -267,7 +267,7 @@ export default function CreateCoursePage() {
             <button
               type="submit"
               disabled={loading || !form.title.trim()}
-              className="w-full py-3.5 rounded-xl bg-[#1B4332] text-white text-sm font-semibold hover:bg-[#2D6A4F] focus:outline-none focus:ring-2 focus:ring-[#52B788] focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full py-3.5 rounded-xl bg-[#0F766E] text-white text-sm font-semibold hover:bg-[#14B8A6] focus:outline-none focus:ring-2 focus:ring-[#22D3EE] focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading && <Loader2 size={16} className="animate-spin" />}
               {loading ? "Creating..." : "Create Course"}

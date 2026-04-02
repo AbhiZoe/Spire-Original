@@ -48,12 +48,12 @@ export default function PricingSection() {
               animate={inView ? "visible" : "hidden"}
               className={`relative rounded-2xl border p-8 ${
                 tier.highlighted
-                  ? "border-emerald-500 bg-emerald-50 shadow-lg scale-[1.03]"
+                  ? "border-teal-500 bg-teal-50 shadow-lg scale-[1.03]"
                   : "border-gray-200 bg-white shadow-sm"
               }`}
             >
               {tier.highlighted && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-600 px-4 py-1 text-xs font-semibold text-white">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-teal-600 px-4 py-1 text-xs font-semibold text-white">
                   Recommended
                 </span>
               )}
@@ -77,7 +77,7 @@ export default function PricingSection() {
               <ul className="mt-8 space-y-3">
                 {tier.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-2 text-sm">
-                    <Check className="h-4 w-4 mt-0.5 shrink-0 text-emerald-600" />
+                    <Check className="h-4 w-4 mt-0.5 shrink-0 text-teal-600" />
                     <span className="text-gray-700">{feature}</span>
                   </li>
                 ))}
@@ -87,8 +87,8 @@ export default function PricingSection() {
                 href="/pricing"
                 className={`mt-8 block w-full rounded-full py-3 text-sm font-semibold text-center transition-colors ${
                   tier.highlighted
-                    ? "bg-emerald-600 text-white hover:bg-emerald-700"
-                    : "border-2 border-emerald-600 text-emerald-700 hover:bg-emerald-50"
+                    ? "bg-teal-600 text-white hover:bg-teal-700"
+                    : "border-2 border-teal-600 text-teal-700 hover:bg-teal-50"
                 }`}
               >
                 {tier.cta}

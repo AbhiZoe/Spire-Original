@@ -131,7 +131,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
   };
 
   if (loading) {
-    return <div className="flex items-center justify-center min-h-screen pt-24"><Loader2 className="animate-spin text-emerald-600" size={32} /></div>;
+    return <div className="flex items-center justify-center min-h-screen pt-24"><Loader2 className="animate-spin text-teal-600" size={32} /></div>;
   }
 
   if (error || !course) {
@@ -139,7 +139,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
       <div className="flex flex-col items-center justify-center min-h-screen pt-24 px-6">
         <AlertCircle size={48} className="text-red-400 mb-4" />
         <p className="text-gray-700 mb-4">{error || "Course not found"}</p>
-        <Link href="/courses" className="text-emerald-600 hover:underline">Back to courses</Link>
+        <Link href="/courses" className="text-teal-600 hover:underline">Back to courses</Link>
       </div>
     );
   }
@@ -148,7 +148,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
     <section className="pt-28 pb-20 px-6">
       <div className="mx-auto max-w-5xl">
         {/* Back link */}
-        <Link href="/courses" className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-[#1B4332] mb-6">
+        <Link href="/courses" className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-[#0F766E] mb-6">
           <ChevronLeft size={16} /> Back to courses
         </Link>
 
@@ -157,7 +157,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
           {/* Info */}
           <div className="lg:col-span-2">
             <span className={cn("text-xs font-semibold px-2.5 py-0.5 rounded-full mb-3 inline-block",
-              course.level === "BEGINNER" && "bg-emerald-100 text-emerald-700",
+              course.level === "BEGINNER" && "bg-teal-100 text-teal-700",
               course.level === "INTERMEDIATE" && "bg-amber-100 text-amber-700",
               course.level === "ADVANCED" && "bg-red-100 text-red-700",
             )}>{course.level}</span>
@@ -174,7 +174,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
 
             {course.instructor && (
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#1B4332] text-white flex items-center justify-center text-sm font-bold">
+                <div className="w-10 h-10 rounded-full bg-[#0F766E] text-white flex items-center justify-center text-sm font-bold">
                   {course.instructor.fullName.charAt(0)}
                 </div>
                 <div>
@@ -193,11 +193,11 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
             <p className="text-sm text-gray-500 mb-6">{course.isFree ? "No payment required" : "One-time payment"}</p>
 
             <button onClick={handleEnroll} disabled={enrolling}
-              className="w-full py-3 rounded-xl bg-[#1B4332] text-white text-sm font-semibold hover:bg-[#2D6A4F] transition disabled:opacity-50 flex items-center justify-center gap-2">
+              className="w-full py-3 rounded-xl bg-[#0F766E] text-white text-sm font-semibold hover:bg-[#14B8A6] transition disabled:opacity-50 flex items-center justify-center gap-2">
               {enrolling ? <><Loader2 size={16} className="animate-spin" /> Enrolling...</> : "Enroll Now"}
             </button>
 
-            {enrollMsg && <p className={cn("text-xs mt-3 text-center", enrollMsg.includes("success") ? "text-emerald-600" : "text-red-500")}>{enrollMsg}</p>}
+            {enrollMsg && <p className={cn("text-xs mt-3 text-center", enrollMsg.includes("success") ? "text-teal-600" : "text-red-500")}>{enrollMsg}</p>}
 
             <div className="mt-6 space-y-2 text-sm text-gray-600">
               <p>Category: <span className="font-medium text-gray-900">{course.category}</span></p>
@@ -213,7 +213,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
             <h2 className="font-serif text-2xl font-bold text-gray-900">Course Lessons</h2>
             {canManage && (
               <button onClick={() => setShowAddLesson(!showAddLesson)}
-                className="flex items-center gap-1.5 text-sm font-medium text-emerald-600 hover:text-emerald-700">
+                className="flex items-center gap-1.5 text-sm font-medium text-teal-600 hover:text-teal-700">
                 <Plus size={16} /> Add Lesson
               </button>
             )}
@@ -226,26 +226,26 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
               className="bg-white rounded-xl border border-gray-200 p-6 mb-6 space-y-4">
               <input type="text" placeholder="Lesson title *" required value={newLesson.title}
                 onChange={(e) => setNewLesson((p) => ({ ...p, title: e.target.value }))}
-                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
               <input type="text" placeholder="Description (optional)" value={newLesson.description}
                 onChange={(e) => setNewLesson((p) => ({ ...p, description: e.target.value }))}
-                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
               <div className="grid grid-cols-2 gap-4">
                 <input type="url" placeholder="Video URL (optional)" value={newLesson.videoUrl}
                   onChange={(e) => setNewLesson((p) => ({ ...p, videoUrl: e.target.value }))}
-                  className="px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                  className="px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
                 <input type="number" placeholder="Duration (min)" value={newLesson.durationMinutes}
                   onChange={(e) => setNewLesson((p) => ({ ...p, durationMinutes: e.target.value }))}
-                  className="px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                  className="px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" />
               </div>
               <label className="flex items-center gap-2 text-sm text-gray-700">
                 <input type="checkbox" checked={newLesson.isFree} onChange={(e) => setNewLesson((p) => ({ ...p, isFree: e.target.checked }))}
-                  className="rounded text-emerald-600" />
+                  className="rounded text-teal-600" />
                 Free preview lesson
               </label>
               <div className="flex gap-3">
                 <button type="submit" disabled={addingLesson}
-                  className="px-6 py-2.5 rounded-lg bg-[#1B4332] text-white text-sm font-semibold hover:bg-[#2D6A4F] disabled:opacity-50">
+                  className="px-6 py-2.5 rounded-lg bg-[#0F766E] text-white text-sm font-semibold hover:bg-[#14B8A6] disabled:opacity-50">
                   {addingLesson ? "Adding..." : "Add Lesson"}
                 </button>
                 <button type="button" onClick={() => setShowAddLesson(false)}
@@ -340,18 +340,18 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
         {/* ─── Certificate Section ─────────────────────────────── */}
         {enrolled && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="mt-12">
-            <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl border border-emerald-200 p-8 text-center">
-              <Award size={40} className="text-emerald-600 mx-auto mb-3" />
+            <div className="bg-gradient-to-r from-teal-50 to-teal-50 rounded-2xl border border-teal-200 p-8 text-center">
+              <Award size={40} className="text-teal-600 mx-auto mb-3" />
               <h2 className="font-serif text-2xl font-bold text-gray-900 mb-2">Course Certificate</h2>
 
               {certificate?.exists && certificate.certificateUrl ? (
                 <>
-                  <p className="text-emerald-600 font-medium mb-4">You&apos;ve earned your certificate!</p>
+                  <p className="text-teal-600 font-medium mb-4">You&apos;ve earned your certificate!</p>
                   <a
                     href={`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}${certificate.certificateUrl}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#1B4332] text-white text-sm font-semibold hover:bg-[#2D6A4F] transition"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0F766E] text-white text-sm font-semibold hover:bg-[#14B8A6] transition"
                   >
                     <Download size={16} /> Download Certificate (PDF)
                   </a>
@@ -376,7 +376,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
                       }
                     }}
                     disabled={generatingCert}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 transition disabled:opacity-50"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-teal-600 text-white text-sm font-semibold hover:bg-teal-700 transition disabled:opacity-50"
                   >
                     {generatingCert ? <><CertLoader size={16} className="animate-spin" /> Generating...</> : <><Award size={16} /> Generate Certificate</>}
                   </button>
