@@ -365,3 +365,17 @@ export async function uploadLessonVideo(lessonId: number, file: File) {
   const wrapper = await res.json();
   return wrapper.data as { lessonId: number; videoUrl: string };
 }
+
+// ─── Tasks ──────────────────────────────────────────────────────
+
+export async function getLessonTasks(lessonId: number) {
+  const wrapper = await apiFetch<ApiResponse<Array<{
+    id: number; title: string; description: string; instruction: string;
+    type: string; orderIndex: number; unlocked: boolean; completed: boolean;
+  }>>>(`/api/lessons/${lessonId}/tasks`);
+  return wrapper.data;
+}
+
+export async function completeTask(taskId: number) {
+  return apiFetch<ApiResponse<unknown>>(`/api/tasks/${taskId}/complete`, { method: "POST" });
+}

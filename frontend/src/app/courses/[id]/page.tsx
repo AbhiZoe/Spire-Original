@@ -11,6 +11,7 @@ import { Award, Download, Loader2 as CertLoader } from "lucide-react";
 import { LessonItem } from "@/components/courses/LessonItem";
 import { AssignmentItem } from "@/components/courses/AssignmentItem";
 import { QuizSection } from "@/components/courses/QuizSection";
+import { TaskSection } from "@/components/courses/TaskSection";
 import { VideoPlayer } from "@/components/courses/VideoPlayer";
 import { VideoUpload } from "@/components/courses/VideoUpload";
 import { cn } from "@/lib/utils";
@@ -308,6 +309,9 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
                       {(lesson.isFree || lesson.videoUrl) && (
                         <QuizSection lessonId={lesson.id} isAuthenticated={isAuthenticated} />
                       )}
+
+                      {/* Tasks */}
+                      <TaskSection lessonId={lesson.id} isAuthenticated={isAuthenticated} />
                     </div>
                   )}
                 </div>
