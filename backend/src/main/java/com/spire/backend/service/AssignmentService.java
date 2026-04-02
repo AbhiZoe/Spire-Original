@@ -82,7 +82,8 @@ public class AssignmentService {
         boolean isInstructor = course.getInstructor().getId().equals(userId);
         if (!isAdmin && !isInstructor) {
             if (!enrollmentRepository.existsByUserIdAndCourseId(userId, courseId)) {
-                throw new UnauthorizedException("You must be enrolled to view assignments");
+                // Not enrolled — return empty list instead of blocking access
+                return List.of();
             }
         }
 

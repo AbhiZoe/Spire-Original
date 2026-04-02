@@ -51,7 +51,7 @@ export async function apiFetch<T = unknown>(
 
   const res = await fetch(`${BASE_URL}${endpoint}`, { ...options, headers });
 
-  // Handle 401 — try refresh
+  // Handle 401 — try refresh, but don't redirect for non-auth failures
   if (res.status === 401) {
     const refreshed = await tryRefresh();
     if (refreshed) {
@@ -59,9 +59,10 @@ export async function apiFetch<T = unknown>(
       const retry = await fetch(`${BASE_URL}${endpoint}`, { ...options, headers });
       if (retry.ok) return retry.json();
     }
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("refresh_token");
+    // Only redirect to login if we have no valid token at all
+    // (not for 401s caused by enrollment/permission checks)
+    const hasToken = typeof window !== "undefined" && localStorage.getItem("access_token");
+    if (!hasToken && typeof window !== "undefined") {
       window.location.href = "/login";
     }
     throw new Error("Unauthorized");
