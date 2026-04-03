@@ -46,6 +46,9 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
   // Assignments
   const [assignments, setAssignments] = useState<Array<{ id: number; title: string; description: string; assignmentType: string; dueDate: string | null; unlocked: boolean }>>([]);
 
+  // Track which lessons are completed
+  const [completedLessons, setCompletedLessons] = useState<Set<number>>(new Set());
+
   // Add lesson form state
   const [showAddLesson, setShowAddLesson] = useState(false);
   const [newLesson, setNewLesson] = useState({ title: "", description: "", videoUrl: "", durationMinutes: "", isFree: false });
@@ -282,6 +285,8 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
                     onDelete={handleDeleteLesson}
                     onClick={() => setSelectedLessonId(selectedLessonId === lesson.id ? null : lesson.id)}
                     onComplete={async () => {
+                      // Track this lesson as completed (unlocks quiz)
+                      setCompletedLessons((prev) => new Set(prev).add(lesson.id));
                       try { const a = await getCourseAssignments(id); setAssignments((a || []) as typeof assignments); } catch {}
                     }}
                   />
@@ -310,7 +315,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
                       {canManage ? (
                         <QuizBuilder lessonId={lesson.id} lessonTitle={lesson.title} />
                       ) : (lesson.isFree || lesson.videoUrl) ? (
-                        <QuizSection lessonId={lesson.id} isAuthenticated={isAuthenticated} />
+                        <QuizSection lessonId={lesson.id} isAuthenticated={isAuthenticated} lessonCompleted={completedLessons.has(lesson.id)} />
                       ) : null}
 
                       {/* Tasks */}
