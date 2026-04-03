@@ -48,7 +48,7 @@ export function Navbar() {
     <>
       {/* Promo Banner */}
       {!isAuthenticated && (
-        <div className="fixed top-0 inset-x-0 z-[60] bg-[#0F766E] text-white text-center text-sm py-2 px-4 font-medium">
+        <div className="fixed top-0 inset-x-0 z-[60] bg-[#0E6B6B] text-white text-center text-sm py-2 px-4 font-medium">
           🎓 New courses added weekly — Start your journey today
         </div>
       )}
@@ -65,7 +65,7 @@ export function Navbar() {
       >
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
           {/* Logo */}
-          <Link href={isAuthenticated ? "/dashboard" : "/"} className="font-serif text-2xl font-bold text-[#0F766E] tracking-tight">
+          <Link href={isAuthenticated ? "/dashboard" : "/"} className="font-serif text-2xl font-bold text-[#0E6B6B] tracking-tight">
             {APP_NAME}
           </Link>
 
@@ -78,8 +78,8 @@ export function Navbar() {
                   className={cn(
                     "text-sm font-medium transition-colors",
                     pathname === link.href
-                      ? "text-[#0F766E] font-semibold"
-                      : "text-gray-600 hover:text-[#0F766E]"
+                      ? "text-[#0E6B6B] font-semibold"
+                      : "text-gray-600 hover:text-[#0E6B6B]"
                   )}
                 >
                   {link.label}
@@ -94,9 +94,9 @@ export function Navbar() {
               <div className="relative">
                 <button
                   onClick={() => setDropdownOpen((v) => !v)}
-                  className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-[#0F766E] transition-colors"
+                  className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-[#0E6B6B] transition-colors"
                 >
-                  <div className="w-8 h-8 rounded-full bg-[#0F766E] text-white flex items-center justify-center text-xs font-bold">
+                  <div className="w-8 h-8 rounded-full bg-[#0E6B6B] text-white flex items-center justify-center text-xs font-bold">
                     {user.fullName?.charAt(0)?.toUpperCase() || "U"}
                   </div>
                   <span>{user.fullName}</span>
@@ -150,11 +150,11 @@ export function Navbar() {
               </div>
             ) : (
               <>
-                <Link href="/login" className="text-sm font-medium text-gray-700 hover:text-[#0F766E] transition-colors">
+                <Link href="/login" className="text-sm font-medium text-gray-700 hover:text-[#0E6B6B] transition-colors">
                   Sign In
                 </Link>
                 <Link href="/signup"
-                  className="inline-flex items-center justify-center rounded-full bg-[#0F766E] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#14B8A6] transition-colors shadow-sm">
+                  className="inline-flex items-center justify-center rounded-full bg-[#0E6B6B] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#5FA3A3] transition-colors shadow-sm">
                   Get Started
                 </Link>
               </>
@@ -162,7 +162,7 @@ export function Navbar() {
           </div>
 
           {/* Mobile hamburger */}
-          <button className="lg:hidden text-[#0F766E] cursor-pointer" onClick={() => setMobileOpen((v) => !v)} aria-label="Toggle menu">
+          <button className="lg:hidden text-[#0E6B6B] cursor-pointer" onClick={() => setMobileOpen((v) => !v)} aria-label="Toggle menu">
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </nav>
@@ -182,7 +182,7 @@ export function Navbar() {
                   <Link key={link.href} href={link.href}
                     className={cn(
                       "text-sm font-medium py-1",
-                      pathname === link.href ? "text-[#0F766E] font-semibold" : "text-gray-700 hover:text-[#0F766E]"
+                      pathname === link.href ? "text-[#0E6B6B] font-semibold" : "text-gray-700 hover:text-[#0E6B6B]"
                     )}>
                     {link.label}
                   </Link>
@@ -191,7 +191,7 @@ export function Navbar() {
                 {isAuthenticated && user ? (
                   <>
                     <div className="flex items-center gap-2 py-2">
-                      <div className="w-8 h-8 rounded-full bg-[#0F766E] text-white flex items-center justify-center text-xs font-bold">
+                      <div className="w-8 h-8 rounded-full bg-[#0E6B6B] text-white flex items-center justify-center text-xs font-bold">
                         {user.fullName?.charAt(0)?.toUpperCase()}
                       </div>
                       <div>
@@ -200,16 +200,16 @@ export function Navbar() {
                       </div>
                     </div>
                     {user.role?.toUpperCase() === "ADMIN" && (
-                      <Link href="/admin" className="text-sm font-medium text-gray-700 hover:text-[#0F766E] py-1">Admin Panel</Link>
+                      <Link href="/admin" className="text-sm font-medium text-gray-700 hover:text-[#0E6B6B] py-1">Admin Panel</Link>
                     )}
                     <button onClick={() => logout()}
                       className="text-sm font-medium text-red-600 hover:text-red-700 py-1 text-left">Sign Out</button>
                   </>
                 ) : (
                   <>
-                    <Link href="/login" className="text-sm font-medium text-gray-700 hover:text-[#0F766E] py-1">Sign In</Link>
+                    <Link href="/login" className="text-sm font-medium text-gray-700 hover:text-[#0E6B6B] py-1">Sign In</Link>
                     <Link href="/signup"
-                      className="inline-flex items-center justify-center rounded-full bg-[#0F766E] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#14B8A6] transition-colors mt-1">
+                      className="inline-flex items-center justify-center rounded-full bg-[#0E6B6B] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#5FA3A3] transition-colors mt-1">
                       Get Started
                     </Link>
                   </>

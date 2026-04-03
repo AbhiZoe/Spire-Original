@@ -72,7 +72,7 @@ function LoginForm() {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1.5">Email address</label>
           <input type="email" {...register("email")}
-            className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#22D3EE] focus:border-transparent transition"
+            className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#95C8CB] focus:border-transparent transition"
             placeholder="you@example.com" />
           {errors.email && <p className="text-xs text-red-500 mt-1.5">{errors.email.message}</p>}
         </div>
@@ -80,13 +80,13 @@ function LoginForm() {
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <label className="block text-sm font-medium text-gray-700">Password</label>
-            <Link href="#" className="text-xs text-[#22D3EE] hover:text-[#0F766E] font-medium transition-colors">
+            <Link href="#" className="text-xs text-[#95C8CB] hover:text-[#0E6B6B] font-medium transition-colors">
               Forgot password?
             </Link>
           </div>
           <div className="relative">
             <input type={showPassword ? "text" : "password"} {...register("password")}
-              className="w-full px-4 py-3 pr-11 rounded-xl border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#22D3EE] focus:border-transparent transition"
+              className="w-full px-4 py-3 pr-11 rounded-xl border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#95C8CB] focus:border-transparent transition"
               placeholder="Enter your password" />
             <button type="button" onClick={() => setShowPassword((v) => !v)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
@@ -97,7 +97,7 @@ function LoginForm() {
         </div>
 
         <button type="submit" disabled={isSubmitting}
-          className="w-full py-3 rounded-xl bg-[#0F766E] text-white text-sm font-semibold hover:bg-[#14B8A6] focus:outline-none focus:ring-2 focus:ring-[#22D3EE] focus:ring-offset-2 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+          className="w-full py-3 rounded-xl bg-[#0E6B6B] text-white text-sm font-semibold hover:bg-[#5FA3A3] focus:outline-none focus:ring-2 focus:ring-[#95C8CB] focus:ring-offset-2 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2">
           {isSubmitting && <Loader2 size={16} className="animate-spin" />}
           {isSubmitting ? "Signing in..." : "Sign In"}
         </button>
@@ -109,7 +109,7 @@ function LoginForm() {
 
       <p className="text-sm text-center text-gray-500 mt-6">
         Don&apos;t have an account?{" "}
-        <Link href="/signup" className="text-[#0F766E] font-semibold hover:underline">Create one</Link>
+        <Link href="/signup" className="text-[#0E6B6B] font-semibold hover:underline">Create one</Link>
       </p>
     </motion.div>
   );

@@ -143,7 +143,7 @@ export default function PricingPage() {
           }
         },
         prefill: { email: "" },
-        theme: { color: "#0F766E" },
+        theme: { color: "#0E6B6B" },
       };
 
       const rzp = new (window as any).Razorpay(options);
@@ -184,19 +184,19 @@ export default function PricingPage() {
               transition={{ delay: i * 0.1, ease: "easeOut" as const }}
               className={`relative rounded-2xl border-2 bg-white p-8 shadow-sm ${
                 plan.popular
-                  ? "border-[#0F766E] shadow-lg scale-[1.02]"
+                  ? "border-[#0E6B6B] shadow-lg scale-[1.02]"
                   : "border-gray-200"
               }`}
             >
               {plan.popular && (
-                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#0F766E] text-white text-xs font-semibold px-4 py-1 rounded-full">
+                <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#0E6B6B] text-white text-xs font-semibold px-4 py-1 rounded-full">
                   Most Popular
                 </span>
               )}
 
               <div className="flex items-center gap-3 mb-4">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                  plan.popular ? "bg-[#0F766E] text-white" : "bg-teal-100 text-teal-700"
+                  plan.popular ? "bg-[#0E6B6B] text-white" : "bg-teal-100 text-teal-700"
                 }`}>
                   <plan.icon size={20} />
                 </div>
@@ -226,8 +226,8 @@ export default function PricingPage() {
                   disabled={loading === plan.plan}
                   className={`w-full py-3 rounded-xl text-sm font-semibold transition mb-6 disabled:opacity-60 ${
                     plan.popular
-                      ? "bg-[#0F766E] text-white hover:bg-[#14B8A6]"
-                      : "border-2 border-[#0F766E] text-[#0F766E] hover:bg-teal-50"
+                      ? "bg-[#0E6B6B] text-white hover:bg-[#5FA3A3]"
+                      : "border-2 border-[#0E6B6B] text-[#0E6B6B] hover:bg-teal-50"
                   }`}
                 >
                   {loading === plan.plan ? "Processing..." : plan.cta}
@@ -261,11 +261,11 @@ export default function PricingPage() {
         >
           <p className="text-gray-500">
             Have questions?{" "}
-            <Link href="/support" className="text-[#0F766E] font-semibold hover:underline">
+            <Link href="/support" className="text-[#0E6B6B] font-semibold hover:underline">
               Check our FAQ
             </Link>{" "}
             or{" "}
-            <a href="mailto:support@spire-learn.in" className="text-[#0F766E] font-semibold hover:underline">
+            <a href="mailto:support@spire-learn.in" className="text-[#0E6B6B] font-semibold hover:underline">
               contact support
             </a>
           </p>

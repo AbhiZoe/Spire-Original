@@ -147,7 +147,7 @@ export default function AdminPage() {
 
   const Spinner = () => (
     <div className="flex items-center justify-center py-16">
-      <Loader2 className="animate-spin text-[#0F766E]" size={32} />
+      <Loader2 className="animate-spin text-[#0E6B6B]" size={32} />
     </div>
   );
 
@@ -155,7 +155,7 @@ export default function AdminPage() {
     <div className="flex min-h-screen pt-20">
       {/* Sidebar */}
       <aside className="hidden lg:flex flex-col w-64 bg-white/60 backdrop-blur-sm border-r border-white/40 px-4 py-8 shrink-0">
-        <h2 className="font-[family-name:var(--font-playfair)] text-xl font-bold text-[#0F766E] px-3 mb-8">
+        <h2 className="font-[family-name:var(--font-playfair)] text-xl font-bold text-[#0E6B6B] px-3 mb-8">
           Admin
         </h2>
         <nav className="flex-1 space-y-1">
@@ -165,7 +165,7 @@ export default function AdminPage() {
               onClick={() => setActiveTab(link.label)}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors cursor-pointer ${
                 activeTab === link.label
-                  ? "bg-[#0F766E] text-white"
+                  ? "bg-[#0E6B6B] text-white"
                   : "text-gray-600 hover:bg-gray-100"
               }`}
             >
@@ -202,7 +202,7 @@ export default function AdminPage() {
           {/* ──────────── Overview Tab ──────────── */}
           {activeTab === "Overview" && (
             <>
-              <h1 className="text-2xl font-bold text-[#0F766E] mb-6">
+              <h1 className="text-2xl font-bold text-[#0E6B6B] mb-6">
                 Dashboard Overview
               </h1>
 
@@ -214,8 +214,8 @@ export default function AdminPage() {
                   {statCards.map((stat) => (
                     <GlassCard key={stat.label}>
                       <div className="flex items-center justify-between mb-3">
-                        <div className="w-10 h-10 rounded-full bg-[#0F766E]/10 flex items-center justify-center">
-                          <stat.icon size={18} className="text-[#0F766E]" />
+                        <div className="w-10 h-10 rounded-full bg-[#0E6B6B]/10 flex items-center justify-center">
+                          <stat.icon size={18} className="text-[#0E6B6B]" />
                         </div>
                       </div>
                       <p className="text-2xl font-bold text-[#1a1a1a]">
@@ -228,7 +228,7 @@ export default function AdminPage() {
               )}
 
               {/* Recent users table */}
-              <h2 className="text-lg font-bold text-[#0F766E] mb-4">
+              <h2 className="text-lg font-bold text-[#0E6B6B] mb-4">
                 Recent Users
               </h2>
               {loadingUsers ? (
@@ -270,7 +270,7 @@ export default function AdminPage() {
           {/* ──────────── Users Tab ──────────── */}
           {activeTab === "Users" && (
             <>
-              <h1 className="text-2xl font-bold text-[#0F766E] mb-6">
+              <h1 className="text-2xl font-bold text-[#0E6B6B] mb-6">
                 All Users
               </h1>
               {loadingUsers ? (
@@ -314,7 +314,7 @@ export default function AdminPage() {
           {/* ──────────── Instructor Requests Tab ──────────── */}
           {activeTab === "Instructor Requests" && (
             <>
-              <h1 className="text-2xl font-bold text-[#0F766E] mb-6">
+              <h1 className="text-2xl font-bold text-[#0E6B6B] mb-6">
                 Pending Instructor Requests
               </h1>
 

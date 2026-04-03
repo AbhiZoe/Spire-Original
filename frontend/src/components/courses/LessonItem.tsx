@@ -100,7 +100,7 @@ export function LessonItem({
         {/* Mark Complete button (for enrolled students with access) */}
         {hasAccess && canComplete && !completed && !canManage && (
           <button onClick={handleComplete} disabled={completing}
-            className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-[#0F766E] text-white hover:bg-[#14B8A6] transition disabled:opacity-50 flex items-center gap-1">
+            className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-[#0E6B6B] text-white hover:bg-[#5FA3A3] transition disabled:opacity-50 flex items-center gap-1">
             {completing ? <Loader2 size={10} className="animate-spin" /> : <CheckCircle size={10} />}
             {completing ? "..." : "Complete"}
           </button>

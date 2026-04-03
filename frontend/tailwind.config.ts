@@ -10,18 +10,18 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#0F766E",   // deep teal (from logo dark areas)
-          light: "#14B8A6",     // teal-500 (mid tones)
-          dark: "#0D4F4A",      // darkest teal
+          DEFAULT: "#0E6B6B",   // deep teal (bottom stripe)
+          light: "#5FA3A3",     // medium teal (3rd stripe)
+          dark: "#094D4D",      // darker shade
         },
         accent: {
-          DEFAULT: "#22D3EE",   // cyan-400 (logo bright cyan)
-          light: "#67E8F9",     // cyan-300 (logo highlights)
-          dark: "#06B6D4",      // cyan-500
+          DEFAULT: "#95C8CB",   // light teal/aqua (2nd stripe)
+          light: "#B8DDE0",     // lighter tint
+          dark: "#5FA3A3",      // medium teal
         },
         cream: {
-          DEFAULT: "#F0FDFA",   // teal-50 (light bg matching logo)
-          dark: "#CCFBF1",      // teal-100
+          DEFAULT: "#F0EDE8",   // off-white (top stripe)
+          dark: "#E3DED7",      // slightly darker cream
         },
       },
       fontFamily: {

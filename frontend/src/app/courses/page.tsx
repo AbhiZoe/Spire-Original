@@ -58,7 +58,7 @@ export default function CoursesPage() {
 
   return (
     <section className="mx-auto max-w-7xl px-6 pt-32 pb-20">
-      <h1 className="font-serif text-4xl font-bold text-[#0F766E] mb-2">
+      <h1 className="font-serif text-4xl font-bold text-[#0E6B6B] mb-2">
         Explore Courses
       </h1>
       <p className="text-gray-600 mb-8">
@@ -75,7 +75,7 @@ export default function CoursesPage() {
               className={cn(
                 "px-4 py-1.5 text-sm font-medium rounded-full transition-colors cursor-pointer",
                 selectedLevel === level
-                  ? "bg-[#0F766E] text-white"
+                  ? "bg-[#0E6B6B] text-white"
                   : "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50"
               )}
             >
@@ -91,7 +91,7 @@ export default function CoursesPage() {
             placeholder="Search courses..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 rounded-full border border-gray-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#0F766E]/30"
+            className="w-full pl-9 pr-4 py-2 rounded-full border border-gray-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#0E6B6B]/30"
           />
         </div>
       </div>
@@ -135,11 +135,11 @@ export default function CoursesPage() {
               <Link href={`/courses/${course.id}`} className="block group">
                 <div className="rounded-2xl bg-white shadow-sm border border-gray-100 overflow-hidden transition-shadow hover:shadow-md">
                   {/* Thumbnail */}
-                  <div className="h-44 bg-gradient-to-br from-[#0F766E]/10 to-[#14B8A6]/20 flex items-center justify-center overflow-hidden">
+                  <div className="h-44 bg-gradient-to-br from-[#0E6B6B]/10 to-[#5FA3A3]/20 flex items-center justify-center overflow-hidden">
                     {course.thumbnailUrl ? (
                       <img src={course.thumbnailUrl} alt={course.title} className="w-full h-full object-cover" loading="lazy" />
                     ) : (
-                      <span className="text-[#0F766E]/40 text-sm font-medium">{course.category}</span>
+                      <span className="text-[#0E6B6B]/40 text-sm font-medium">{course.category}</span>
                     )}
                   </div>
 
@@ -158,7 +158,7 @@ export default function CoursesPage() {
                       )}
                     </div>
 
-                    <h3 className="font-semibold text-gray-900 group-hover:text-[#0F766E] transition-colors line-clamp-1">
+                    <h3 className="font-semibold text-gray-900 group-hover:text-[#0E6B6B] transition-colors line-clamp-1">
                       {course.title}
                     </h3>
 

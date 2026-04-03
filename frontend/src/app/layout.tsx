@@ -30,7 +30,7 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#F0FDFA] text-[#0F172A] font-sans">
+      <body className="min-h-full flex flex-col bg-[#F0EDE8] text-[#0F172A] font-sans">
         <AuthProvider>
           <ShellWrapper>{children}</ShellWrapper>
         </AuthProvider>

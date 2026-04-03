@@ -149,7 +149,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
     <section className="pt-28 pb-20 px-6">
       <div className="mx-auto max-w-5xl">
         {/* Back link */}
-        <Link href="/courses" className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-[#0F766E] mb-6">
+        <Link href="/courses" className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-[#0E6B6B] mb-6">
           <ChevronLeft size={16} /> Back to courses
         </Link>
 
@@ -175,7 +175,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
 
             {course.instructor && (
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#0F766E] text-white flex items-center justify-center text-sm font-bold">
+                <div className="w-10 h-10 rounded-full bg-[#0E6B6B] text-white flex items-center justify-center text-sm font-bold">
                   {course.instructor.fullName.charAt(0)}
                 </div>
                 <div>
@@ -194,7 +194,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
             <p className="text-sm text-gray-500 mb-6">{course.isFree ? "No payment required" : "One-time payment"}</p>
 
             <button onClick={handleEnroll} disabled={enrolling}
-              className="w-full py-3 rounded-xl bg-[#0F766E] text-white text-sm font-semibold hover:bg-[#14B8A6] transition disabled:opacity-50 flex items-center justify-center gap-2">
+              className="w-full py-3 rounded-xl bg-[#0E6B6B] text-white text-sm font-semibold hover:bg-[#5FA3A3] transition disabled:opacity-50 flex items-center justify-center gap-2">
               {enrolling ? <><Loader2 size={16} className="animate-spin" /> Enrolling...</> : "Enroll Now"}
             </button>
 
@@ -246,7 +246,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
               </label>
               <div className="flex gap-3">
                 <button type="submit" disabled={addingLesson}
-                  className="px-6 py-2.5 rounded-lg bg-[#0F766E] text-white text-sm font-semibold hover:bg-[#14B8A6] disabled:opacity-50">
+                  className="px-6 py-2.5 rounded-lg bg-[#0E6B6B] text-white text-sm font-semibold hover:bg-[#5FA3A3] disabled:opacity-50">
                   {addingLesson ? "Adding..." : "Add Lesson"}
                 </button>
                 <button type="button" onClick={() => setShowAddLesson(false)}
@@ -355,7 +355,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
                     href={`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}${certificate.certificateUrl}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0F766E] text-white text-sm font-semibold hover:bg-[#14B8A6] transition"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0E6B6B] text-white text-sm font-semibold hover:bg-[#5FA3A3] transition"
                   >
                     <Download size={16} /> Download Certificate (PDF)
                   </a>

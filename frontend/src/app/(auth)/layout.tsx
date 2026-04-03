@@ -5,7 +5,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
       {/* Left - Branding panel */}
-      <div className="hidden lg:flex flex-col justify-between bg-[#0F766E] p-12 text-white">
+      <div className="hidden lg:flex flex-col justify-between bg-[#0E6B6B] p-12 text-white">
         <Link href="/" className="font-serif text-3xl font-bold">
           Spire
         </Link>
@@ -42,7 +42,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
           {/* Mobile logo */}
           <Link
             href="/"
-            className="lg:hidden block text-center font-serif text-3xl font-bold text-[#0F766E] mb-10"
+            className="lg:hidden block text-center font-serif text-3xl font-bold text-[#0E6B6B] mb-10"
           >
             Spire
           </Link>
