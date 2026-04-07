@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { TESTIMONIALS } from "@/lib/mock-data";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -13,13 +12,46 @@ const fadeUp = {
   }),
 };
 
+const testimonials = [
+  {
+    id: "t1",
+    name: "Priya S.",
+    role: "Full-Stack Developer",
+    avatar:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80",
+    quote:
+      "Spire completely transformed my career. The structured learning paths and project-based approach helped me land my dream job within 3 months.",
+    rating: 5,
+  },
+  {
+    id: "t2",
+    name: "Arjun M.",
+    role: "Data Analyst at Flipkart",
+    avatar:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80",
+    quote:
+      "The data science course was incredibly well-structured. The instructors explain complex concepts in a way that's easy to understand and apply immediately.",
+    rating: 5,
+  },
+  {
+    id: "t3",
+    name: "Kavitha R.",
+    role: "UX Designer, Freelance",
+    avatar:
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&q=80",
+    quote:
+      "I loved the hands-on projects and the community support. The certificate I earned from Spire helped me win multiple freelance contracts.",
+    rating: 5,
+  },
+];
+
 function Stars({ count }: { count: number }) {
   return (
     <div className="flex gap-0.5">
       {Array.from({ length: 5 }).map((_, i) => (
         <svg
           key={i}
-          className={`h-4 w-4 ${
+          className={`h-5 w-5 ${
             i < count
               ? "text-amber-400 fill-amber-400"
               : "text-gray-200 fill-gray-200"
@@ -38,7 +70,7 @@ export default function Testimonials() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section ref={ref} className="py-20 bg-gray-50">
+    <section ref={ref} className="py-20 bg-[#F0EDE8]">
       <div className="mx-auto max-w-7xl px-6">
         <motion.div
           custom={0}
@@ -56,25 +88,25 @@ export default function Testimonials() {
         </motion.div>
 
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {TESTIMONIALS.map((t, i) => (
+          {testimonials.map((t, i) => (
             <motion.div
               key={t.id}
               custom={i + 1}
               variants={fadeUp}
               initial="hidden"
               animate={inView ? "visible" : "hidden"}
-              className="rounded-2xl bg-amber-50/60 border border-amber-100 p-6 shadow-sm"
+              className="rounded-2xl bg-[#F0EDE8] border border-[#E3DED7] bg-white p-8 shadow-sm hover:shadow-md transition-shadow"
             >
               <Stars count={t.rating} />
-              <blockquote className="mt-4 text-gray-700 leading-relaxed">
+              <blockquote className="mt-5 text-gray-700 leading-relaxed text-[15px]">
                 &ldquo;{t.quote}&rdquo;
               </blockquote>
-              <div className="mt-6 flex items-center gap-3">
+              <div className="mt-6 flex items-center gap-4 border-t border-[#E3DED7] pt-5">
                 <img
                   src={t.avatar}
                   alt={t.name}
                   loading="lazy"
-                  className="h-10 w-10 rounded-full object-cover"
+                  className="h-12 w-12 rounded-full object-cover ring-2 ring-[#95C8CB]/30"
                 />
                 <div>
                   <p className="text-sm font-semibold text-gray-900">

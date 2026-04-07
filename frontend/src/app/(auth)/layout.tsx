@@ -12,15 +12,15 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
 
         <div>
           <h2 className="font-serif text-4xl font-bold leading-tight mb-4">
-            Advance your career<br />with structured learning.
+            Master skills.<br />Transform careers.
           </h2>
-          <p className="text-teal-200 text-lg leading-relaxed max-w-md">
+          <p className="text-white/70 text-lg leading-relaxed max-w-md">
             Join thousands of learners mastering in-demand skills with expert-led courses,
             progress tracking, and certificates.
           </p>
         </div>
 
-        <div className="flex items-center gap-8 text-sm text-teal-300">
+        <div className="flex items-center gap-10 text-sm text-white/60">
           <div>
             <span className="text-2xl font-bold text-white block">10K+</span>
             Students
@@ -37,7 +37,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
       </div>
 
       {/* Right - Form area */}
-      <div className="flex items-center justify-center bg-[#FDFBF7] px-6 py-12">
+      <div className="flex items-center justify-center bg-[#F0EDE8] px-6 py-12">
         <div className="w-full max-w-[420px]">
           {/* Mobile logo */}
           <Link

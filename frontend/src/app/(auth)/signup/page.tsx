@@ -16,6 +16,7 @@ const signupSchema = z
     email: z.string().email("Please enter a valid email address"),
     password: z.string().min(6, "Password must be at least 6 characters"),
     confirmPassword: z.string(),
+    terms: z.literal(true, { message: "You must accept the terms" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
@@ -62,7 +63,7 @@ export default function SignupPage() {
       </p>
 
       {error && (
-        <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm">
+        <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-600 text-sm">
           {error}
         </div>
       )}
@@ -70,28 +71,40 @@ export default function SignupPage() {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1.5">Full name</label>
-          <input type="text" {...register("name")}
-            className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#95C8CB] focus:border-transparent transition"
-            placeholder="Arjun Mehta" />
+          <input
+            type="text"
+            {...register("name")}
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#95C8CB] focus:border-transparent transition"
+            placeholder="Arjun Mehta"
+          />
           {errors.name && <p className="text-xs text-red-500 mt-1.5">{errors.name.message}</p>}
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1.5">Email address</label>
-          <input type="email" {...register("email")}
-            className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#95C8CB] focus:border-transparent transition"
-            placeholder="you@example.com" />
+          <input
+            type="email"
+            {...register("email")}
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#95C8CB] focus:border-transparent transition"
+            placeholder="you@example.com"
+          />
           {errors.email && <p className="text-xs text-red-500 mt-1.5">{errors.email.message}</p>}
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
           <div className="relative">
-            <input type={showPassword ? "text" : "password"} {...register("password")}
-              className="w-full px-4 py-3 pr-11 rounded-xl border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#95C8CB] focus:border-transparent transition"
-              placeholder="At least 6 characters" />
-            <button type="button" onClick={() => setShowPassword((v) => !v)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+            <input
+              type={showPassword ? "text" : "password"}
+              {...register("password")}
+              className="w-full px-4 py-3 pr-11 rounded-lg border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#95C8CB] focus:border-transparent transition"
+              placeholder="At least 6 characters"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((v) => !v)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
           </div>
@@ -100,20 +113,34 @@ export default function SignupPage() {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1.5">Confirm password</label>
-          <input type="password" {...register("confirmPassword")}
-            className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#95C8CB] focus:border-transparent transition"
-            placeholder="Repeat your password" />
+          <input
+            type="password"
+            {...register("confirmPassword")}
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#95C8CB] focus:border-transparent transition"
+            placeholder="Repeat your password"
+          />
           {errors.confirmPassword && <p className="text-xs text-red-500 mt-1.5">{errors.confirmPassword.message}</p>}
         </div>
 
-        <p className="text-xs text-gray-400">
-          By creating an account, you agree to our{" "}
-          <Link href="#" className="text-[#0E6B6B] hover:underline">Terms of Service</Link>{" "}and{" "}
-          <Link href="#" className="text-[#0E6B6B] hover:underline">Privacy Policy</Link>.
-        </p>
+        <label className="flex items-start gap-2.5 cursor-pointer">
+          <input
+            type="checkbox"
+            {...register("terms")}
+            className="mt-0.5 h-4 w-4 rounded border-gray-300 text-[#0E6B6B] focus:ring-[#95C8CB]"
+          />
+          <span className="text-xs text-gray-500">
+            I agree to the{" "}
+            <Link href="#" className="text-[#0E6B6B] hover:underline">Terms of Service</Link>{" "}and{" "}
+            <Link href="#" className="text-[#0E6B6B] hover:underline">Privacy Policy</Link>
+          </span>
+        </label>
+        {errors.terms && <p className="text-xs text-red-500 -mt-3">{errors.terms.message}</p>}
 
-        <button type="submit" disabled={isSubmitting}
-          className="w-full py-3 rounded-xl bg-[#0E6B6B] text-white text-sm font-semibold hover:bg-[#5FA3A3] focus:outline-none focus:ring-2 focus:ring-[#95C8CB] focus:ring-offset-2 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full py-3 rounded-lg bg-[#0E6B6B] text-white text-sm font-semibold hover:bg-[#0E6B6B]/90 focus:outline-none focus:ring-2 focus:ring-[#95C8CB] focus:ring-offset-2 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        >
           {isSubmitting && <Loader2 size={16} className="animate-spin" />}
           {isSubmitting ? "Creating account..." : "Create Account"}
         </button>

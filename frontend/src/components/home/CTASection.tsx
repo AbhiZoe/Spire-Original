@@ -29,21 +29,40 @@ export default function CTASection() {
         >
           <path
             d="M0 100V60C240 0 480 80 720 60C960 40 1200 80 1440 40V100H0Z"
-            fill="#065f46"
+            fill="#0E6B6B"
           />
         </svg>
       </div>
 
-      <div ref={ref} className="bg-teal-800 py-20">
-        <div className="mx-auto max-w-3xl px-6 text-center">
+      <div ref={ref} className="relative bg-[#0E6B6B] py-24 overflow-hidden">
+        {/* Subtle pattern decoration */}
+        <div className="absolute inset-0 pointer-events-none opacity-10">
+          <svg width="100%" height="100%">
+            <defs>
+              <pattern
+                id="cta-dots"
+                x="0"
+                y="0"
+                width="40"
+                height="40"
+                patternUnits="userSpaceOnUse"
+              >
+                <circle cx="2" cy="2" r="1.5" fill="white" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#cta-dots)" />
+          </svg>
+        </div>
+
+        <div className="relative mx-auto max-w-3xl px-6 text-center">
           <motion.h2
             custom={0}
             variants={fadeUp}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
-            className="font-serif text-3xl sm:text-4xl font-bold text-white"
+            className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white"
           >
-            Ready to Start Learning?
+            Ready to Start Your Learning Journey?
           </motion.h2>
 
           <motion.p
@@ -51,10 +70,10 @@ export default function CTASection() {
             variants={fadeUp}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
-            className="mt-4 text-teal-100 text-lg"
+            className="mt-5 text-[#95C8CB] text-lg sm:text-xl"
           >
-            Join thousands of learners who are building real-world skills with
-            expert-led courses, hands-on projects, and a supportive community.
+            Join thousands of learners advancing their careers with expert-led
+            courses.
           </motion.p>
 
           <motion.div
@@ -64,8 +83,8 @@ export default function CTASection() {
             animate={inView ? "visible" : "hidden"}
           >
             <Link
-              href="/register"
-              className="mt-8 inline-flex items-center justify-center rounded-full bg-white px-8 py-3.5 text-base font-semibold text-teal-800 shadow-sm hover:bg-teal-50 transition-colors"
+              href="/signup"
+              className="mt-8 inline-flex items-center justify-center rounded-full bg-white px-10 py-4 text-base font-semibold text-[#0E6B6B] shadow-lg hover:bg-[#F0EDE8] transition-colors"
             >
               Get Started for Free
             </Link>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { APP_NAME } from "@/lib/constants";
-import { Globe, MessageCircle, Users, Play } from "lucide-react";
+import { Globe, Mail, Phone, MessageCircle, Users, Play } from "lucide-react";
 
 const columns = [
   {
@@ -10,6 +10,15 @@ const columns = [
       { label: "Data Science", href: "/categories/data-science" },
       { label: "Mobile Development", href: "/categories/mobile" },
       { label: "Design", href: "/categories/design" },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { label: "Blog", href: "/blog" },
+      { label: "Tutorials", href: "/tutorials" },
+      { label: "Webinars", href: "/webinars" },
+      { label: "Documentation", href: "/docs" },
     ],
   },
   {
@@ -34,7 +43,7 @@ const columns = [
 
 const socials = [
   { icon: MessageCircle, href: "#", label: "Twitter" },
-  { icon: Globe, href: "#", label: "GitHub" },
+  { icon: Globe, href: "#", label: "Website" },
   { icon: Users, href: "#", label: "LinkedIn" },
   { icon: Play, href: "#", label: "YouTube" },
 ];
@@ -42,29 +51,36 @@ const socials = [
 export function Footer() {
   return (
     <footer className="bg-[#0E6B6B] text-white">
-      <div className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto max-w-7xl px-6 py-12">
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5">
           {/* Company info */}
-          <div>
+          <div className="col-span-2 sm:col-span-3 lg:col-span-1">
             <Link
               href="/"
-              className="font-['Playfair_Display',serif] text-2xl font-bold"
+              className="font-serif text-2xl font-bold"
             >
               {APP_NAME}
             </Link>
-            <p className="mt-4 text-sm text-white/70 leading-relaxed">
-              Elevate your skills with expert-led courses. Learn at your own
-              pace and build the career you deserve.
+            <p className="mt-3 text-sm text-white/70 leading-relaxed max-w-xs">
+              Empowering learners worldwide
             </p>
-            <div className="mt-6 flex gap-4">
+            <div className="mt-4 flex items-center gap-3 text-sm text-white/60">
+              <Mail size={14} />
+              <span>hello@spire.dev</span>
+            </div>
+            <div className="mt-2 flex items-center gap-3 text-sm text-white/60">
+              <Phone size={14} />
+              <span>+91 98765 43210</span>
+            </div>
+            <div className="mt-5 flex gap-3">
               {socials.map(({ icon: Icon, href, label }) => (
                 <a
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="text-white/60 hover:text-white transition-colors"
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white transition-colors"
                 >
-                  <Icon size={20} />
+                  <Icon size={16} />
                 </a>
               ))}
             </div>
@@ -76,7 +92,7 @@ export function Footer() {
               <h3 className="text-sm font-semibold uppercase tracking-wider text-white/90">
                 {col.title}
               </h3>
-              <ul className="mt-4 space-y-3">
+              <ul className="mt-3 space-y-2.5">
                 {col.links.map((link) => (
                   <li key={link.href}>
                     <Link
@@ -92,8 +108,8 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-14 border-t border-white/10 pt-8 text-center text-sm text-white/50">
-          &copy; {new Date().getFullYear()} {APP_NAME}. All rights reserved.
+        <div className="mt-10 border-t border-white/10 pt-6 text-center text-sm text-white/50">
+          &copy; 2026 Spire Infotech. All rights reserved.
         </div>
       </div>
     </footer>

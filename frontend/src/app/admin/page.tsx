@@ -17,16 +17,23 @@ import {
 import {
   getAnalytics,
   getUsers,
+  getCourses,
   getPendingInstructorRequests,
   approveInstructor,
   rejectInstructor,
+  deleteCourse,
+  publishCourse,
+  unpublishCourse,
 } from "@/lib/api";
+import { Eye, Trash2, Globe, GlobeLock } from "lucide-react";
+import Link from "next/link";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { Badge } from "@/components/ui/Badge";
+import { cn } from "@/lib/utils";
 
 const sidebarLinks = [
   { label: "Overview", icon: LayoutDashboard },
   { label: "Users", icon: Users },
+  { label: "Courses", icon: BookOpen },
   { label: "Instructor Requests", icon: UserCheck },
 ];
 
@@ -44,6 +51,21 @@ interface User {
   role: string;
   avatarUrl: string | null;
   bio: string | null;
+}
+
+interface CourseItem {
+  id: number;
+  title: string;
+  slug: string;
+  level: string;
+  price: number;
+  isFree: boolean;
+  isPublished: boolean;
+  category: string;
+  enrolledCount: number;
+  lessonsCount: number;
+  rating: number;
+  instructor: { id: number; fullName: string; email: string } | null;
 }
 
 interface InstructorRequest {
@@ -73,11 +95,13 @@ export default function AdminPage() {
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
   const [users, setUsers] = useState<User[]>([]);
   const [requests, setRequests] = useState<InstructorRequest[]>([]);
+  const [courses, setCourses] = useState<CourseItem[]>([]);
 
   // Loading / error
   const [loadingAnalytics, setLoadingAnalytics] = useState(true);
   const [loadingUsers, setLoadingUsers] = useState(true);
   const [loadingRequests, setLoadingRequests] = useState(true);
+  const [loadingCourses, setLoadingCourses] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   // Action feedback
@@ -102,6 +126,15 @@ export default function AdminPage() {
       .finally(() => setLoadingUsers(false));
   }, []);
 
+  // Fetch courses
+  useEffect(() => {
+    setLoadingCourses(true);
+    getCourses()
+      .then((data) => setCourses((data ?? []) as CourseItem[]))
+      .catch((err) => setError(err.message))
+      .finally(() => setLoadingCourses(false));
+  }, []);
+
   // Fetch instructor requests
   const fetchRequests = () => {
     setLoadingRequests(true);
@@ -114,6 +147,32 @@ export default function AdminPage() {
   useEffect(() => {
     fetchRequests();
   }, []);
+
+  // Handle course actions
+  const handleDeleteCourse = async (courseId: number) => {
+    if (!confirm("Are you sure you want to delete this course? This cannot be undone.")) return;
+    try {
+      await deleteCourse(courseId);
+      setCourses((prev) => prev.filter((c) => c.id !== courseId));
+      setActionMsg({ type: "success", text: "Course deleted." });
+    } catch (err: unknown) {
+      setActionMsg({ type: "error", text: err instanceof Error ? err.message : "Failed to delete" });
+    }
+  };
+
+  const handleTogglePublish = async (courseId: number, isPublished: boolean) => {
+    try {
+      if (isPublished) {
+        await unpublishCourse(courseId);
+      } else {
+        await publishCourse(courseId);
+      }
+      setCourses((prev) => prev.map((c) => c.id === courseId ? { ...c, isPublished: !isPublished } : c));
+      setActionMsg({ type: "success", text: isPublished ? "Course unpublished." : "Course published." });
+    } catch (err: unknown) {
+      setActionMsg({ type: "error", text: err instanceof Error ? err.message : "Action failed" });
+    }
+  };
 
   // Handle approve / reject
   const handleAction = async (requestId: number, action: "approve" | "reject") => {
@@ -307,6 +366,82 @@ export default function AdminPage() {
                     </tbody>
                   </table>
                 </GlassCard>
+              )}
+            </>
+          )}
+
+          {/* ──────────── Courses Tab ──────────── */}
+          {activeTab === "Courses" && (
+            <>
+              <h1 className="text-2xl font-bold text-[#0E6B6B] mb-6">
+                Manage Courses
+              </h1>
+              {loadingCourses ? (
+                <Spinner />
+              ) : courses.length === 0 ? (
+                <GlassCard>
+                  <p className="text-center text-gray-400 py-8">No courses found.</p>
+                </GlassCard>
+              ) : (
+                <div className="space-y-4">
+                  {courses.map((course) => (
+                    <GlassCard key={course.id}>
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                        {/* Course info */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h3 className="font-semibold text-gray-900 truncate">{course.title}</h3>
+                            <span className={cn(
+                              "text-[10px] font-semibold px-2 py-0.5 rounded-full",
+                              course.isPublished ? "bg-teal-100 text-teal-700" : "bg-gray-100 text-gray-500"
+                            )}>
+                              {course.isPublished ? "Published" : "Draft"}
+                            </span>
+                            <span className={cn(
+                              "text-[10px] font-semibold px-2 py-0.5 rounded-full",
+                              course.level === "BEGINNER" && "bg-teal-50 text-teal-600",
+                              course.level === "INTERMEDIATE" && "bg-amber-50 text-amber-600",
+                              course.level === "ADVANCED" && "bg-red-50 text-red-600",
+                            )}>
+                              {course.level}
+                            </span>
+                          </div>
+                          <p className="text-sm text-gray-500">
+                            by {course.instructor?.fullName || "Unknown"} · {course.category || "Uncategorized"}
+                          </p>
+                          <div className="flex items-center gap-4 mt-2 text-xs text-gray-400">
+                            <span>{course.lessonsCount} lessons</span>
+                            <span>{course.enrolledCount} enrolled</span>
+                            <span>Rating: {course.rating}/5</span>
+                            <span className="font-medium text-gray-700">
+                              {course.isFree ? "Free" : `₹${course.price}`}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex items-center gap-2 shrink-0">
+                          <Link href={`/courses/${course.id}`}
+                            className="flex items-center gap-1 px-3 py-2 rounded-lg text-xs font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 transition">
+                            <Eye size={12} /> View
+                          </Link>
+                          <button onClick={() => handleTogglePublish(course.id, course.isPublished)}
+                            className={cn("flex items-center gap-1 px-3 py-2 rounded-lg text-xs font-medium transition",
+                              course.isPublished
+                                ? "text-amber-700 bg-amber-100 hover:bg-amber-200"
+                                : "text-teal-700 bg-teal-100 hover:bg-teal-200"
+                            )}>
+                            {course.isPublished ? <><GlobeLock size={12} /> Unpublish</> : <><Globe size={12} /> Publish</>}
+                          </button>
+                          <button onClick={() => handleDeleteCourse(course.id)}
+                            className="flex items-center gap-1 px-3 py-2 rounded-lg text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 transition">
+                            <Trash2 size={12} /> Delete
+                          </button>
+                        </div>
+                      </div>
+                    </GlassCard>
+                  ))}
+                </div>
               )}
             </>
           )}
