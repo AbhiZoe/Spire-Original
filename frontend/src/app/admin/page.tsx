@@ -17,7 +17,7 @@ import {
 import {
   getAnalytics,
   getUsers,
-  getCourses,
+  getAdminCourses,
   getPendingInstructorRequests,
   approveInstructor,
   rejectInstructor,
@@ -126,10 +126,14 @@ export default function AdminPage() {
       .finally(() => setLoadingUsers(false));
   }, []);
 
-  // Fetch courses
+  // Pagination
+  const [coursePage, setCoursePage] = useState(1);
+  const COURSES_PER_PAGE = 8;
+
+  // Fetch ALL courses (including unpublished) for admin
   useEffect(() => {
     setLoadingCourses(true);
-    getCourses()
+    getAdminCourses()
       .then((data) => setCourses((data ?? []) as CourseItem[]))
       .catch((err) => setError(err.message))
       .finally(() => setLoadingCourses(false));
@@ -373,9 +377,10 @@ export default function AdminPage() {
           {/* ──────────── Courses Tab ──────────── */}
           {activeTab === "Courses" && (
             <>
-              <h1 className="text-2xl font-bold text-[#0E6B6B] mb-6">
-                Manage Courses
-              </h1>
+              <div className="flex items-center justify-between mb-6">
+                <h1 className="text-2xl font-bold text-[#0E6B6B]">Manage Courses</h1>
+                <span className="text-sm text-gray-500">{courses.length} total courses</span>
+              </div>
               {loadingCourses ? (
                 <Spinner />
               ) : courses.length === 0 ? (
@@ -383,65 +388,85 @@ export default function AdminPage() {
                   <p className="text-center text-gray-400 py-8">No courses found.</p>
                 </GlassCard>
               ) : (
-                <div className="space-y-4">
-                  {courses.map((course) => (
-                    <GlassCard key={course.id}>
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                        {/* Course info */}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <h3 className="font-semibold text-gray-900 truncate">{course.title}</h3>
-                            <span className={cn(
-                              "text-[10px] font-semibold px-2 py-0.5 rounded-full",
-                              course.isPublished ? "bg-teal-100 text-teal-700" : "bg-gray-100 text-gray-500"
-                            )}>
-                              {course.isPublished ? "Published" : "Draft"}
-                            </span>
-                            <span className={cn(
-                              "text-[10px] font-semibold px-2 py-0.5 rounded-full",
-                              course.level === "BEGINNER" && "bg-teal-50 text-teal-600",
-                              course.level === "INTERMEDIATE" && "bg-amber-50 text-amber-600",
-                              course.level === "ADVANCED" && "bg-red-50 text-red-600",
-                            )}>
-                              {course.level}
-                            </span>
+                <>
+                  <div className="space-y-4">
+                    {courses
+                      .slice((coursePage - 1) * COURSES_PER_PAGE, coursePage * COURSES_PER_PAGE)
+                      .map((course) => (
+                      <GlassCard key={course.id}>
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1 flex-wrap">
+                              <h3 className="font-semibold text-gray-900 truncate">{course.title}</h3>
+                              <span className={cn("text-[10px] font-semibold px-2 py-0.5 rounded-full",
+                                course.isPublished ? "bg-teal-100 text-teal-700" : "bg-gray-100 text-gray-500"
+                              )}>
+                                {course.isPublished ? "Published" : "Draft"}
+                              </span>
+                              <span className={cn("text-[10px] font-semibold px-2 py-0.5 rounded-full",
+                                course.level === "BEGINNER" && "bg-teal-50 text-teal-600",
+                                course.level === "INTERMEDIATE" && "bg-amber-50 text-amber-600",
+                                course.level === "ADVANCED" && "bg-red-50 text-red-600",
+                              )}>
+                                {course.level}
+                              </span>
+                            </div>
+                            <p className="text-sm text-gray-500">
+                              by {course.instructor?.fullName || "Unknown"} · {course.category || "Uncategorized"}
+                            </p>
+                            <div className="flex items-center gap-4 mt-2 text-xs text-gray-400">
+                              <span>{course.lessonsCount} lessons</span>
+                              <span>{course.enrolledCount} enrolled</span>
+                              <span>Rating: {course.rating}/5</span>
+                              <span className="font-medium text-gray-700">
+                                {course.isFree ? "Free" : `₹${course.price}`}
+                              </span>
+                            </div>
                           </div>
-                          <p className="text-sm text-gray-500">
-                            by {course.instructor?.fullName || "Unknown"} · {course.category || "Uncategorized"}
-                          </p>
-                          <div className="flex items-center gap-4 mt-2 text-xs text-gray-400">
-                            <span>{course.lessonsCount} lessons</span>
-                            <span>{course.enrolledCount} enrolled</span>
-                            <span>Rating: {course.rating}/5</span>
-                            <span className="font-medium text-gray-700">
-                              {course.isFree ? "Free" : `₹${course.price}`}
-                            </span>
+                          <div className="flex items-center gap-2 shrink-0">
+                            <Link href={`/courses/${course.id}`}
+                              className="flex items-center gap-1 px-3 py-2 rounded-lg text-xs font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 transition">
+                              <Eye size={12} /> View
+                            </Link>
+                            <button onClick={() => handleTogglePublish(course.id, course.isPublished)}
+                              className={cn("flex items-center gap-1 px-3 py-2 rounded-lg text-xs font-medium transition",
+                                course.isPublished ? "text-amber-700 bg-amber-100 hover:bg-amber-200" : "text-teal-700 bg-teal-100 hover:bg-teal-200"
+                              )}>
+                              {course.isPublished ? <><GlobeLock size={12} /> Unpublish</> : <><Globe size={12} /> Publish</>}
+                            </button>
+                            <button onClick={() => handleDeleteCourse(course.id)}
+                              className="flex items-center gap-1 px-3 py-2 rounded-lg text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 transition">
+                              <Trash2 size={12} /> Delete
+                            </button>
                           </div>
                         </div>
+                      </GlassCard>
+                    ))}
+                  </div>
 
-                        {/* Actions */}
-                        <div className="flex items-center gap-2 shrink-0">
-                          <Link href={`/courses/${course.id}`}
-                            className="flex items-center gap-1 px-3 py-2 rounded-lg text-xs font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 transition">
-                            <Eye size={12} /> View
-                          </Link>
-                          <button onClick={() => handleTogglePublish(course.id, course.isPublished)}
-                            className={cn("flex items-center gap-1 px-3 py-2 rounded-lg text-xs font-medium transition",
-                              course.isPublished
-                                ? "text-amber-700 bg-amber-100 hover:bg-amber-200"
-                                : "text-teal-700 bg-teal-100 hover:bg-teal-200"
-                            )}>
-                            {course.isPublished ? <><GlobeLock size={12} /> Unpublish</> : <><Globe size={12} /> Publish</>}
-                          </button>
-                          <button onClick={() => handleDeleteCourse(course.id)}
-                            className="flex items-center gap-1 px-3 py-2 rounded-lg text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 transition">
-                            <Trash2 size={12} /> Delete
-                          </button>
-                        </div>
-                      </div>
-                    </GlassCard>
-                  ))}
-                </div>
+                  {/* Pagination */}
+                  {courses.length > COURSES_PER_PAGE && (
+                    <div className="flex items-center justify-center gap-2 mt-8">
+                      <button onClick={() => setCoursePage((p) => Math.max(1, p - 1))} disabled={coursePage === 1}
+                        className="px-4 py-2 rounded-lg text-sm font-medium border border-gray-200 hover:bg-gray-50 disabled:opacity-40 transition">
+                        Previous
+                      </button>
+                      {Array.from({ length: Math.ceil(courses.length / COURSES_PER_PAGE) }, (_, i) => (
+                        <button key={i + 1} onClick={() => setCoursePage(i + 1)}
+                          className={cn("w-9 h-9 rounded-lg text-sm font-medium transition",
+                            coursePage === i + 1 ? "bg-[#0E6B6B] text-white" : "border border-gray-200 hover:bg-gray-50"
+                          )}>
+                          {i + 1}
+                        </button>
+                      ))}
+                      <button onClick={() => setCoursePage((p) => Math.min(Math.ceil(courses.length / COURSES_PER_PAGE), p + 1))}
+                        disabled={coursePage >= Math.ceil(courses.length / COURSES_PER_PAGE)}
+                        className="px-4 py-2 rounded-lg text-sm font-medium border border-gray-200 hover:bg-gray-50 disabled:opacity-40 transition">
+                        Next
+                      </button>
+                    </div>
+                  )}
+                </>
               )}
             </>
           )}

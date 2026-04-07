@@ -29,6 +29,12 @@ public class CourseService {
                 .collect(Collectors.toList());
     }
 
+    public List<CourseDTO> getAllCoursesAdmin() {
+        return courseRepository.findAll().stream()
+                .map(CourseDTO::from)
+                .collect(Collectors.toList());
+    }
+
     public CourseDTO getCourseById(Long id) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course", "id", id));

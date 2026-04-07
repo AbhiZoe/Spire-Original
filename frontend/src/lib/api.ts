@@ -174,6 +174,11 @@ export async function getEnrollments() {
   return wrapper.data;
 }
 
+export async function getAdminCourses() {
+  const wrapper = await apiFetch<ApiResponse<unknown[]>>("/api/admin/courses");
+  return wrapper.data;
+}
+
 // ─── Subscriptions ──────────────────────────────────────────────────
 
 export async function createOrder(plan: string) {

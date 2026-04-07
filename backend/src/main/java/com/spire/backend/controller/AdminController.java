@@ -1,9 +1,11 @@
 package com.spire.backend.controller;
 
 import com.spire.backend.dto.ApiResponse;
+import com.spire.backend.dto.CourseDTO;
 import com.spire.backend.dto.InstructorRequestDTO;
 import com.spire.backend.dto.UserDTO;
 import com.spire.backend.service.AdminService;
+import com.spire.backend.service.CourseService;
 import com.spire.backend.service.InstructorRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import java.util.Map;
 public class AdminController {
 
     private final AdminService adminService;
+    private final CourseService courseService;
     private final InstructorRequestService instructorRequestService;
 
     @GetMapping("/analytics")
@@ -41,6 +44,13 @@ public class AdminController {
         }
         UserDTO user = adminService.updateUserRole(id, role);
         return ResponseEntity.ok(ApiResponse.success("Role updated", user));
+    }
+
+    // ─── All Courses (including unpublished) ─────────────────────────
+
+    @GetMapping("/courses")
+    public ResponseEntity<ApiResponse<List<CourseDTO>>> getAllCourses() {
+        return ResponseEntity.ok(ApiResponse.success(courseService.getAllCoursesAdmin()));
     }
 
     // ─── Instructor Approval System ─────────────────────────────────
