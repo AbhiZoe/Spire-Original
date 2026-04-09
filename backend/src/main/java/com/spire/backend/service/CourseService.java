@@ -43,7 +43,7 @@ public class CourseService {
 
     public List<CourseDTO> getCoursesByLevel(String level) {
         Course.Level courseLevel = Course.Level.valueOf(level.toUpperCase());
-        return courseRepository.findByLevel(courseLevel).stream()
+        return courseRepository.findByLevelAndIsPublished(courseLevel, true).stream()
                 .map(CourseDTO::from)
                 .collect(Collectors.toList());
     }

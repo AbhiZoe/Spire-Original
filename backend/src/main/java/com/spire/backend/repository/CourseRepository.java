@@ -15,11 +15,13 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     List<Course> findByLevel(Course.Level level);
 
+    List<Course> findByLevelAndIsPublished(Course.Level level, Boolean isPublished);
+
     List<Course> findByIsPublished(Boolean isPublished);
 
     Optional<Course> findBySlug(String slug);
 
-    @Query("SELECT c FROM Course c WHERE LOWER(c.title) LIKE LOWER(CONCAT('%', :query, '%')) OR LOWER(c.description) LIKE LOWER(CONCAT('%', :query, '%'))")
+    @Query("SELECT c FROM Course c WHERE c.isPublished = true AND (LOWER(c.title) LIKE LOWER(CONCAT('%', :query, '%')) OR LOWER(c.description) LIKE LOWER(CONCAT('%', :query, '%')))")
     List<Course> searchByTitle(@Param("query") String query);
 
     List<Course> findByCategory(String category);
