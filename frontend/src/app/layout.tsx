@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { ShellWrapper } from "@/components/layout/ShellWrapper";
 import { AuthProvider } from "@/lib/auth-context";
+import { ToastProvider } from "@/components/ui/Toast";
 import "./globals.css";
 
 const inter = Inter({
@@ -32,7 +33,9 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-[#F0EDE8] text-[#0F172A] font-sans">
         <AuthProvider>
-          <ShellWrapper>{children}</ShellWrapper>
+          <ToastProvider>
+            <ShellWrapper>{children}</ShellWrapper>
+          </ToastProvider>
         </AuthProvider>
       </body>
     </html>

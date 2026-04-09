@@ -24,7 +24,9 @@
       "Read(//a/frontend/src/components/courses/**)",
       "Read(//a/frontend/src/lib/**)",
       "Read(//a/frontend/src/app/courses/[id]/**)",
-      "Read(//a/Websites/**)"
+      "Read(//a/Websites/**)",
+      "Bash(sed -i 's/alert\\(err instanceof Error ? err.message : \"Failed to add lesson\"\\);/toast\\(\"error\", err instanceof Error ? err.message : \"Failed to add lesson\"\\);/' page.tsx)",
+      "Bash(sed -i 's/alert\\(err instanceof Error ? err.message : \"Failed to delete\"\\);/toast\\(\"error\", err instanceof Error ? err.message : \"Failed to delete\"\\);/' page.tsx)"
     ]
   }
 }

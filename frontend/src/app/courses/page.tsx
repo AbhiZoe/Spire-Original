@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useToast } from "@/components/ui/Toast";
 import { Search, Clock, Loader2, ShoppingCart } from "lucide-react";
 import { getCourses, addToCart, enroll } from "@/lib/api";
 import { LEVELS } from "@/lib/constants";
@@ -30,6 +31,7 @@ interface CourseItem {
 }
 
 export default function CoursesPage() {
+  const { toast } = useToast();
   const [selectedLevel, setSelectedLevel] = useState<string>("All");
   const [search, setSearch] = useState("");
   const [courses, setCourses] = useState<CourseItem[]>([]);
@@ -185,7 +187,7 @@ export default function CoursesPage() {
                       {course.isFree ? (
                         <button
                           onClick={async () => {
-                            try { await enroll(course.id); alert("Enrolled successfully!"); } catch (err) { alert(err instanceof Error ? err.message : "Failed to enroll"); }
+                            try { await enroll(course.id); toast("success", "Enrolled successfully!"); } catch (err) { toast("error", err instanceof Error ? err.message : "Failed to enroll"); }
                           }}
                           className="text-xs font-semibold px-3 py-1.5 rounded-full bg-[#0E6B6B] text-white hover:bg-[#5FA3A3] transition-colors cursor-pointer"
                         >
@@ -194,7 +196,7 @@ export default function CoursesPage() {
                       ) : (
                         <button
                           onClick={async () => {
-                            try { await addToCart(course.id); alert("Added to cart!"); } catch (err) { alert(err instanceof Error ? err.message : "Failed to add to cart"); }
+                            try { await addToCart(course.id); toast("cart", "Course added to cart!"); } catch (err) { toast("error", err instanceof Error ? err.message : "Failed to add"); }
                           }}
                           className="text-xs font-semibold px-3 py-1.5 rounded-full bg-[#0E6B6B] text-white hover:bg-[#5FA3A3] transition-colors cursor-pointer inline-flex items-center gap-1"
                         >

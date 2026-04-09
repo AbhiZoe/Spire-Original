@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useToast } from "@/components/ui/Toast";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -35,6 +36,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
   const { id } = params;
   const router = useRouter();
   const { user, isAuthenticated } = useAuth();
+  const { toast } = useToast();
 
   const [course, setCourse] = useState<CourseData | null>(null);
   const [lessons, setLessons] = useState<LessonData[]>([]);
@@ -121,7 +123,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
       const lessonData = await getCourseLessons(id);
       setLessons((lessonData || []) as LessonData[]);
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Failed to add lesson");
+      toast("error", err instanceof Error ? err.message : "Failed to add lesson");
     } finally { setAddingLesson(false); }
   };
 
@@ -131,7 +133,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
       await deleteLesson(lessonId);
       setLessons((prev) => prev.filter((l) => l.id !== lessonId));
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Failed to delete");
+      toast("error", err instanceof Error ? err.message : "Failed to delete");
     }
   };
 

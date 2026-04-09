@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useToast } from "@/components/ui/Toast";
 import {
   BookOpen, ArrowRight, ShieldCheck, GraduationCap, PlusCircle,
   Users, BarChart3, Loader2, AlertCircle, Trash2, Eye, Globe, GlobeLock,
@@ -38,6 +39,7 @@ interface AnalyticsData {
 
 export default function DashboardPage() {
   const { user, isLoading: authLoading } = useAuth();
+  const { toast } = useToast();
   const [enrollments, setEnrollments] = useState<unknown[]>([]);
   const [enrollLoading, setEnrollLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -103,7 +105,7 @@ export default function DashboardPage() {
     try {
       await deleteCourse(courseId);
       setMyCourses((prev) => prev.filter((c) => c.id !== courseId));
-    } catch (err) { alert(err instanceof Error ? err.message : "Failed"); }
+    } catch (err) { toast("error", err instanceof Error ? err.message : "Failed"); }
   };
 
   const handleTogglePublish = async (courseId: number, isPublished: boolean) => {
@@ -111,7 +113,7 @@ export default function DashboardPage() {
       if (isPublished) await unpublishCourse(courseId);
       else await publishCourse(courseId);
       setMyCourses((prev) => prev.map((c) => c.id === courseId ? { ...c, isPublished: !isPublished } : c));
-    } catch (err) { alert(err instanceof Error ? err.message : "Failed"); }
+    } catch (err) { toast("error", err instanceof Error ? err.message : "Failed"); }
   };
 
   if (authLoading) {
