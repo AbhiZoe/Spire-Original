@@ -384,3 +384,30 @@ export async function getLessonTasks(lessonId: number) {
 export async function completeTask(taskId: number) {
   return apiFetch<ApiResponse<unknown>>(`/api/tasks/${taskId}/complete`, { method: "POST" });
 }
+
+// ─── Cart ──────────────────────────────────────────────────────────
+
+export async function addToCart(courseId: number) {
+  const wrapper = await apiFetch<ApiResponse<unknown>>(`/api/cart/${courseId}`, { method: "POST" });
+  return wrapper.data;
+}
+
+export async function getCart() {
+  const wrapper = await apiFetch<ApiResponse<unknown[]>>("/api/cart");
+  return wrapper.data;
+}
+
+export async function removeFromCart(courseId: number) {
+  const wrapper = await apiFetch<ApiResponse<unknown>>(`/api/cart/${courseId}`, { method: "DELETE" });
+  return wrapper.data;
+}
+
+export async function clearCart() {
+  const wrapper = await apiFetch<ApiResponse<unknown>>("/api/cart", { method: "DELETE" });
+  return wrapper.data;
+}
+
+export async function checkoutCart() {
+  const wrapper = await apiFetch<ApiResponse<unknown>>("/api/cart/checkout", { method: "POST" });
+  return wrapper.data;
+}

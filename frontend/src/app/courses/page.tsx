@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Search, Clock, Loader2 } from "lucide-react";
-import { getCourses } from "@/lib/api";
+import { Search, Clock, Loader2, ShoppingCart } from "lucide-react";
+import { getCourses, addToCart, enroll } from "@/lib/api";
 import { LEVELS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -180,6 +180,28 @@ export default function CoursesPage() {
                     {!course.isFree && (
                       <p className="mt-2 text-sm font-semibold text-gray-900">₹{course.price}</p>
                     )}
+
+                    <div className="mt-3" onClick={(e) => e.preventDefault()}>
+                      {course.isFree ? (
+                        <button
+                          onClick={async () => {
+                            try { await enroll(course.id); alert("Enrolled successfully!"); } catch (err) { alert(err instanceof Error ? err.message : "Failed to enroll"); }
+                          }}
+                          className="text-xs font-semibold px-3 py-1.5 rounded-full bg-[#0E6B6B] text-white hover:bg-[#5FA3A3] transition-colors cursor-pointer"
+                        >
+                          Enroll Free
+                        </button>
+                      ) : (
+                        <button
+                          onClick={async () => {
+                            try { await addToCart(course.id); alert("Added to cart!"); } catch (err) { alert(err instanceof Error ? err.message : "Failed to add to cart"); }
+                          }}
+                          className="text-xs font-semibold px-3 py-1.5 rounded-full bg-[#0E6B6B] text-white hover:bg-[#5FA3A3] transition-colors cursor-pointer inline-flex items-center gap-1"
+                        >
+                          <ShoppingCart size={12} /> Add to Cart
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </Link>

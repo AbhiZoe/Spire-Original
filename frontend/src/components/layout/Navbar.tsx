@@ -20,6 +20,7 @@ const PUBLIC_LINKS = [
 const AUTH_LINKS = [
   { label: "Dashboard", href: "/dashboard" },
   { label: "Courses", href: "/courses" },
+  { label: "Cart", href: "/cart" },
 ];
 
 export function Navbar() {
