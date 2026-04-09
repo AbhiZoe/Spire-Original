@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   Users,
@@ -88,8 +89,10 @@ function roleBadgeColor(role: string) {
   }
 }
 
-export default function AdminPage() {
-  const [activeTab, setActiveTab] = useState("Overview");
+function AdminContent() {
+  const searchParams = useSearchParams();
+  const initialTab = searchParams.get("tab") || "Overview";
+  const [activeTab, setActiveTab] = useState(initialTab);
 
   // Data states
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
@@ -550,5 +553,13 @@ export default function AdminPage() {
         </motion.div>
       </main>
     </div>
+  );
+}
+
+export default function AdminPage() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen pt-24"><Loader2 className="animate-spin text-[#0E6B6B]" size={32} /></div>}>
+      <AdminContent />
+    </Suspense>
   );
 }

@@ -152,12 +152,12 @@ export default function DashboardPage() {
                 {/* Stats cards */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                   {[
-                    { label: "Total Users", value: analytics.totalUsers, icon: Users, color: "from-teal-500 to-teal-600", percent: 100 },
-                    { label: "Total Courses", value: analytics.totalCourses, icon: BookOpen, color: "from-violet-500 to-violet-600", percent: Math.round((analytics.totalCourses / Math.max(analytics.totalUsers, 1)) * 100) },
-                    { label: "Enrollments", value: analytics.totalEnrollments, icon: CreditCard, color: "from-cyan-500 to-cyan-600", percent: Math.round((analytics.totalEnrollments / Math.max(analytics.totalUsers, 1)) * 100) },
-                    { label: "Subscriptions", value: analytics.totalSubscriptions, icon: UserCheck, color: "from-amber-500 to-amber-600", percent: Math.round((analytics.totalSubscriptions / Math.max(analytics.totalUsers, 1)) * 100) },
+                    { label: "Total Users", value: analytics.totalUsers, icon: Users, color: "from-teal-500 to-teal-600", percent: 100, href: "/admin?tab=Users" },
+                    { label: "Total Courses", value: analytics.totalCourses, icon: BookOpen, color: "from-violet-500 to-violet-600", percent: Math.round((analytics.totalCourses / Math.max(analytics.totalUsers, 1)) * 100), href: "/admin?tab=Courses" },
+                    { label: "Enrollments", value: analytics.totalEnrollments, icon: CreditCard, color: "from-cyan-500 to-cyan-600", percent: Math.round((analytics.totalEnrollments / Math.max(analytics.totalUsers, 1)) * 100), href: "/admin?tab=Overview" },
+                    { label: "Subscriptions", value: analytics.totalSubscriptions, icon: UserCheck, color: "from-amber-500 to-amber-600", percent: Math.round((analytics.totalSubscriptions / Math.max(analytics.totalUsers, 1)) * 100), href: "/admin?tab=Overview" },
                   ].map((stat) => (
-                    <div key={stat.label} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+                    <Link key={stat.label} href={stat.href} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:shadow-md hover:border-gray-200 transition-all cursor-pointer block">
                       <div className="flex items-center justify-between mb-3">
                         <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center`}>
                           <stat.icon size={18} className="text-white" />
@@ -178,7 +178,7 @@ export default function DashboardPage() {
                           className={`h-full rounded-full bg-gradient-to-r ${stat.color}`}
                         />
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
 
