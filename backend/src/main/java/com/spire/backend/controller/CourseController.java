@@ -87,7 +87,7 @@ public class CourseController {
     // ─── Create course (ADMIN or approved INSTRUCTOR) ───────────────
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN') or hasRole('INSTRUCTOR')")
+    @PreAuthorize("hasRole('INSTRUCTOR')")
     public ResponseEntity<ApiResponse<CourseDTO>> createCourse(
             @Valid @RequestBody CourseRequest dto, Authentication authentication) {
         Long userId = Long.parseLong(authentication.getPrincipal().toString());

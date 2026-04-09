@@ -74,7 +74,7 @@ export default function CreateCoursePage() {
   }
 
   const role = user?.role?.toUpperCase();
-  if (role !== "INSTRUCTOR" && role !== "ADMIN") {
+  if (role !== "INSTRUCTOR") {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen pt-24 px-6">
         <AlertCircle size={48} className="text-red-400 mb-4" />
