@@ -12,7 +12,6 @@ import { useAuth } from "@/lib/auth-context";
 // Links shown when NOT logged in
 const PUBLIC_LINKS = [
   { label: "Courses", href: "/courses" },
-  { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
   { label: "Support", href: "/support" },
 ];

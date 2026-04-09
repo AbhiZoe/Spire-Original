@@ -84,33 +84,6 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Stats bar */}
-      <motion.div
-        custom={4}
-        variants={fadeUp}
-        initial="hidden"
-        animate="visible"
-        className="relative mx-auto max-w-5xl px-6 pb-16"
-      >
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 bg-white rounded-2xl shadow-lg border border-[#E3DED7] p-6 md:p-8">
-          {[
-            { value: "10,000+", label: "Students" },
-            { value: "200+", label: "Courses" },
-            { value: "50+", label: "Instructors" },
-            { value: "95%", label: "Completion" },
-          ].map((stat) => (
-            <div key={stat.label} className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-[#0E6B6B]">
-                {stat.value}
-              </div>
-              <div className="mt-1 text-sm text-gray-500 font-medium">
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-
       {/* Bottom wave */}
       <div className="absolute bottom-0 left-0 w-full pointer-events-none">
         <svg
