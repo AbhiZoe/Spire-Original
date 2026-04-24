@@ -58,17 +58,6 @@ export interface Enrollment {
   status: "active" | "completed" | "dropped";
 }
 
-export interface Subscription {
-  id: string;
-  user_id: string;
-  plan: SubscriptionPlan;
-  status: SubscriptionStatus;
-  current_period_start: string;
-  current_period_end: string;
-  created_at: string;
-  updated_at: string;
-}
-
 export interface Progress {
   id: string;
   user_id: string;
@@ -83,7 +72,6 @@ export interface Progress {
 export interface Payment {
   id: string;
   user_id: string;
-  subscription_id: string | null;
   course_id: string | null;
   amount: number;
   currency: string;
@@ -129,15 +117,6 @@ export interface PricingTier {
 }
 
 export type CourseLevel = "Beginner" | "Intermediate" | "Advanced";
-
-export type SubscriptionPlan = "free" | "pro" | "enterprise";
-
-export type SubscriptionStatus =
-  | "active"
-  | "cancelled"
-  | "past_due"
-  | "trialing"
-  | "expired";
 
 export type AchievementLevel = "Rookie" | "Developer" | "Expert" | "Master";
 

@@ -3,7 +3,6 @@ export const APP_NAME = "Spire";
 export const NAV_LINKS = [
   { label: "Courses", href: "/courses" },
   { label: "Categories", href: "/categories" },
-  { label: "Pricing", href: "/pricing" },
   { label: "About", href: "/about" },
   { label: "Support", href: "/support" },
 ] as const;

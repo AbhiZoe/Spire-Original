@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import type { CourseLevel, SubscriptionPlan } from "@/lib/types";
+import type { CourseLevel } from "@/lib/types";
 
 const levelColors: Record<CourseLevel, string> = {
   Beginner: "bg-teal-100 text-teal-800",
@@ -8,15 +8,8 @@ const levelColors: Record<CourseLevel, string> = {
   Advanced: "bg-red-100 text-red-800",
 };
 
-const planColors: Record<SubscriptionPlan, string> = {
-  free: "bg-gray-100 text-gray-700",
-  pro: "bg-violet-100 text-violet-800",
-  enterprise: "bg-blue-100 text-blue-800",
-};
-
 type BadgeProps =
   | { variant: "level"; level: CourseLevel; className?: string; children?: React.ReactNode }
-  | { variant: "plan"; plan: SubscriptionPlan; className?: string; children?: React.ReactNode }
   | { variant: "achievement"; className?: string; children?: React.ReactNode };
 
 export function Badge(props: BadgeProps) {
@@ -27,15 +20,6 @@ export function Badge(props: BadgeProps) {
     return (
       <span className={cn(base, levelColors[props.level], props.className)}>
         {props.children ?? props.level}
-      </span>
-    );
-  }
-
-  if (props.variant === "plan") {
-    const label = props.plan.charAt(0).toUpperCase() + props.plan.slice(1);
-    return (
-      <span className={cn(base, planColors[props.plan], props.className)}>
-        {props.children ?? label}
       </span>
     );
   }
