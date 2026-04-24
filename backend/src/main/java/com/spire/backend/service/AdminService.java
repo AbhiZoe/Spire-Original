@@ -21,14 +21,12 @@ public class AdminService {
     private final RoleRepository roleRepository;
     private final CourseRepository courseRepository;
     private final EnrollmentRepository enrollmentRepository;
-    private final SubscriptionRepository subscriptionRepository;
 
     public Map<String, Object> getAnalytics() {
         return Map.of(
                 "totalUsers", userRepository.count(),
                 "totalCourses", courseRepository.count(),
-                "totalEnrollments", enrollmentRepository.count(),
-                "totalSubscriptions", subscriptionRepository.count()
+                "totalEnrollments", enrollmentRepository.count()
         );
     }
 
