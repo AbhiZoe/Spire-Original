@@ -18,7 +18,7 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "Spire — Advance Your Career with Structured Learning",
   description:
-    "Spire is a course subscription platform offering expert-led, structured learning paths to help you advance your career in tech, design, and data science.",
+    "Learn at your own pace with courses in tech, design, and data science. Every course pairs you with a dedicated mentor who answers questions along the way.",
 };
 
 export default function RootLayout({

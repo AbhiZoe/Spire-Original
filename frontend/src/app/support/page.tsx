@@ -4,17 +4,15 @@ import { motion } from "framer-motion";
 import { Mail, MessageSquare, FileText, HelpCircle } from "lucide-react";
 
 const supportOptions = [
-  { icon: HelpCircle, title: "FAQ", description: "Find answers to commonly asked questions about courses, subscriptions, and more.", href: "#faq" },
+  { icon: HelpCircle, title: "FAQ", description: "Find answers to commonly asked questions about courses, mentors, and payments.", href: "#faq" },
   { icon: MessageSquare, title: "Live Chat", description: "Chat with our support team in real-time. Available Mon-Fri, 9 AM - 6 PM IST.", href: "#chat" },
   { icon: Mail, title: "Email Support", description: "Send us an email at support@spire-learn.in and we'll respond within 24 hours.", href: "mailto:support@spire-learn.in" },
   { icon: FileText, title: "Documentation", description: "Browse our detailed guides and tutorials on using the Spire platform.", href: "#docs" },
 ];
 
 const faqs = [
-  { q: "How do I subscribe to Pro?", a: "Click 'Get Started' and choose the Pro plan. Complete the payment via Razorpay (UPI, Card, or NetBanking)." },
-  { q: "Can I cancel my subscription?", a: "Yes, you can cancel anytime from your Dashboard. You'll retain access until the end of your billing period." },
   { q: "How does DRM video protection work?", a: "Our videos use Widevine/FairPlay encryption. Screen recording and screenshots are blocked to protect content." },
-  { q: "Do I get a certificate?", a: "Yes! Pro and Enterprise subscribers receive downloadable certificates upon completing a course." },
+  { q: "Do I get a certificate?", a: "Yes — complete all lessons, pass each quiz (60% or higher, with multiple attempts allowed), and submit the final assignment. Your certificate becomes available for download once all three are complete." },
   { q: "What payment methods are accepted?", a: "We accept UPI, Credit/Debit Cards, NetBanking, and popular wallets through Razorpay." },
 ];
 
