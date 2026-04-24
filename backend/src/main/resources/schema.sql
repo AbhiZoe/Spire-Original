@@ -61,16 +61,6 @@ CREATE TABLE enrollments (
     UNIQUE(user_id, course_id)
 );
 
-CREATE TABLE subscriptions (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-    plan VARCHAR(20) CHECK (plan IN ('FREE', 'PRO', 'ENTERPRISE')),
-    status VARCHAR(20) DEFAULT 'ACTIVE' CHECK (status IN ('ACTIVE', 'EXPIRED', 'CANCELLED')),
-    payment_id VARCHAR(100),
-    expires_at TIMESTAMP,
-    created_at TIMESTAMP DEFAULT now()
-);
-
 CREATE TABLE progress (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
@@ -111,7 +101,6 @@ CREATE INDEX idx_courses_category ON courses(category);
 CREATE INDEX idx_lessons_course_id ON lessons(course_id);
 CREATE INDEX idx_enrollments_user_id ON enrollments(user_id);
 CREATE INDEX idx_enrollments_course_id ON enrollments(course_id);
-CREATE INDEX idx_subscriptions_user_id ON subscriptions(user_id);
 CREATE INDEX idx_progress_user_id ON progress(user_id);
 CREATE INDEX idx_progress_course_id ON progress(course_id);
 CREATE INDEX idx_progress_lesson_id ON progress(lesson_id);

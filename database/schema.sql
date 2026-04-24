@@ -115,26 +115,6 @@ CREATE INDEX idx_enrollments_user_id   ON enrollments(user_id);
 CREATE INDEX idx_enrollments_course_id ON enrollments(course_id);
 
 -- ============================================================
--- 6. SUBSCRIPTIONS (plan-based access)
--- ============================================================
-
-CREATE TABLE subscriptions (
-    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id     BIGINT       NOT NULL,
-    plan        ENUM('FREE','PRO','ENTERPRISE') NOT NULL DEFAULT 'FREE',
-    status      ENUM('ACTIVE','EXPIRED','CANCELLED') NOT NULL DEFAULT 'ACTIVE',
-    payment_id  VARCHAR(100) DEFAULT NULL,
-    starts_at   TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
-    expires_at  TIMESTAMP    NULL,
-    created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT fk_subscriptions_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-) ENGINE=InnoDB;
-
-CREATE INDEX idx_subscriptions_user_id ON subscriptions(user_id);
-CREATE INDEX idx_subscriptions_status  ON subscriptions(status);
-
--- ============================================================
 -- 7. PAYMENTS (Razorpay transactions)
 -- ============================================================
 
