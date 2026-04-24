@@ -105,17 +105,6 @@ export interface NavLink {
   href: string;
 }
 
-export interface PricingTier {
-  name: string;
-  price: number;
-  currency: string;
-  interval: "month" | "year";
-  description: string;
-  features: string[];
-  cta: string;
-  highlighted: boolean;
-}
-
 export type CourseLevel = "Beginner" | "Intermediate" | "Advanced";
 
 export type AchievementLevel = "Rookie" | "Developer" | "Expert" | "Master";
