@@ -27,7 +27,7 @@ export default function AboutPage() {
           transition={{ delay: 0.1 }}
           className="text-lg text-gray-600 mb-16 max-w-3xl leading-relaxed"
         >
-          Spire is a subscription-driven learning platform designed to feel focused, motivating, and premium.
+          Spire is a self-paced learning platform designed to feel focused, motivating, and premium.
           We combine structured course delivery, Netflix-grade DRM video protection, progress tracking,
           and gamification to help you advance your career in tech.
         </motion.p>

@@ -42,7 +42,6 @@ interface Analytics {
   totalUsers: number;
   totalCourses: number;
   totalEnrollments: number;
-  totalSubscriptions: number;
 }
 
 interface User {
@@ -207,7 +206,6 @@ function AdminContent() {
         { label: "Total Users", value: analytics.totalUsers.toLocaleString(), icon: Users },
         { label: "Total Courses", value: analytics.totalCourses.toLocaleString(), icon: BookOpen },
         { label: "Enrollments", value: analytics.totalEnrollments.toLocaleString(), icon: CreditCard },
-        { label: "Subscriptions", value: analytics.totalSubscriptions.toLocaleString(), icon: UserCheck },
       ]
     : [];
 

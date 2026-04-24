@@ -7,7 +7,7 @@ import { useToast } from "@/components/ui/Toast";
 import {
   BookOpen, ArrowRight, ShieldCheck, GraduationCap, PlusCircle,
   Users, BarChart3, Loader2, AlertCircle, Trash2, Eye, Globe, GlobeLock,
-  TrendingUp, UserCheck, CreditCard,
+  TrendingUp, CreditCard,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import { getEnrollments, requestInstructor, getMyCourses, getInstructorStudents, getAnalytics, deleteCourse, publishCourse, unpublishCourse } from "@/lib/api";
@@ -34,7 +34,7 @@ interface InstructorCourse {
 }
 
 interface AnalyticsData {
-  totalUsers: number; totalCourses: number; totalEnrollments: number; totalSubscriptions: number;
+  totalUsers: number; totalCourses: number; totalEnrollments: number;
 }
 
 export default function DashboardPage() {
@@ -157,7 +157,6 @@ export default function DashboardPage() {
                     { label: "Total Users", value: analytics.totalUsers, icon: Users, color: "from-teal-500 to-teal-600", percent: 100, href: "/admin?tab=Users" },
                     { label: "Total Courses", value: analytics.totalCourses, icon: BookOpen, color: "from-violet-500 to-violet-600", percent: Math.round((analytics.totalCourses / Math.max(analytics.totalUsers, 1)) * 100), href: "/admin?tab=Courses" },
                     { label: "Enrollments", value: analytics.totalEnrollments, icon: CreditCard, color: "from-cyan-500 to-cyan-600", percent: Math.round((analytics.totalEnrollments / Math.max(analytics.totalUsers, 1)) * 100), href: "/admin?tab=Overview" },
-                    { label: "Subscriptions", value: analytics.totalSubscriptions, icon: UserCheck, color: "from-amber-500 to-amber-600", percent: Math.round((analytics.totalSubscriptions / Math.max(analytics.totalUsers, 1)) * 100), href: "/admin?tab=Overview" },
                   ].map((stat) => (
                     <Link key={stat.label} href={stat.href} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:shadow-md hover:border-gray-200 transition-all cursor-pointer block">
                       <div className="flex items-center justify-between mb-3">

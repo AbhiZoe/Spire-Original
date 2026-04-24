@@ -1,6 +1,6 @@
-# Spire Infotech — Course Subscription Platform
+# Spire — Course Platform with Mentorship
 
-A subscription-based learning platform with course content delivery, video lessons, progress tracking, gamification, and admin dashboard.
+A self-paced course platform. Each course includes video lessons, weekly assignments, quizzes, a dedicated mentor, and a certificate on completion.
 
 ## Tech Stack
 
