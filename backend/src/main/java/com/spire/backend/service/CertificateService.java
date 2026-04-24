@@ -59,7 +59,7 @@ public class CertificateService {
                     String.format("Complete all lessons first (%d/%d done)", completedLessons, lessons.size()));
         }
 
-        // 4. Verify all quizzes passed (≥50%)
+        // 4. Verify all quizzes passed (≥60%)
         for (Lesson lesson : lessons) {
             if (quizRepository.existsByLessonId(lesson.getId())) {
                 Quiz quiz = quizRepository.findByLessonId(lesson.getId()).get();
@@ -67,8 +67,8 @@ public class CertificateService {
                 if (attempt.isEmpty()) {
                     throw new IllegalArgumentException("Complete the quiz for lesson: " + lesson.getTitle());
                 }
-                if (attempt.get().getPercentage() < 50) {
-                    throw new IllegalArgumentException("Pass the quiz for lesson: " + lesson.getTitle() + " (minimum 50%)");
+                if (attempt.get().getPercentage() < 60) {
+                    throw new IllegalArgumentException("Pass the quiz for lesson: " + lesson.getTitle() + " (minimum 60%)");
                 }
             }
         }
