@@ -24,6 +24,7 @@ public class EnrollmentService {
     private final EnrollmentRepository enrollmentRepository;
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
+    private final MentorAssignmentService mentorAssignmentService;
 
     @Transactional
     public void enrollUser(Long userId, Long courseId) {
@@ -41,10 +42,15 @@ public class EnrollmentService {
                 .course(course)
                 .build();
 
-        enrollmentRepository.save(enrollment);
+        Enrollment savedEnrollment = enrollmentRepository.save(enrollment);
 
         course.setEnrolledCount(course.getEnrolledCount() + 1);
         courseRepository.save(course);
+
+        // Auto-assign a mentor from the course's pool. If no mentor has
+        // capacity, this still creates an assignment row — with mentor=null
+        // and status=PENDING_ASSIGNMENT — so admin can fix the pool later.
+        mentorAssignmentService.assignMentor(savedEnrollment);
     }
 
     public List<CourseDTO> getUserEnrollments(Long userId) {

@@ -159,7 +159,7 @@ CREATE INDEX idx_course_mentors_user_id   ON course_mentors(user_id);
 CREATE TABLE mentor_assignments (
     id            BIGINT AUTO_INCREMENT PRIMARY KEY,
     enrollment_id BIGINT       NOT NULL UNIQUE,
-    mentor_id     BIGINT       NOT NULL,
+    mentor_id     BIGINT       DEFAULT NULL,  -- PENDING_ASSIGNMENT rows have no mentor yet
     assigned_at   TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
     status        VARCHAR(20)  NOT NULL DEFAULT 'ACTIVE',
 

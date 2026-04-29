@@ -23,8 +23,10 @@ public class MentorAssignment {
     @JoinColumn(name = "enrollment_id", nullable = false, unique = true)
     private Enrollment enrollment;
 
+    // Nullable: when no mentor has capacity at enrollment time, the
+    // assignment is created with mentor=null and status=PENDING_ASSIGNMENT.
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mentor_id", nullable = false)
+    @JoinColumn(name = "mentor_id")
     private User mentor;
 
     @CreationTimestamp

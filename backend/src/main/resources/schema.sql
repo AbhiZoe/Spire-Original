@@ -91,7 +91,7 @@ CREATE TABLE course_mentors (
 CREATE TABLE mentor_assignments (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     enrollment_id UUID NOT NULL UNIQUE,
-    mentor_id UUID NOT NULL,
+    mentor_id UUID, -- nullable: PENDING_ASSIGNMENT rows have no mentor yet
     assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
     FOREIGN KEY (enrollment_id) REFERENCES enrollments(id) ON DELETE CASCADE,
