@@ -14,25 +14,21 @@ import ProtectedOverlay from "./ProtectedOverlay";
 
 // ─── Types ──────────────────────────────────────────────────────────
 
-interface DRMVideoPlayerProps {
+interface SecureVideoPlayerProps {
   videoUrl: string;
-  licenseUrl: string;
   onProgress?: (position: number, duration: number) => void;
   initialPosition?: number;
   userEmail?: string;
-  sessionToken?: string;
 }
 
 // ─── Component ──────────────────────────────────────────────────────
 
-export default function DRMVideoPlayer({
+export default function SecureVideoPlayer({
   videoUrl,
-  licenseUrl,
   onProgress,
   initialPosition = 0,
   userEmail,
-  sessionToken,
-}: DRMVideoPlayerProps) {
+}: SecureVideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const progressTimer = useRef<ReturnType<typeof setInterval>>();
@@ -62,66 +58,6 @@ export default function DRMVideoPlayer({
     }, 60_000);
     return () => clearInterval(check);
   }, []);
-
-  // ── EME / DRM setup ───────────────────────────────────────────
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video || !licenseUrl) return;
-
-    const setupEME = async () => {
-      try {
-        const config: MediaKeySystemConfiguration = {
-          initDataTypes: ["cenc"],
-          videoCapabilities: [
-            { contentType: 'video/mp4; codecs="avc1.42E01E"' },
-          ],
-          audioCapabilities: [
-            { contentType: 'audio/mp4; codecs="mp4a.40.2"' },
-          ],
-        };
-
-        const keySystem = await navigator.requestMediaKeySystemAccess(
-          "com.widevine.alpha",
-          [config]
-        ).catch(() =>
-          navigator.requestMediaKeySystemAccess("com.microsoft.playready", [
-            config,
-          ])
-        );
-
-        const mediaKeys = await keySystem.createMediaKeys();
-        await video.setMediaKeys(mediaKeys);
-
-        video.addEventListener("encrypted", async (event) => {
-          const session = mediaKeys.createSession();
-          await session.generateRequest(
-            event.initDataType,
-            event.initData!
-          );
-
-          session.addEventListener("message", async (e) => {
-            const response = await fetch(licenseUrl, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/octet-stream",
-                ...(sessionToken
-                  ? { Authorization: `Bearer ${sessionToken}` }
-                  : {}),
-              },
-              body: e.message,
-            });
-            const license = await response.arrayBuffer();
-            await session.update(new Uint8Array(license));
-          });
-        });
-      } catch {
-        // DRM not supported – fall back to unencrypted playback
-        console.warn("DRM setup failed, falling back to direct playback");
-      }
-    };
-
-    setupEME();
-  }, [videoUrl, licenseUrl, sessionToken]);
 
   // ── Resume from last position ──────────────────────────────────
   useEffect(() => {
@@ -273,7 +209,7 @@ export default function DRMVideoPlayer({
       onMouseMove={resetHideTimer}
       style={{ userSelect: "none", WebkitUserSelect: "none" }}
     >
-      {/* Black-out overlay for DRM violations */}
+      {/* Black-out overlay for screen-recording detection */}
       {isBlacked && (
         <div className="absolute inset-0 z-50 bg-black flex items-center justify-center">
           <p className="text-white text-lg">

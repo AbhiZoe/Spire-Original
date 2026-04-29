@@ -6,7 +6,7 @@ import { Target, Users, Shield, Award } from "lucide-react";
 const values = [
   { icon: Target, title: "Focused Learning", description: "Structured paths that eliminate distractions and centre on skill mastery." },
   { icon: Users, title: "Expert Instructors", description: "Learn from industry veterans with 7-10+ years of real-world experience." },
-  { icon: Shield, title: "Premium Content", description: "DRM-protected video lessons ensuring the highest quality learning experience." },
+  { icon: Shield, title: "Premium Content", description: "High-quality video lessons produced for focused, self-paced learning." },
   { icon: Award, title: "Recognised Certificates", description: "Earn certificates on completion that showcase your expertise to employers." },
 ];
 
@@ -28,7 +28,7 @@ export default function AboutPage() {
           className="text-lg text-gray-600 mb-16 max-w-3xl leading-relaxed"
         >
           Spire is a self-paced learning platform designed to feel focused, motivating, and premium.
-          We combine structured course delivery, Netflix-grade DRM video protection, progress tracking,
+          We combine structured course delivery, self-paced learning, progress tracking,
           and gamification to help you advance your career in tech.
         </motion.p>
 

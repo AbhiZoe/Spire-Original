@@ -11,7 +11,6 @@ const supportOptions = [
 ];
 
 const faqs = [
-  { q: "How does DRM video protection work?", a: "Our videos use Widevine/FairPlay encryption. Screen recording and screenshots are blocked to protect content." },
   { q: "Do I get a certificate?", a: "Yes — complete all lessons, pass each quiz (60% or higher, with multiple attempts allowed), and submit the final assignment. Your certificate becomes available for download once all three are complete." },
   { q: "What payment methods are accepted?", a: "We accept UPI, Credit/Debit Cards, NetBanking, and popular wallets through Razorpay." },
 ];
