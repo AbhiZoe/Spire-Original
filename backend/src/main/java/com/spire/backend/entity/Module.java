@@ -36,7 +36,7 @@ public class Module {
     @Builder.Default
     private Integer orderIndex = 0;
 
-    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "module", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @OrderBy("orderIndex ASC")
     @Builder.Default
     @ToString.Exclude
