@@ -1,5 +1,5 @@
 -- ============================================================
--- Spire Infotech — MySQL Database Schema
+-- Spire — MySQL Database Schema
 -- Run this on your MySQL instance before starting Spring Boot
 -- ============================================================
 

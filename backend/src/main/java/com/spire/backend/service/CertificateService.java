@@ -177,7 +177,7 @@ public class CertificateService {
 
             // Platform
             Font platformFont = new Font(Font.HELVETICA, 10, Font.ITALIC, new Color(150, 150, 150));
-            Paragraph platform = new Paragraph("Spire Infotech Platform", platformFont);
+            Paragraph platform = new Paragraph("Spire Platform", platformFont);
             platform.setAlignment(Element.ALIGN_CENTER);
             doc.add(platform);
 

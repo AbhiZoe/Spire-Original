@@ -109,7 +109,7 @@ export function Footer() {
         </div>
 
         <div className="mt-10 border-t border-white/10 pt-6 text-center text-sm text-white/50">
-          &copy; 2026 Spire Infotech. All rights reserved.
+          &copy; 2026 Spire. All rights reserved.
         </div>
       </div>
     </footer>
