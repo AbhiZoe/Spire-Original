@@ -70,6 +70,57 @@ INSERT INTO lessons (course_id, title, description, order_index, duration_minute
 (6, 'Publishing to App Stores', 'iOS and Android deployment.', 5, 45, FALSE);
 
 -- ============================================================
+-- MODULES (course → modules → lessons)
+-- ============================================================
+
+INSERT INTO modules (course_id, title, description, order_index) VALUES
+-- Full-Stack Web Development (course_id=1)
+(1, 'Web Foundations', 'Get oriented and build your first web pages.', 0),
+(1, 'JavaScript & React', 'Core JavaScript and React fundamentals.', 1),
+(1, 'Backend', 'Server-side development with Node.js and Express.', 2),
+-- React Mastery (course_id=2)
+(2, 'Architecture & Patterns', 'Project structure and advanced hook patterns.', 0),
+(2, 'State Management', 'Choose and apply the right state-management approach.', 1),
+(2, 'Quality & Performance', 'Test and optimize your React apps.', 2),
+-- Python for Data Science (course_id=3)
+(3, 'Python Foundations', 'Python basics and numerical computing with NumPy.', 0),
+(3, 'Data Manipulation', 'Wrangle data with Pandas.', 1),
+(3, 'Visualization', 'Communicate findings with charts.', 2),
+-- Cloud Architecture with AWS (course_id=4)
+(4, 'AWS Foundations', 'Account setup, IAM, and core compute services.', 0),
+(4, 'Storage & Networking', 'Storage options, databases, and network security.', 1),
+(4, 'Deployment', 'End-to-end production deployment.', 2),
+-- UI/UX Design Fundamentals (course_id=5)
+(5, 'Foundations', 'What UI/UX is plus design principles and color theory.', 0),
+(5, 'Wireframing', 'From idea to interactive prototype.', 1),
+(5, 'User Research', 'Validate your designs with real users.', 2),
+-- Mobile App Development with React Native (course_id=6)
+(6, 'React Native Setup', 'Initialize a project and master core components.', 0),
+(6, 'Building Apps', 'State management, APIs, and native device features.', 1),
+(6, 'Publishing', 'Ship to iOS and Android stores.', 2);
+
+-- Assign existing lessons to their modules.
+-- Modules above get auto-incremented IDs 1-18 in insertion order.
+UPDATE lessons SET module_id = 1  WHERE course_id = 1 AND order_index IN (1, 2);
+UPDATE lessons SET module_id = 2  WHERE course_id = 1 AND order_index IN (3, 4);
+UPDATE lessons SET module_id = 3  WHERE course_id = 1 AND order_index = 5;
+UPDATE lessons SET module_id = 4  WHERE course_id = 2 AND order_index IN (1, 2);
+UPDATE lessons SET module_id = 5  WHERE course_id = 2 AND order_index = 3;
+UPDATE lessons SET module_id = 6  WHERE course_id = 2 AND order_index IN (4, 5);
+UPDATE lessons SET module_id = 7  WHERE course_id = 3 AND order_index IN (1, 2);
+UPDATE lessons SET module_id = 8  WHERE course_id = 3 AND order_index = 3;
+UPDATE lessons SET module_id = 9  WHERE course_id = 3 AND order_index = 4;
+UPDATE lessons SET module_id = 10 WHERE course_id = 4 AND order_index IN (1, 2);
+UPDATE lessons SET module_id = 11 WHERE course_id = 4 AND order_index IN (3, 4);
+UPDATE lessons SET module_id = 12 WHERE course_id = 4 AND order_index = 5;
+UPDATE lessons SET module_id = 13 WHERE course_id = 5 AND order_index IN (1, 2);
+UPDATE lessons SET module_id = 14 WHERE course_id = 5 AND order_index = 3;
+UPDATE lessons SET module_id = 15 WHERE course_id = 5 AND order_index = 4;
+UPDATE lessons SET module_id = 16 WHERE course_id = 6 AND order_index IN (1, 2);
+UPDATE lessons SET module_id = 17 WHERE course_id = 6 AND order_index IN (3, 4);
+UPDATE lessons SET module_id = 18 WHERE course_id = 6 AND order_index = 5;
+
+-- ============================================================
 -- ACHIEVEMENTS
 -- ============================================================
 

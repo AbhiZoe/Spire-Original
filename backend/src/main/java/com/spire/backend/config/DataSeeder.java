@@ -31,6 +31,9 @@ public class DataSeeder implements CommandLineRunner {
     private LessonRepository lessonRepository;
 
     @Autowired
+    private ModuleRepository moduleRepository;
+
+    @Autowired
     private AchievementRepository achievementRepository;
 
     @Autowired
@@ -277,6 +280,83 @@ public class DataSeeder implements CommandLineRunner {
 
         log.info("Seeded lessons for all courses.");
 
+        // --- Modules (group lessons by topic) ---
+        log.info("Seeding modules and assigning lessons to them...");
+
+        seedModules(fullStack, List.of(
+                new ModuleSpec("Frontend Foundations",
+                        "Get comfortable with HTML, CSS, and JavaScript before moving to the back end.",
+                        List.of(1, 2, 3)),
+                new ModuleSpec("Backend Development",
+                        "Build a REST API with Node.js and Express.",
+                        List.of(4)),
+                new ModuleSpec("Capstone Project",
+                        "Bring everything together by building a full-stack e-commerce app.",
+                        List.of(5))
+        ));
+
+        seedModules(react, List.of(
+                new ModuleSpec("Components & Performance",
+                        "Advanced component patterns and how to keep React fast.",
+                        List.of(1, 2)),
+                new ModuleSpec("State & Architecture",
+                        "Pick the right state-management strategy and explore Next.js rendering modes.",
+                        List.of(3, 4)),
+                new ModuleSpec("Quality & Testing",
+                        "Test your React applications across unit, integration, and E2E layers.",
+                        List.of(5))
+        ));
+
+        seedModules(python, List.of(
+                new ModuleSpec("Python & Data Foundations",
+                        "Core Python plus the data-manipulation library you'll use every day.",
+                        List.of(1, 2)),
+                new ModuleSpec("Visualization & Insights",
+                        "Communicate findings with charts using Matplotlib.",
+                        List.of(3)),
+                new ModuleSpec("Machine Learning",
+                        "Move from your first scikit-learn model to an end-to-end capstone.",
+                        List.of(4, 5))
+        ));
+
+        seedModules(aws, List.of(
+                new ModuleSpec("AWS Foundations",
+                        "Get oriented in the AWS console and lock down access with IAM.",
+                        List.of(1)),
+                new ModuleSpec("Core Services",
+                        "Compute, storage, and serverless: the AWS workhorses.",
+                        List.of(2, 3)),
+                new ModuleSpec("Operations & IaC",
+                        "Codify your infrastructure with CloudFormation and CI/CD pipelines.",
+                        List.of(4))
+        ));
+
+        seedModules(uiux, List.of(
+                new ModuleSpec("UX Foundations",
+                        "Design thinking and turning ideas into low- and high-fidelity prototypes.",
+                        List.of(1, 2)),
+                new ModuleSpec("Visual Design",
+                        "Visual systems, typography, and reusable component libraries.",
+                        List.of(3)),
+                new ModuleSpec("Validation",
+                        "Run usability tests and iterate based on what you learn.",
+                        List.of(4))
+        ));
+
+        seedModules(mobile, List.of(
+                new ModuleSpec("React Native Foundations",
+                        "Project setup, core components, and navigation.",
+                        List.of(1, 2)),
+                new ModuleSpec("Building the App",
+                        "Connect APIs, manage state, and animate native interactions.",
+                        List.of(3, 4)),
+                new ModuleSpec("Shipping",
+                        "Build, sign, and publish to the App Store and Google Play.",
+                        List.of(5))
+        ));
+
+        log.info("Seeded modules for all courses.");
+
         // --- Achievements ---
         log.info("Seeding achievements...");
 
@@ -330,4 +410,28 @@ public class DataSeeder implements CommandLineRunner {
                     .build());
         }
     }
+
+    private void seedModules(Course course, List<ModuleSpec> specs) {
+        List<Lesson> courseLessons = lessonRepository.findByCourseIdOrderByOrderIndex(course.getId());
+        for (int mIdx = 0; mIdx < specs.size(); mIdx++) {
+            ModuleSpec spec = specs.get(mIdx);
+            Module module = moduleRepository.save(Module.builder()
+                    .course(course)
+                    .title(spec.title())
+                    .description(spec.description())
+                    .orderIndex(mIdx)
+                    .build());
+            for (int lessonOrderIndex : spec.lessonOrderIndices()) {
+                for (Lesson lesson : courseLessons) {
+                    if (lesson.getOrderIndex() == lessonOrderIndex) {
+                        lesson.setModule(module);
+                        lessonRepository.save(lesson);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    private record ModuleSpec(String title, String description, List<Integer> lessonOrderIndices) {}
 }
