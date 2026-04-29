@@ -76,6 +76,43 @@ CREATE TABLE enrollments (
     UNIQUE(user_id, course_id)
 );
 
+CREATE TABLE course_mentors (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    course_id UUID NOT NULL,
+    user_id UUID NOT NULL,
+    max_students INT NOT NULL DEFAULT 10,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE(course_id, user_id)
+);
+
+CREATE TABLE mentor_assignments (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    enrollment_id UUID NOT NULL UNIQUE,
+    mentor_id UUID NOT NULL,
+    assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    FOREIGN KEY (enrollment_id) REFERENCES enrollments(id) ON DELETE CASCADE,
+    FOREIGN KEY (mentor_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE session_requests (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    mentor_assignment_id UUID NOT NULL,
+    requested_by UUID NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
+    topic VARCHAR(500),
+    requested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    scheduled_at TIMESTAMP NULL,
+    meeting_url VARCHAR(500) NULL,
+    notes TEXT NULL,
+    completed_at TIMESTAMP NULL,
+    FOREIGN KEY (mentor_assignment_id) REFERENCES mentor_assignments(id) ON DELETE CASCADE,
+    FOREIGN KEY (requested_by) REFERENCES users(id) ON DELETE CASCADE
+);
+
 CREATE TABLE progress (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
@@ -117,6 +154,11 @@ CREATE INDEX idx_modules_course_id ON modules(course_id);
 CREATE INDEX idx_lessons_course_id ON lessons(course_id);
 CREATE INDEX idx_enrollments_user_id ON enrollments(user_id);
 CREATE INDEX idx_enrollments_course_id ON enrollments(course_id);
+CREATE INDEX idx_course_mentors_course_id ON course_mentors(course_id);
+CREATE INDEX idx_course_mentors_user_id ON course_mentors(user_id);
+CREATE INDEX idx_mentor_assignments_mentor_id ON mentor_assignments(mentor_id);
+CREATE INDEX idx_session_requests_assignment_id ON session_requests(mentor_assignment_id);
+CREATE INDEX idx_session_requests_status ON session_requests(status);
 CREATE INDEX idx_progress_user_id ON progress(user_id);
 CREATE INDEX idx_progress_course_id ON progress(course_id);
 CREATE INDEX idx_progress_lesson_id ON progress(lesson_id);

@@ -1,6 +1,7 @@
 package com.spire.backend.config;
 
 import com.spire.backend.entity.*;
+import com.spire.backend.entity.Module;
 import com.spire.backend.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

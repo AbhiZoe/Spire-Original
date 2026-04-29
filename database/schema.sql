@@ -137,6 +137,58 @@ CREATE INDEX idx_enrollments_user_id   ON enrollments(user_id);
 CREATE INDEX idx_enrollments_course_id ON enrollments(course_id);
 
 -- ============================================================
+-- MENTORSHIP (course mentor pool, assignments, session requests)
+-- ============================================================
+
+CREATE TABLE course_mentors (
+    id           BIGINT AUTO_INCREMENT PRIMARY KEY,
+    course_id    BIGINT       NOT NULL,
+    user_id      BIGINT       NOT NULL,
+    max_students INT          NOT NULL DEFAULT 10,
+    is_active    BOOLEAN      NOT NULL DEFAULT TRUE,
+    created_at   TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_course_mentors_course FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
+    CONSTRAINT fk_course_mentors_user   FOREIGN KEY (user_id)   REFERENCES users(id)   ON DELETE CASCADE,
+    CONSTRAINT uq_course_mentor         UNIQUE (course_id, user_id)
+) ENGINE=InnoDB;
+
+CREATE INDEX idx_course_mentors_course_id ON course_mentors(course_id);
+CREATE INDEX idx_course_mentors_user_id   ON course_mentors(user_id);
+
+CREATE TABLE mentor_assignments (
+    id            BIGINT AUTO_INCREMENT PRIMARY KEY,
+    enrollment_id BIGINT       NOT NULL UNIQUE,
+    mentor_id     BIGINT       NOT NULL,
+    assigned_at   TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+    status        VARCHAR(20)  NOT NULL DEFAULT 'ACTIVE',
+
+    CONSTRAINT fk_mentor_assignments_enrollment FOREIGN KEY (enrollment_id) REFERENCES enrollments(id) ON DELETE CASCADE,
+    CONSTRAINT fk_mentor_assignments_mentor     FOREIGN KEY (mentor_id)     REFERENCES users(id)       ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE INDEX idx_mentor_assignments_mentor_id ON mentor_assignments(mentor_id);
+
+CREATE TABLE session_requests (
+    id                   BIGINT AUTO_INCREMENT PRIMARY KEY,
+    mentor_assignment_id BIGINT       NOT NULL,
+    requested_by         BIGINT       NOT NULL,
+    status               VARCHAR(20)  NOT NULL DEFAULT 'PENDING',
+    topic                VARCHAR(500) DEFAULT NULL,
+    requested_at         TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+    scheduled_at         TIMESTAMP    NULL,
+    meeting_url          VARCHAR(500) DEFAULT NULL,
+    notes                TEXT         DEFAULT NULL,
+    completed_at         TIMESTAMP    NULL,
+
+    CONSTRAINT fk_session_requests_assignment FOREIGN KEY (mentor_assignment_id) REFERENCES mentor_assignments(id) ON DELETE CASCADE,
+    CONSTRAINT fk_session_requests_user       FOREIGN KEY (requested_by)         REFERENCES users(id)              ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE INDEX idx_session_requests_assignment_id ON session_requests(mentor_assignment_id);
+CREATE INDEX idx_session_requests_status        ON session_requests(status);
+
+-- ============================================================
 -- 7. PAYMENTS (Razorpay transactions)
 -- ============================================================
 
