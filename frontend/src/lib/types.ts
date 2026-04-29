@@ -36,17 +36,27 @@ export interface Course {
 }
 
 export interface Lesson {
-  id: string;
-  course_id: string;
+  id: number;
+  courseId: number;
   title: string;
   description: string | null;
-  content_url: string | null;
-  content_type: "video" | "article" | "quiz";
-  duration_minutes: number;
-  order: number;
-  is_free_preview: boolean;
-  created_at: string;
-  updated_at: string;
+  videoUrl: string | null;
+  orderIndex: number;
+  durationMinutes: number | null;
+  isFree: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface Module {
+  id: number;
+  courseId: number;
+  title: string;
+  description: string | null;
+  orderIndex: number;
+  lessons: Lesson[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Enrollment {

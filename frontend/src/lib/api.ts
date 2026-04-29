@@ -259,6 +259,44 @@ export async function deleteLesson(lessonId: number) {
   return apiFetch<ApiResponse<unknown>>(`/api/lessons/${lessonId}`, { method: "DELETE" });
 }
 
+// ─── Modules ────────────────────────────────────────────────────
+
+export async function getCourseModules(courseId: number | string) {
+  const wrapper = await apiFetch<ApiResponse<import("./types").Module[]>>(
+    `/api/courses/${courseId}/modules`
+  );
+  return wrapper.data;
+}
+
+export async function createModule(
+  courseId: number | string,
+  data: { title: string; description?: string; orderIndex?: number }
+) {
+  const wrapper = await apiFetch<ApiResponse<import("./types").Module>>(
+    `/api/courses/${courseId}/modules`,
+    { method: "POST", body: JSON.stringify(data) }
+  );
+  return wrapper.data;
+}
+
+export async function updateModule(
+  moduleId: number,
+  data: { title?: string; description?: string; orderIndex?: number }
+) {
+  const wrapper = await apiFetch<ApiResponse<import("./types").Module>>(
+    `/api/modules/${moduleId}`,
+    { method: "PUT", body: JSON.stringify(data) }
+  );
+  return wrapper.data;
+}
+
+export async function deleteModule(moduleId: number) {
+  return apiFetch<ApiResponse<unknown>>(
+    `/api/modules/${moduleId}`,
+    { method: "DELETE" }
+  );
+}
+
 export async function completeLesson(lessonId: number) {
   return apiFetch<ApiResponse<unknown>>(`/api/lessons/${lessonId}/complete`, { method: "POST" });
 }
