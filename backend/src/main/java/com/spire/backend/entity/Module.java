@@ -6,15 +6,17 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
-@Table(name = "lessons")
+@Table(name = "modules")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Lesson {
+public class Module {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,25 +26,22 @@ public class Lesson {
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "module_id")
-    private Module module;
-
     @Column(nullable = false)
     private String title;
 
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    private String videoUrl;
-
     @Column(nullable = false)
-    private Integer orderIndex;
-
-    private Integer durationMinutes;
-
     @Builder.Default
-    private Boolean isFree = false;
+    private Integer orderIndex = 0;
+
+    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL)
+    @OrderBy("orderIndex ASC")
+    @Builder.Default
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<Lesson> lessons = new ArrayList<>();
 
     @CreationTimestamp
     private LocalDateTime createdAt;

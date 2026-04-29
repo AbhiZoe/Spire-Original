@@ -40,6 +40,17 @@ CREATE TABLE courses (
     updated_at TIMESTAMP DEFAULT now()
 );
 
+CREATE TABLE modules (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    course_id UUID NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    order_index INT NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
+);
+
 CREATE TABLE lessons (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     course_id UUID REFERENCES courses(id) ON DELETE CASCADE,
@@ -52,6 +63,10 @@ CREATE TABLE lessons (
     created_at TIMESTAMP DEFAULT now(),
     updated_at TIMESTAMP DEFAULT now()
 );
+
+ALTER TABLE lessons ADD COLUMN IF NOT EXISTS module_id UUID;
+ALTER TABLE lessons ADD CONSTRAINT fk_lessons_module
+    FOREIGN KEY (module_id) REFERENCES modules(id) ON DELETE SET NULL;
 
 CREATE TABLE enrollments (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -98,6 +113,7 @@ CREATE TABLE achievements (
 CREATE INDEX idx_courses_instructor_id ON courses(instructor_id);
 CREATE INDEX idx_courses_slug ON courses(slug);
 CREATE INDEX idx_courses_category ON courses(category);
+CREATE INDEX idx_modules_course_id ON modules(course_id);
 CREATE INDEX idx_lessons_course_id ON lessons(course_id);
 CREATE INDEX idx_enrollments_user_id ON enrollments(user_id);
 CREATE INDEX idx_enrollments_course_id ON enrollments(course_id);

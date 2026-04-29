@@ -76,6 +76,24 @@ CREATE INDEX idx_courses_level         ON courses(level);
 CREATE INDEX idx_courses_is_published  ON courses(is_published);
 
 -- ============================================================
+-- MODULES (course → modules → lessons)
+-- ============================================================
+
+CREATE TABLE modules (
+    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
+    course_id   BIGINT       NOT NULL,
+    title       VARCHAR(255) NOT NULL,
+    description TEXT,
+    order_index INT          NOT NULL DEFAULT 0,
+    created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_modules_course FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE INDEX idx_modules_course_id ON modules(course_id);
+
+-- ============================================================
 -- 4. LESSONS
 -- ============================================================
 
@@ -95,6 +113,10 @@ CREATE TABLE lessons (
 ) ENGINE=InnoDB;
 
 CREATE INDEX idx_lessons_course_id ON lessons(course_id);
+
+ALTER TABLE lessons ADD COLUMN module_id BIGINT NULL;
+ALTER TABLE lessons ADD CONSTRAINT fk_lessons_module
+    FOREIGN KEY (module_id) REFERENCES modules(id) ON DELETE SET NULL;
 
 -- ============================================================
 -- 5. ENROLLMENTS (user enrolls in course)
