@@ -8,5 +8,6 @@ import java.util.List;
 public interface SessionRequestRepository extends JpaRepository<SessionRequest, Long> {
     List<SessionRequest> findByMentorAssignmentIdOrderByRequestedAtDesc(Long mentorAssignmentId);
     List<SessionRequest> findByMentorAssignment_MentorIdAndStatus(Long mentorId, String status);
+    List<SessionRequest> findByMentorAssignment_MentorIdOrderByRequestedAtDesc(Long mentorId);
     List<SessionRequest> findByRequestedByIdOrderByRequestedAtDesc(Long userId);
 }
