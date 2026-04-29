@@ -13,6 +13,7 @@ import { useAuth } from "@/lib/auth-context";
 import { getEnrollments, requestInstructor, getMyCourses, getInstructorStudents, getAnalytics, deleteCourse, publishCourse, unpublishCourse } from "@/lib/api";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
+import { SessionsList } from "@/components/mentorship/SessionsList";
 import { cn } from "@/lib/utils";
 
 const fadeUp = {
@@ -394,6 +395,10 @@ export default function DashboardPage() {
             })}
           </div>
         )}
+
+        {/* ── Mentor Sessions (all roles) ─────────────────────────── */}
+        <h2 className="text-xl font-bold text-[#0E6B6B] mb-4 mt-10">Mentor Sessions</h2>
+        <SessionsList />
       </motion.div>
     </section>
   );

@@ -59,6 +59,31 @@ export interface Module {
   updatedAt?: string;
 }
 
+export interface MentorInfo {
+  enrollmentId: number;
+  assignmentId: number;
+  mentorName: string | null;
+  mentorEmail: string | null;
+  status: string; // "ACTIVE" | "PENDING_ASSIGNMENT" | "COMPLETED" | "REASSIGNED"
+}
+
+export interface SessionRequest {
+  id: number;
+  enrollmentId: number;
+  courseTitle: string;
+  studentName: string;
+  studentEmail: string;
+  mentorName: string;
+  mentorEmail: string;
+  status: string; // "PENDING" | "ACCEPTED" | "COMPLETED" | "CANCELLED"
+  topic: string;
+  requestedAt: string;
+  scheduledAt: string | null;
+  meetingUrl: string | null;
+  notes: string | null;
+  completedAt: string | null;
+}
+
 export interface Enrollment {
   id: string;
   user_id: string;

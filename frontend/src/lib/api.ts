@@ -426,3 +426,35 @@ export async function checkoutCart() {
   const wrapper = await apiFetch<ApiResponse<unknown>>("/api/cart/checkout", { method: "POST" });
   return wrapper.data;
 }
+
+// ─── Mentorship ────────────────────────────────────────────────
+
+export async function getMyMentorForCourse(courseId: number | string) {
+  const wrapper = await apiFetch<ApiResponse<import("./types").MentorInfo>>(
+    `/api/enrollments/courses/${courseId}/mentor`
+  );
+  return wrapper.data;
+}
+
+export async function requestSession(enrollmentId: number, topic: string) {
+  const wrapper = await apiFetch<ApiResponse<import("./types").SessionRequest>>(
+    "/api/sessions",
+    { method: "POST", body: JSON.stringify({ enrollmentId, topic }) }
+  );
+  return wrapper.data;
+}
+
+export async function getMySessions() {
+  const wrapper = await apiFetch<ApiResponse<import("./types").SessionRequest[]>>(
+    "/api/sessions/my"
+  );
+  return wrapper.data;
+}
+
+export async function cancelSession(sessionId: number) {
+  const wrapper = await apiFetch<ApiResponse<import("./types").SessionRequest>>(
+    `/api/sessions/${sessionId}/cancel`,
+    { method: "PUT" }
+  );
+  return wrapper.data;
+}

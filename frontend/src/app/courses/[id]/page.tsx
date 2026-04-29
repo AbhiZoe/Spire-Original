@@ -7,7 +7,10 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Clock, BookOpen, Loader2, AlertCircle, Plus, ChevronLeft, Star, Trash2, ChevronDown } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
-import { getCourse, getCourseLessons, getCourseAssignments, enroll, createLesson, deleteLesson, checkCertificate, generateCertificate, getCourseModules, createModule, deleteModule } from "@/lib/api";
+import { getCourse, getCourseLessons, getCourseAssignments, enroll, createLesson, deleteLesson, checkCertificate, generateCertificate, getCourseModules, createModule, deleteModule, getMyMentorForCourse } from "@/lib/api";
+import type { MentorInfo } from "@/lib/types";
+import { MentorCard } from "@/components/mentorship/MentorCard";
+import { RequestSessionModal } from "@/components/mentorship/RequestSessionModal";
 import { Award, Download, Loader2 as CertLoader } from "lucide-react";
 import { LessonItem } from "@/components/courses/LessonItem";
 import { AssignmentItem } from "@/components/courses/AssignmentItem";
@@ -68,6 +71,10 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
   const [addingModule, setAddingModule] = useState(false);
   const [enrolled, setEnrolled] = useState(false);
   const [selectedLessonId, setSelectedLessonId] = useState<number | null>(null);
+
+  // Mentor info + session-request modal (shown only when enrolled)
+  const [mentor, setMentor] = useState<MentorInfo | null>(null);
+  const [showMentorModal, setShowMentorModal] = useState(false);
   const [certificate, setCertificate] = useState<{ exists: boolean; certificateUrl?: string } | null>(null);
   const [generatingCert, setGeneratingCert] = useState(false);
   const [certError, setCertError] = useState("");
@@ -93,6 +100,8 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
           setEnrolled(true);
           // Check certificate
           try { const c = await checkCertificate(id); setCertificate(c); } catch {}
+          // Fetch mentor info (only meaningful for enrolled students)
+          try { const m = await getMyMentorForCourse(id); setMentor(m); } catch {}
         } catch {
           // Not enrolled or not authenticated
         }
@@ -117,6 +126,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
       const moduleData = await getCourseModules(id);
       setModules((moduleData || []) as ModuleData[]);
       try { const a = await getCourseAssignments(id); setAssignments((a || []) as typeof assignments); } catch {}
+      try { const m = await getMyMentorForCourse(id); setMentor(m); } catch {}
     } catch (err) {
       setEnrollMsg(err instanceof Error ? err.message : "Failed to enroll");
     } finally { setEnrolling(false); }
@@ -291,27 +301,46 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
             )}
           </div>
 
-          {/* Sidebar card */}
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-            <div className="text-3xl font-bold text-gray-900 mb-1">
-              {course.isFree ? "Free" : `₹${course.price}`}
+          {/* Sidebar (price card + mentor card when enrolled) */}
+          <div className="space-y-6">
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+              <div className="text-3xl font-bold text-gray-900 mb-1">
+                {course.isFree ? "Free" : `₹${course.price}`}
+              </div>
+              <p className="text-sm text-gray-500 mb-6">{course.isFree ? "No payment required" : "One-time payment"}</p>
+
+              <button onClick={handleEnroll} disabled={enrolling}
+                className="w-full py-3 rounded-xl bg-[#0E6B6B] text-white text-sm font-semibold hover:bg-[#5FA3A3] transition disabled:opacity-50 flex items-center justify-center gap-2">
+                {enrolling ? <><Loader2 size={16} className="animate-spin" /> Enrolling...</> : "Enroll Now"}
+              </button>
+
+              {enrollMsg && <p className={cn("text-xs mt-3 text-center", enrollMsg.includes("success") ? "text-teal-600" : "text-red-500")}>{enrollMsg}</p>}
+
+              <div className="mt-6 space-y-2 text-sm text-gray-600">
+                <p>Category: <span className="font-medium text-gray-900">{course.category}</span></p>
+                <p>Level: <span className="font-medium text-gray-900">{course.level}</span></p>
+                <p>Lessons: <span className="font-medium text-gray-900">{course.lessonsCount}</span></p>
+              </div>
             </div>
-            <p className="text-sm text-gray-500 mb-6">{course.isFree ? "No payment required" : "One-time payment"}</p>
 
-            <button onClick={handleEnroll} disabled={enrolling}
-              className="w-full py-3 rounded-xl bg-[#0E6B6B] text-white text-sm font-semibold hover:bg-[#5FA3A3] transition disabled:opacity-50 flex items-center justify-center gap-2">
-              {enrolling ? <><Loader2 size={16} className="animate-spin" /> Enrolling...</> : "Enroll Now"}
-            </button>
-
-            {enrollMsg && <p className={cn("text-xs mt-3 text-center", enrollMsg.includes("success") ? "text-teal-600" : "text-red-500")}>{enrollMsg}</p>}
-
-            <div className="mt-6 space-y-2 text-sm text-gray-600">
-              <p>Category: <span className="font-medium text-gray-900">{course.category}</span></p>
-              <p>Level: <span className="font-medium text-gray-900">{course.level}</span></p>
-              <p>Lessons: <span className="font-medium text-gray-900">{course.lessonsCount}</span></p>
-            </div>
+            {/* Mentor card — only when enrolled and mentor info has loaded */}
+            {enrolled && mentor && (
+              <MentorCard
+                mentorInfo={mentor}
+                onRequestSession={() => setShowMentorModal(true)}
+              />
+            )}
           </div>
         </motion.div>
+
+        {/* Session-request modal (rendered at top level so it overlays everything) */}
+        {mentor && (
+          <RequestSessionModal
+            enrollmentId={mentor.enrollmentId}
+            isOpen={showMentorModal}
+            onClose={() => setShowMentorModal(false)}
+          />
+        )}
 
         {/* Curriculum section (modules + lessons) */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>

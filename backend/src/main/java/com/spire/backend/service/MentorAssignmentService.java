@@ -1,12 +1,14 @@
 package com.spire.backend.service;
 
 import com.spire.backend.dto.MentorAssignmentDTO;
+import com.spire.backend.dto.MentorInfoDTO;
 import com.spire.backend.entity.CourseMentor;
 import com.spire.backend.entity.Enrollment;
 import com.spire.backend.entity.MentorAssignment;
 import com.spire.backend.entity.User;
 import com.spire.backend.exception.ResourceNotFoundException;
 import com.spire.backend.repository.CourseMentorRepository;
+import com.spire.backend.repository.EnrollmentRepository;
 import com.spire.backend.repository.MentorAssignmentRepository;
 import com.spire.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,7 @@ public class MentorAssignmentService {
     private final MentorPoolService mentorPoolService;
     private final CourseMentorRepository courseMentorRepository;
     private final UserRepository userRepository;
+    private final EnrollmentRepository enrollmentRepository;
 
     /**
      * Called from EnrollmentService after a new enrollment is saved.
@@ -67,6 +70,34 @@ public class MentorAssignmentService {
     @Transactional(readOnly = true)
     public Optional<MentorAssignment> getAssignmentForEnrollment(Long enrollmentId) {
         return mentorAssignmentRepository.findByEnrollmentId(enrollmentId);
+    }
+
+    /**
+     * Resolves "what's MY mentor for this course" in one call.
+     * Throws if the user has no enrollment for the course (404),
+     * or if the enrollment somehow has no mentor assignment row (shouldn't
+     * happen post Step-2; would mean an enrollment was created before the
+     * auto-assign logic shipped). PENDING_ASSIGNMENT is a valid response —
+     * mentor name/email come back null, status carries the state.
+     */
+    @Transactional(readOnly = true)
+    public MentorInfoDTO getMentorInfoForCourse(Long userId, Long courseId) {
+        Enrollment enrollment = enrollmentRepository.findByUserIdAndCourseId(userId, courseId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Enrollment", "userId+courseId", userId + "+" + courseId));
+
+        MentorAssignment a = mentorAssignmentRepository.findByEnrollmentId(enrollment.getId())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "MentorAssignment", "enrollmentId", enrollment.getId()));
+
+        User mentor = a.getMentor();
+        return MentorInfoDTO.builder()
+                .enrollmentId(enrollment.getId())
+                .assignmentId(a.getId())
+                .mentorName(mentor != null ? mentor.getFullName() : null)
+                .mentorEmail(mentor != null ? mentor.getEmail() : null)
+                .status(a.getStatus())
+                .build();
     }
 
     @Transactional(readOnly = true)
